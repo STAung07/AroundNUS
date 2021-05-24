@@ -27,6 +27,8 @@ class MyApp extends StatelessWidget {
   }
 }
 
+var swanntet = 0;
+
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, required this.title}) : super(key: key);
 
