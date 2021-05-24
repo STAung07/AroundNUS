@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './drawer.dart';
 
 void main() {
   runApp(MyApp());
@@ -74,7 +75,18 @@ class _MyHomePageState extends State<MyHomePage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
+        // leading: IconButton(
+        //   icon: const Icon(Icons.volume_up),
+        //   onPressed: () {
+        //     setState(() {
+        //       print('click');
+        //     });
+        //   },
+        // ),
       ),
+      drawer: MenuDrawer(),
+      drawerEnableOpenDragGesture: true,
+
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
         // in the middle of the parent.
