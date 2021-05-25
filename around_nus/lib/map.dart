@@ -18,7 +18,7 @@ class _MyMainPageState extends State<MyMainPage> {
 
   // change to USER Location later
   static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+    target: LatLng(1.2966, 103.7764),
     zoom: 14.4746,
   );
 
