@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "923181537022",
+    "project_id": "aroundnus",
+    "storage_bucket": "aroundnus.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:923181537022:android:0cb471b7f44f8152ac37af",
+        "android_client_info": {
+          "package_name": "com.AroundNUS.aroundnus"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "923181537022-ajgjum4ss90ts7b2mdp2qk2ph7pgap8b.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBMnyiZyzQMtTnLK0x1Ko8rdFK3i1Sula4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "923181537022-ajgjum4ss90ts7b2mdp2qk2ph7pgap8b.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
