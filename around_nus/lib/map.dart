@@ -32,7 +32,6 @@ class _MyMainPageState extends State<MyMainPage> {
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 
-  // change to USER Location later
   static final CameraPosition _defaultCameraPos = CameraPosition(
     target: LatLng(1.2966, 103.7764),
     zoom: 14.4746,
