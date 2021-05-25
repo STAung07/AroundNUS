@@ -4,16 +4,16 @@ import 'dart:async';
 
 import './drawer.dart';
 
-class MyMapPage extends StatefulWidget {
-  MyMapPage({Key? key, required this.title}) : super(key: key);
+class MyMainPage extends StatefulWidget {
+  MyMainPage({Key? key, required this.title}) : super(key: key);
 
   final String title;
 
   @override
-  _MyMapPageState createState() => _MyMapPageState();
+  _MyMainPageState createState() => _MyMainPageState();
 }
 
-class _MyMapPageState extends State<MyMapPage> {
+class _MyMainPageState extends State<MyMainPage> {
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
 
   // change to USER Location later
