@@ -2,7 +2,9 @@
     package="com.example.around_nus">
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-   <application
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <application
         android:label="around_nus"
         android:icon="@mipmap/ic_launcher">
         <activity

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
@@ -15,10 +16,25 @@ class MyMainPage extends StatefulWidget {
 
 class _MyMainPageState extends State<MyMainPage> {
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
+  late GoogleMapController newGoogleMapController;
+  //late Position currentPosition;
+
+  void locatePosition() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    //currentPosition = position;
+
+    // if latlng position out of range of NUS, set latlng position to _defaultCameraPos
+    LatLng latlngPosition = LatLng(position.latitude, position.longitude);
+    CameraPosition cameraPosition =
+        new CameraPosition(target: latlngPosition, zoom: 14.4746);
+    newGoogleMapController
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
 
   // change to USER Location later
-  static final CameraPosition _kGooglePlex = CameraPosition(
-    target: LatLng(37.42796133580664, -122.085749655962),
+  static final CameraPosition _defaultCameraPos = CameraPosition(
+    target: LatLng(1.2966, 103.7764),
     zoom: 14.4746,
   );
 
@@ -46,10 +62,17 @@ class _MyMainPageState extends State<MyMainPage> {
           GoogleMap(
             mapType: MapType.normal,
             myLocationButtonEnabled: true,
-            initialCameraPosition: _kGooglePlex,
+            initialCameraPosition: _defaultCameraPos,
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
+              newGoogleMapController = controller;
+              locatePosition();
             },
+            // enable location layer
+            myLocationEnabled: true,
+            zoomGesturesEnabled: true,
+            zoomControlsEnabled: true,
+            // camera target bounds ? to limit to NUS
           ),
         ],
       ),
