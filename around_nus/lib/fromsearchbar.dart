@@ -109,7 +109,7 @@ class _FromSearchBarState extends State<FromSearchBar> {
   // }
 
   void _getNames() async {
-    final response = await dio.get('https://swapi.co/api/people');
+    final response = await dio.get('https://www.google.com');
     List tempList = [];
     for (int i = 0; i < response.data['results'].length; i++) {
       tempList.add(response.data['results'][i]);

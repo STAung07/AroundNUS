@@ -17,16 +17,23 @@ class _DirectionsState extends State<Directions> {
         backgroundColor: Color(0xff7285A5),
         title: Text("Directions"),
       ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => FromSearchBar()),
-            );
-          },
-          child: Text("Back"),
-        ),
+      body: Stack(
+        alignment: const Alignment(10, 10),
+        children: <Widget>[
+          Positioned(
+            top: 10,
+            left: 10,
+            child: ElevatedButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => FromSearchBar()),
+                );
+              },
+              child: Text("From"),
+            ),
+          ),
+        ],
       ),
     );
   }
