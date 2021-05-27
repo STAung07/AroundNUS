@@ -40,36 +40,29 @@ class _MyMainPageState extends State<MyMainPage> {
     zoom: 14.4746,
   );
 
-  List<Marker> _markers = [];
+  Set<Marker> _markers = <Marker>{};
 
-  int _markerIdCounter = 1;
+  bool _isMarker = false;
 
-  // add markers on tap function; setState() called each time
+  // set marker for one other location
   void _setMarkers(LatLng point) {
-    final String markerIdVal = 'marker_id_$_markerIdCounter';
-    _markerIdCounter++;
     setState(() {
       // Pass to search info widget
       // add markers subsequently on taps
+      _isMarker = true;
       _markers.add(
         Marker(
-          markerId: MarkerId(markerIdVal),
+          markerId: MarkerId('Tapped Location'),
           position: point,
         ),
       );
     });
   }
 
-  @override
-  void initState() {
-    super.initState();
-    // place user current location on map
-    _markers.add(
-      Marker(
-        markerId: MarkerId('Current Location'),
-        position: currCoordinates,
-      ),
-    );
+  // function to call when user presses userLocation button
+  void _userLocationButton() {
+    _setMarkers(currCoordinates);
+    locatePosition();
   }
 
   @override
@@ -80,32 +73,29 @@ class _MyMainPageState extends State<MyMainPage> {
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
-        // leading: IconButton(
-        //   icon: const Icon(Icons.volume_up),
-        //   onPressed: () {
-        //     setState(() {
-        //       print('click');
-        //     });
-        //   },
-        // ),
       ),
       drawer: MenuDrawer(),
       drawerEnableOpenDragGesture: true,
       body: Stack(
         children: [
+          /*
           TextField(
             decoration: InputDecoration(
               hintText: "Search for a location in NUS on the map",
             ),
           ),
+          */
           GoogleMap(
             mapType: MapType.normal,
+            // disable location button; make own button
             myLocationButtonEnabled: true,
             initialCameraPosition: _defaultCameraPos,
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
+              // after position located, then setMarker
               locatePosition();
+              _setMarkers(currCoordinates);
             },
             // enable location layer
             myLocationEnabled: true,
@@ -113,8 +103,33 @@ class _MyMainPageState extends State<MyMainPage> {
             zoomControlsEnabled: true,
             // markers
             markers: Set.from(_markers),
+            onTap: (point) {
+              if (_isMarker) {
+                setState(() {
+                  _markers.clear();
+                  _setMarkers(point);
+                });
+              }
+            },
             // camera target bounds ? to limit to NUS
           ),
+          /*
+          Align(
+            // User Location Button
+            alignment: Alignment.bottomCenter,
+            child: InkWell(
+              onTap: _userLocationButton,
+              child: Container(
+                height: 40.0,
+                width: 40.0,
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20.0),
+                    color: Colors.blue),
+                child: Icon(Icons.arrow_downward, color: Colors.white),
+              ),
+            ),
+          )
+          */
         ],
       ),
     );
