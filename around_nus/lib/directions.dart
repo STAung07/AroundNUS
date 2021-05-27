@@ -1,6 +1,15 @@
 import 'package:flutter/material.dart';
+import './fromsearchbar.dart';
 
-class Directions extends StatelessWidget {
+class Directions extends StatefulWidget {
+  Directions() {}
+  @override
+  State<StatefulWidget> createState() {
+    return _DirectionsState();
+  }
+}
+
+class _DirectionsState extends State<Directions> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +20,10 @@ class Directions extends StatelessWidget {
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            Navigator.pop(context);
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => FromSearchBar()),
+            );
           },
           child: Text("Back"),
         ),

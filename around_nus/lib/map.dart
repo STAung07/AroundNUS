@@ -25,12 +25,7 @@ class _MyMainPageState extends State<MyMainPage> {
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-<<<<<<< HEAD
-    print(position);
-    //currentPosition = position;
-=======
     currentPosition = position;
->>>>>>> refs/remotes/origin/master
 
     // if latlng position out of range of NUS, set latlng position to _defaultCameraPos
     LatLng latlngPosition = LatLng(position.latitude, position.longitude);
