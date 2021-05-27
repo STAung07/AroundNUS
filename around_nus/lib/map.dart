@@ -46,13 +46,13 @@ class _MyMainPageState extends State<MyMainPage> {
 
   // set marker for one other location
   void _setMarkers(LatLng point) {
+    _isMarker = true;
     setState(() {
       // Pass to search info widget
       // add markers subsequently on taps
-      _isMarker = true;
       _markers.add(
         Marker(
-          markerId: MarkerId('Tapped Location'),
+          markerId: MarkerId('Location'),
           position: point,
         ),
       );
@@ -63,6 +63,12 @@ class _MyMainPageState extends State<MyMainPage> {
   void _userLocationButton() {
     _setMarkers(currCoordinates);
     locatePosition();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _setMarkers(LatLng(1.2966, 103.7764));
   }
 
   @override
@@ -78,17 +84,10 @@ class _MyMainPageState extends State<MyMainPage> {
       drawerEnableOpenDragGesture: true,
       body: Stack(
         children: [
-          /*
-          TextField(
-            decoration: InputDecoration(
-              hintText: "Search for a location in NUS on the map",
-            ),
-          ),
-          */
           GoogleMap(
             mapType: MapType.normal,
             // disable location button; make own button
-            myLocationButtonEnabled: true,
+            myLocationButtonEnabled: false,
             initialCameraPosition: _defaultCameraPos,
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
@@ -102,7 +101,7 @@ class _MyMainPageState extends State<MyMainPage> {
             zoomGesturesEnabled: true,
             zoomControlsEnabled: true,
             // markers
-            markers: Set.from(_markers),
+            markers: _markers,
             onTap: (point) {
               if (_isMarker) {
                 setState(() {
@@ -113,7 +112,6 @@ class _MyMainPageState extends State<MyMainPage> {
             },
             // camera target bounds ? to limit to NUS
           ),
-          /*
           Align(
             // User Location Button
             alignment: Alignment.bottomCenter,
@@ -129,7 +127,6 @@ class _MyMainPageState extends State<MyMainPage> {
               ),
             ),
           )
-          */
         ],
       ),
     );
