@@ -17,12 +17,15 @@ class MyMainPage extends StatefulWidget {
 class _MyMainPageState extends State<MyMainPage> {
   Completer<GoogleMapController> _controllerGoogleMap = Completer();
   late GoogleMapController newGoogleMapController;
-  //late Position currentPosition;
+  late Position currentPosition;
+  late LatLng currCoordinates =
+      LatLng(currentPosition.latitude, currentPosition.longitude);
+  var geoLocator = Geolocator();
 
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
-    //currentPosition = position;
+    currentPosition = position;
 
     // if latlng position out of range of NUS, set latlng position to _defaultCameraPos
     LatLng latlngPosition = LatLng(position.latitude, position.longitude);
@@ -36,6 +39,38 @@ class _MyMainPageState extends State<MyMainPage> {
     target: LatLng(1.2966, 103.7764),
     zoom: 14.4746,
   );
+
+  List<Marker> _markers = [];
+
+  int _markerIdCounter = 1;
+
+  // add markers on tap function; setState() called each time
+  void _setMarkers(LatLng point) {
+    final String markerIdVal = 'marker_id_$_markerIdCounter';
+    _markerIdCounter++;
+    setState(() {
+      // Pass to search info widget
+      // add markers subsequently on taps
+      _markers.add(
+        Marker(
+          markerId: MarkerId(markerIdVal),
+          position: point,
+        ),
+      );
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    // place user current location on map
+    _markers.add(
+      Marker(
+        markerId: MarkerId('Current Location'),
+        position: currCoordinates,
+      ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +93,11 @@ class _MyMainPageState extends State<MyMainPage> {
       drawerEnableOpenDragGesture: true,
       body: Stack(
         children: [
+          TextField(
+            decoration: InputDecoration(
+              hintText: "Search for a location in NUS on the map",
+            ),
+          ),
           GoogleMap(
             mapType: MapType.normal,
             myLocationButtonEnabled: true,
@@ -71,6 +111,8 @@ class _MyMainPageState extends State<MyMainPage> {
             myLocationEnabled: true,
             zoomGesturesEnabled: true,
             zoomControlsEnabled: true,
+            // markers
+            markers: Set.from(_markers),
             // camera target bounds ? to limit to NUS
           ),
         ],
