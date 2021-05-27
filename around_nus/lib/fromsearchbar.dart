@@ -21,7 +21,7 @@ class _FromSearchBarState extends State<FromSearchBar> {
   Icon _searchIcon = new Icon(Icons.search);
   Widget _appBarTitle = new Text('Search Example');
 
-  _ExamplePageState() {
+  _FromSearchBarState() {
     _filter.addListener(() {
       if (_filter.text.isEmpty) {
         setState(() {
@@ -55,11 +55,15 @@ class _FromSearchBarState extends State<FromSearchBar> {
   PreferredSizeWidget _buildBar(BuildContext context) {
     return new AppBar(
       centerTitle: true,
-      title: _appBarTitle,
-      leading: new IconButton(
-        icon: _searchIcon,
-        onPressed: _searchPressed,
+      title: new TextField(
+        controller: _filter,
+        decoration: new InputDecoration(
+            prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
       ),
+      // leading: new IconButton(
+      //   icon: _searchIcon,
+      //   onPressed: _searchPressed,
+      // ),
     );
   }
 
@@ -86,23 +90,23 @@ class _FromSearchBarState extends State<FromSearchBar> {
     );
   }
 
-  void _searchPressed() {
-    setState(() {
-      if (this._searchIcon.icon == Icons.search) {
-        this._searchIcon = new Icon(Icons.close);
-        this._appBarTitle = new TextField(
-          controller: _filter,
-          decoration: new InputDecoration(
-              prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
-        );
-      } else {
-        this._searchIcon = new Icon(Icons.search);
-        this._appBarTitle = new Text('Search Example');
-        filteredNames = names;
-        _filter.clear();
-      }
-    });
-  }
+  // void _searchPressed() {
+  //   setState(() {
+  //     if (this._searchIcon.icon == Icons.search) {
+  //       this._searchIcon = new Icon(Icons.close);
+  //       this._appBarTitle = new TextField(
+  //         controller: _filter,
+  //         decoration: new InputDecoration(
+  //             prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
+  //       );
+  //     } else {
+  //       this._searchIcon = new Icon(Icons.search);
+  //       this._appBarTitle = new Text('Search Example');
+  //       filteredNames = names;
+  //       _filter.clear();
+  //     }
+  //   });
+  // }
 
   void _getNames() async {
     final response = await dio.get('https://swapi.co/api/people');
