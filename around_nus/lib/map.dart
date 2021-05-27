@@ -87,7 +87,7 @@ class _MyMainPageState extends State<MyMainPage> {
           GoogleMap(
             mapType: MapType.normal,
             // disable location button; make own button
-            myLocationButtonEnabled: true,
+            myLocationButtonEnabled: false,
             initialCameraPosition: _defaultCameraPos,
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
