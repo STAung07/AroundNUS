@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import './directions.dart';
 import './bustimings.dart';
 import './settings.dart';
+import './searchdirections.dart';
 
 class MenuDrawer extends StatefulWidget {
   MenuDrawer() {}
@@ -50,7 +51,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => Directions()),
+                MaterialPageRoute(builder: (context) => FindDirections()),
               );
             },
           ),
