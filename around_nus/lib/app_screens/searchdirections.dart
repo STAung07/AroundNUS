@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './apikey.dart'; // Stores the Google Maps API Key
+import '../directions_widgets/apikey.dart'; // Stores the Google Maps API Key
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';

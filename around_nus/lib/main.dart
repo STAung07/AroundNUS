@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import './map.dart';
+import '../app_screens/map.dart';
 
 void main() {
   runApp(MyApp());

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import './fromsearchbar.dart';
+import '../directions_widgets/fromsearchbar.dart';
 
 class Directions extends StatefulWidget {
   Directions() {}
