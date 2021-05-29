@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import './directions.dart';
-import './bustimings.dart';
-import './settings.dart';
-import './searchdirections.dart';
+import '../app_screens/directions.dart';
+import '../app_screens/bustimings.dart';
+import '../app_screens/settings.dart';
+import '../app_screens/searchdirections.dart';
 
 class MenuDrawer extends StatefulWidget {
   MenuDrawer() {}

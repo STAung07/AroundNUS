@@ -3,7 +3,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
-import './drawer.dart';
+import '../map_widgets/drawer.dart';
+import '../map_widgets/circularbutton.dart';
+import '../map_widgets/searchbox.dart';
 
 class MyMainPage extends StatefulWidget {
   MyMainPage({Key? key, required this.title}) : super(key: key);
@@ -21,6 +23,7 @@ class _MyMainPageState extends State<MyMainPage> {
   late LatLng currCoordinates =
       LatLng(currentPosition.latitude, currentPosition.longitude);
   var geoLocator = Geolocator();
+  //var searchLocationController = TextEditingController();
 
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -112,19 +115,18 @@ class _MyMainPageState extends State<MyMainPage> {
             },
             // camera target bounds ? to limit to NUS
           ),
+          Positioned(
+            top: 0.0,
+            left: 0.5,
+            right: 0.5,
+            child: SearchBox(),
+          ),
           Align(
             // User Location Button
             alignment: Alignment.bottomCenter,
             child: InkWell(
               onTap: _userLocationButton,
-              child: Container(
-                height: 40.0,
-                width: 40.0,
-                decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(20.0),
-                    color: Colors.blue),
-                child: Icon(Icons.arrow_downward, color: Colors.white),
-              ),
+              child: CircularButton(),
             ),
           )
         ],
