@@ -1,16 +1,26 @@
 import 'package:flutter/material.dart';
 
-class SearchBox extends StatelessWidget {
-  //final TextEditingController locationController;
+class SearchBox extends StatefulWidget {
+  @override
+  _SearchBoxState createState() => _SearchBoxState();
+}
 
-  SearchBox(/*locationController*/);
-  /*
+class _SearchBoxState extends State<SearchBox> {
+  final searchLocationController = TextEditingController();
+  final searchLocationFocusNode = FocusNode();
+  String? _currentSearchLocation;
+  String _finalSearchLocation = '';
+
+  // can generalise / put in one file for both searchdirections
+  // and searchbox usage
   Widget _textField({
     TextEditingController? controller,
+    FocusNode? focusNode,
     String? label,
     String? hint,
-    Icon? prefixIcon,
     double width = 1.0,
+    Icon? prefixIcon,
+    Widget? suffixIcon,
     Function(String)? locationEntered,
   }) {
     return Container(
@@ -20,9 +30,11 @@ class SearchBox extends StatelessWidget {
           locationEntered!(value);
         },
         controller: controller,
+        focusNode: focusNode,
         decoration: new InputDecoration(
           labelText: label,
           prefixIcon: prefixIcon,
+          suffixIcon: suffixIcon,
           filled: true,
           fillColor: Colors.white,
           enabledBorder: OutlineInputBorder(
@@ -49,20 +61,29 @@ class SearchBox extends StatelessWidget {
       ),
     );
   }
-  */
+
+  void _getSearchQuery() async {
+    try {
+      setState(() {
+        searchLocationController.text = _currentSearchLocation!;
+        _finalSearchLocation = _currentSearchLocation!;
+      });
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _getSearchQuery();
+  }
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      decoration: InputDecoration(
-          hintText: "Search",
-          labelText:
-              "Hey there, search information about a location in NUS below!"),
-    );
     // Change to using Box like below with button leading to Google Places implementation
-
-    /*
-    Container(
+    var searchBoxWidth = MediaQuery.of(context).size.width;
+    return Container(
       height: 150.0,
       decoration: BoxDecoration(
         color: Colors.white,
@@ -107,23 +128,20 @@ class SearchBox extends StatelessWidget {
                 child: Row(
                   children: [
                     // Search Box
-                    Icon(
-                      Icons.search,
-                      color: Colors.blueAccent,
-                    ),
-                    TextField(
-                      decoration: InputDecoration(hintText: "Search"),
-                    ),
-                    /*
                     _textField(
-                      controller: locationController,
-                      prefixIcon: Icon(
-                        Icons.search,
-                        color: Colors.blueAccent,
-                      ),
-                      hint: "Search",
-                    ),
-                    */
+                        controller: searchLocationController,
+                        focusNode: searchLocationFocusNode,
+                        prefixIcon:
+                            Icon(Icons.search, color: Colors.blueAccent),
+                        suffixIcon: Icon(Icons.edit, color: Colors.blueAccent),
+                        width: searchBoxWidth,
+                        hint: "Search",
+                        // in charge of getting input
+                        locationEntered: (String value) {
+                          setState(() {
+                            _finalSearchLocation = value;
+                          });
+                        }),
                   ],
                 ),
               ),
@@ -132,6 +150,5 @@ class SearchBox extends StatelessWidget {
         ),
       ),
     );
-    */
   }
 }
