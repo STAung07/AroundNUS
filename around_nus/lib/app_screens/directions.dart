@@ -1,9 +1,5 @@
 import 'package:flutter/material.dart';
-<<<<<<< HEAD:around_nus/lib/directions.dart
-// import './fromsearchbar.dart';
-=======
 import '../directions_widgets/fromsearchbar.dart';
->>>>>>> refs/remotes/origin/master:around_nus/lib/app_screens/directions.dart
 
 class Directions extends StatefulWidget {
   Directions() {}
