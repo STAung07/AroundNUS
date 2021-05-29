@@ -1,4 +1,4 @@
-package com.example.around_nus
+package com.AroundNUS.aroundnus
 
 import io.flutter.embedding.android.FlutterActivity
 
