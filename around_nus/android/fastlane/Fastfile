@@ -25,7 +25,7 @@ platform :android do
         firebase_app_distribution(
             app: "1:923181537022:android:0cb471b7f44f8152ac37af",
             testers: "lezongmun@gmail.com, swann1999@gmail.com",
-            release_notes: "<Enter the release notes>",
+            release_notes: "first release",
             firebase_cli_path: "/usr/local/bin/firebase",
             apk_path: "../build/app/outputs/apk/release/app-release.apk"
         )
