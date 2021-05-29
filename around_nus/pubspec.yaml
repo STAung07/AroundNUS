@@ -33,9 +33,10 @@ dependencies:
   firebase_database: ^7.0.0
   google_maps_flutter: ^2.0.6
   geolocator: ^7.0.3
-  dio: ^4.0.0
   geocoding: ^2.0.0
   flutter_polyline_points: ^1.0.0
+  provider: ^5.0.0
+  http: ^0.13.3
 
 
 
