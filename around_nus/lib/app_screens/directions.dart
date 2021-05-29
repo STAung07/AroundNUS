@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../directions_widgets/fromsearchbar.dart';
+import './searchdirections.dart';
 
 class Directions extends StatefulWidget {
   Directions() {}
@@ -27,7 +27,7 @@ class _DirectionsState extends State<Directions> {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => FromSearchBar()),
+                  MaterialPageRoute(builder: (context) => FindDirections()),
                 );
               },
               child: Text("From"),
