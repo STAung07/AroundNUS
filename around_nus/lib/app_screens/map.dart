@@ -23,7 +23,6 @@ class _MyMainPageState extends State<MyMainPage> {
   late LatLng currCoordinates =
       LatLng(currentPosition.latitude, currentPosition.longitude);
   var geoLocator = Geolocator();
-  //var searchLocationController = TextEditingController();
 
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -71,6 +70,8 @@ class _MyMainPageState extends State<MyMainPage> {
   @override
   void initState() {
     super.initState();
+    // get User Search; same as searchdirections
+    // void initState()
     _setMarkers(LatLng(1.2966, 103.7764));
   }
 
