@@ -368,7 +368,7 @@ class _MapViewState extends State<MapView> {
           children: <Widget>[
             // Map View
             GoogleMap(
-              markers: markers = Set<Marker>.from(markers),
+              markers: Set<Marker>.from(markers),
               initialCameraPosition: _initialLocation,
               myLocationEnabled: true,
               myLocationButtonEnabled: false,
@@ -534,7 +534,7 @@ class _MapViewState extends State<MapView> {
                                     });
                                   }
                                 : null,
-                            color: Colors.red,
+                            color: Colors.blueGrey,
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(20.0),
                             ),

@@ -1,123 +1,117 @@
 import 'package:flutter/material.dart';
-import 'package:dio/dio.dart';
 
-class FromSearchBar extends StatefulWidget {
-  // ExamplePage({ Key key }) : super(key: key);
-  FromSearchBar() {}
-  @override
-  State<StatefulWidget> createState() {
-    return _FromSearchBarState();
-  }
-}
+class SearchBox extends StatelessWidget {
+  final TextEditingController locationController;
 
-class _FromSearchBarState extends State<FromSearchBar> {
-  // final formKey = new GlobalKey<FormState>();
-  // final key = new GlobalKey<ScaffoldState>();
-  final TextEditingController _filter = new TextEditingController();
-  final dio = new Dio();
-  String _searchText = "";
-  List names = [];
-  List filteredNames = [];
-  Icon _searchIcon = new Icon(Icons.search);
-  Widget _appBarTitle = new Text('Search Example');
+  SearchBox(this.locationController);
 
-  _FromSearchBarState() {
-    _filter.addListener(() {
-      if (_filter.text.isEmpty) {
-        setState(() {
-          _searchText = "";
-          filteredNames = names;
-        });
-      } else {
-        setState(() {
-          _searchText = _filter.text;
-        });
-      }
-    });
-  }
-
-  @override
-  void initState() {
-    this._getNames();
-    super.initState();
-  }
-
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: _buildBar(context),
-      body: Container(
-        child: _buildList(),
-      ),
-      resizeToAvoidBottomInset: false,
-    );
-  }
-
-  PreferredSizeWidget _buildBar(BuildContext context) {
-    return new AppBar(
-      centerTitle: true,
-      title: new TextField(
-        controller: _filter,
+  Widget _textField({
+    TextEditingController? controller,
+    String? label,
+    String? hint,
+    Icon? prefixIcon,
+    double width = 1.0,
+    Function(String)? locationEntered,
+  }) {
+    return Container(
+      width: width * 0.8,
+      child: TextField(
+        onChanged: (value) {
+          locationEntered!(value);
+        },
+        controller: controller,
         decoration: new InputDecoration(
-            prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
+          labelText: label,
+          prefixIcon: prefixIcon,
+          filled: true,
+          fillColor: Colors.white,
+          enabledBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10.0),
+            ),
+            borderSide: BorderSide(
+              color: Colors.grey,
+              width: 2,
+            ),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10.0),
+            ),
+            borderSide: BorderSide(
+              color: Colors.blue,
+              width: 2,
+            ),
+          ),
+          contentPadding: EdgeInsets.all(15),
+          hintText: hint,
+        ),
       ),
-      // leading: new IconButton(
-      //   icon: _searchIcon,
-      //   onPressed: _searchPressed,
-      // ),
     );
   }
 
-  Widget _buildList() {
-    if (!(_searchText.isEmpty)) {
-      List tempList = [];
-      for (int i = 0; i < filteredNames.length; i++) {
-        if (filteredNames[i]['name']
-            .toLowerCase()
-            .contains(_searchText.toLowerCase())) {
-          tempList.add(filteredNames[i]);
-        }
-      }
-      filteredNames = tempList;
-    }
-    return ListView.builder(
-      itemCount: names == null ? 0 : filteredNames.length,
-      itemBuilder: (BuildContext context, int index) {
-        return new ListTile(
-          title: Text(filteredNames[index]['name']),
-          onTap: () => print(filteredNames[index]['name']),
-        );
-      },
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      height: 150.0,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.only(
+            bottomRight: Radius.circular(15.0),
+            bottomLeft: Radius.circular(15.0)),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black,
+            blurRadius: 16.0,
+            spreadRadius: 0.5,
+            offset: Offset(0.7, 0.7),
+          ),
+        ],
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 18.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            SizedBox(height: 6.0),
+            Text(
+              "Hey there, search information about a location in NUS below!",
+              style: TextStyle(fontSize: 12.0),
+            ),
+            SizedBox(height: 20.0),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(5.0),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black54,
+                    blurRadius: 6.0,
+                    spreadRadius: 0.5,
+                    offset: Offset(0.7, 0.7),
+                  ),
+                ],
+              ),
+              child: Padding(
+                padding: const EdgeInsets.all(4.0),
+                child: Row(
+                  children: [
+                    // Search Box
+                    _textField(
+                      controller: locationController,
+                      prefixIcon: Icon(
+                        Icons.search,
+                        color: Colors.blueAccent,
+                      ),
+                      hint: "Search",
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
     );
-  }
-
-  // void _searchPressed() {
-  //   setState(() {
-  //     if (this._searchIcon.icon == Icons.search) {
-  //       this._searchIcon = new Icon(Icons.close);
-  //       this._appBarTitle = new TextField(
-  //         controller: _filter,
-  //         decoration: new InputDecoration(
-  //             prefixIcon: new Icon(Icons.search), hintText: 'Search...'),
-  //       );
-  //     } else {
-  //       this._searchIcon = new Icon(Icons.search);
-  //       this._appBarTitle = new Text('Search Example');
-  //       filteredNames = names;
-  //       _filter.clear();
-  //     }
-  //   });
-  // }
-
-  void _getNames() async {
-    final response = await dio.get('https://www.google.com');
-    List tempList = [];
-    for (int i = 0; i < response.data['results'].length; i++) {
-      tempList.add(response.data['results'][i]);
-    }
-    setState(() {
-      names = tempList;
-      names.shuffle();
-      filteredNames = names;
-    });
   }
 }
