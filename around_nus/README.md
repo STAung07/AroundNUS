@@ -4,7 +4,7 @@
 Apollo 11
 
 ## TechStack
-<img src="./techstack.PNG"> 
+<img src="./README_images/techstack.PNG"> 
 
 
 ## Motivation
@@ -14,7 +14,7 @@ NUS students, including us, often find themselves having to use various platform
 Provide an all in one navigation app for NUS students to find their way around campus efficiently without having to cross - reference from different apps or websites 
 
 ## Scope of Project
-<img src="./AroundNUS_Features.PNG">  
+<img src="./README_images/AroundNUS_Features.PNG">  
 
 The navigation screen will provide a map interface for users to pinpoint their current location, as well as a search feature that will allow them to locate places and amenities in NUS.
 
@@ -33,4 +33,4 @@ By End June:
 2. Multiple path options: Walking, Bus, Drive
 
 ## Program Flow
-<img src="./ProgramFlow.PNG"> 
+<img src="./README_images/ProgramFlow.PNG"> 
