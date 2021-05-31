@@ -101,6 +101,7 @@ class _MyMainPageState extends State<MyMainPage> {
     // get User Search; same as searchdirections
     // void initState()
     _setMarkers(LatLng(1.2966, 103.7764));
+    locatePosition();
   }
 
   @override
@@ -125,7 +126,7 @@ class _MyMainPageState extends State<MyMainPage> {
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
               // after position located, then setMarker
-              locatePosition();
+              //locatePosition();
               _setMarkers(currCoordinates);
             },
             // enable location layer
