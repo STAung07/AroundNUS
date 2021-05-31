@@ -1,7 +1,9 @@
+import 'package:around_nus/blocs/application_bloc.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 import 'dart:async';
 
 import '../common_widgets/drawer.dart';
@@ -26,52 +28,51 @@ class _MyMainPageState extends State<MyMainPage> {
       LatLng(currentPosition.latitude, currentPosition.longitude);
   var geoLocator = Geolocator();
 
-  void locatePosition() async {
-    // bool serviceEnabled;
-    // LocationPermission permission;
+  // void locatePosition() async {
+  // bool serviceEnabled;
+  // LocationPermission permission;
 
-    // // Test if location services are enabled.
-    // serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    // if (!serviceEnabled) {
-    //   // Dialog box asking user to turn on Location Services
-    //   showDialog(context: context, builder: (_) => TurnOnLocation('Disabled'));
-    //   return;
-    // }
+  // // Test if location services are enabled.
+  // serviceEnabled = await Geolocator.isLocationServiceEnabled();
+  // if (!serviceEnabled) {
+  //   // Dialog box asking user to turn on Location Services
+  //   showDialog(context: context, builder: (_) => TurnOnLocation('Disabled'));
+  //   return;
+  // }
 
-    // permission = await Geolocator.checkPermission();
-    // if (permission == LocationPermission.denied) {
-    //   permission = await Geolocator.requestPermission();
-    //   if (permission == LocationPermission.denied) {
-    //     showDialog(context: context, builder: (_) => TurnOnLocation('Denied'));
-    //     return;
-    //   }
-    // }
-    // if (permission == LocationPermission.deniedForever) {
-    //   showDialog(
-    //       context: context,
-    //       builder: (_) => TurnOnLocation('Permanently Denied'));
-    //   return;
-    // }
+  // permission = await Geolocator.checkPermission();
+  // if (permission == LocationPermission.denied) {
+  //   permission = await Geolocator.requestPermission();
+  //   if (permission == LocationPermission.denied) {
+  //     showDialog(context: context, builder: (_) => TurnOnLocation('Denied'));
+  //     return;
+  //   }
+  // }
+  // if (permission == LocationPermission.deniedForever) {
+  //   showDialog(
+  //       context: context,
+  //       builder: (_) => TurnOnLocation('Permanently Denied'));
+  //   return;
+  // }
 
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
-    currentPosition = position;
+  // Position position = await Geolocator.getCurrentPosition(
+  //     desiredAccuracy: LocationAccuracy.high);
+  // currentPosition = position;
 
-    // if latlng position out of range of NUS, set latlng position to _defaultCameraPos
-    LatLng latlngPosition = LatLng(position.latitude, position.longitude);
-    CameraPosition cameraPosition =
-        new CameraPosition(target: latlngPosition, zoom: 14.4746);
-    newGoogleMapController
-        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-  }
+  // if latlng position out of range of NUS, set latlng position to _defaultCameraPos
+  //   LatLng latlngPosition = LatLng(position.latitude, position.longitude);
+  //   CameraPosition cameraPosition =
+  //       new CameraPosition(target: latlngPosition, zoom: 14.4746);
+  //   newGoogleMapController
+  //       .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  // // }
 
-  static final CameraPosition _defaultCameraPos = CameraPosition(
-    target: LatLng(1.2966, 103.7764),
-    zoom: 14.4746,
-  );
+  // static final CameraPosition _defaultCameraPos = CameraPosition(
+  //   target: LatLng(1.2966, 103.7764),
+  //   zoom: 14.4746,
+  // );
 
   Set<Marker> _markers = <Marker>{};
-
   bool _isMarker = false;
 
   // set marker for one other location
@@ -89,23 +90,35 @@ class _MyMainPageState extends State<MyMainPage> {
     });
   }
 
-  // function to call when user presses userLocation button
-  void _userLocationButton() {
-    _setMarkers(currCoordinates);
-    locatePosition();
-  }
+  // // function to call when user presses userLocation button
+  // void _userLocationButton() {
+  //   _setMarkers(currCoordinates);
+  //   locatePosition();
+  // }
 
-  @override
-  void initState() {
-    super.initState();
-    // get User Search; same as searchdirections
-    // void initState()
-    _setMarkers(LatLng(1.2966, 103.7764));
-    locatePosition();
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   // get User Search; same as searchdirections
+  //   // void initState()
+  //   _setMarkers(LatLng(1.2966, 103.7764));
+  //   locatePosition();
+  // }
 
   @override
   Widget build(BuildContext context) {
+    final applicationBloc = Provider.of<ApplicationBloc>(context);
+    CameraPosition _initialCameraPosition;
+    if (applicationBloc.currentLocation == null) {
+      _initialCameraPosition =
+          CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 14);
+    } else {
+      _initialCameraPosition = CameraPosition(
+          target: LatLng(applicationBloc.currentLocation!.latitude,
+              applicationBloc.currentLocation!.longitude),
+          zoom: 14);
+    }
+
     // This method is rerun every time setState is called
     return Scaffold(
       appBar: AppBar(
@@ -119,7 +132,8 @@ class _MyMainPageState extends State<MyMainPage> {
             mapType: MapType.normal,
             // disable location button; make own button
             myLocationButtonEnabled: false,
-            initialCameraPosition: _defaultCameraPos,
+            //initialCameraPosition: _defaultCameraPos,
+            initialCameraPosition: _initialCameraPosition,
             onMapCreated: (GoogleMapController controller) {
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
@@ -147,16 +161,42 @@ class _MyMainPageState extends State<MyMainPage> {
             top: 0.0,
             left: 0.5,
             right: 0.5,
-            child: SearchBox(),
-          ),
-          Align(
-            // User Location Button
-            alignment: Alignment.bottomCenter,
-            child: InkWell(
-              onTap: _userLocationButton,
-              child: CircularButton(),
+            // child: SearchBox(),
+            child: TextField(
+              decoration: InputDecoration(
+                  hintText: "Search Location", suffixIcon: Icon(Icons.search)),
+              onChanged: (value) => applicationBloc.searchPlaces(value),
             ),
-          )
+          ),
+          // Align(
+          //   // User Location Button
+          //   alignment: Alignment.bottomCenter,
+          //   child: InkWell(
+          //     //onTap: _userLocationButton,
+          //     onTap:  newGoogleMapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition)),
+          //     child: CircularButton(),
+          //   ),
+          // )
+          if (applicationBloc.searchResults != null &&
+              applicationBloc.searchResults!.length != 0)
+            Container(
+                height: 415.0,
+                width: double.infinity,
+                decoration: BoxDecoration(
+                    backgroundBlendMode: BlendMode.darken,
+                    color: Colors.black.withOpacity(0.6))),
+          Container(
+              height: 415.0,
+              child: ListView.builder(
+                  itemCount: applicationBloc.searchResults!.length,
+                  itemBuilder: (context, index) {
+                    return ListTile(
+                      title: Text(
+                        applicationBloc.searchResults![index].description,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                    );
+                  }))
         ],
       ),
     );

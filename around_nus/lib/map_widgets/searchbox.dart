@@ -165,8 +165,7 @@ class _SearchBoxState extends State<SearchBox> {
     if (placeName.length > 1) {
       String autoCompleteUrl =
           "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M&sessiontoken=1234567890";
-      var res = await http.get(Uri.https('maps.googleapis.com',
-          'maps/api/place/autocomplete/json?input=$placeName&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M&sessiontoken=1234567890'));
+      var res = await http.get(Uri.parse(autoCompleteUrl));
       // if (res == "failed") {
       //   return;
       // }
