@@ -27,6 +27,9 @@ The bus screen using the NUS Next Bus API will provide bus timings of busses tha
 
 Finally, the most important directions feature which requires the Google Maps Routing API, together with NUS Next Bus API for bus routes, will allow users to input their starting and ending location and the app will provide detailed directions on the shortest path to get there.
 
+### Map Screen and Directions Screen
+<img src="./README_images/map_screen.png"> <img src="./README_images/directions_screen.png"> 
+
 Development Plan up to Milestone II:
 
 By Mid June:

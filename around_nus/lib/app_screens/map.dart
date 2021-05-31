@@ -4,7 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'dart:async';
 
-import '../map_widgets/drawer.dart';
+import '../common_widgets/drawer.dart';
 import '../map_widgets/circularbutton.dart';
 import '../map_widgets/searchbox.dart';
 import '../map_widgets/turnonlocation.dart';
@@ -101,6 +101,7 @@ class _MyMainPageState extends State<MyMainPage> {
     // get User Search; same as searchdirections
     // void initState()
     _setMarkers(LatLng(1.2966, 103.7764));
+    locatePosition();
   }
 
   @override
@@ -108,8 +109,6 @@ class _MyMainPageState extends State<MyMainPage> {
     // This method is rerun every time setState is called
     return Scaffold(
       appBar: AppBar(
-        // Here we take the value from the MyHomePage object that was created by
-        // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
       drawer: MenuDrawer(),
@@ -125,7 +124,7 @@ class _MyMainPageState extends State<MyMainPage> {
               _controllerGoogleMap.complete(controller);
               newGoogleMapController = controller;
               // after position located, then setMarker
-              locatePosition();
+              //locatePosition();
               _setMarkers(currCoordinates);
             },
             // enable location layer

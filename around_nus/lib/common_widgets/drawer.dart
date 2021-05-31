@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../app_screens/bustimings.dart';
 import '../app_screens/settings.dart';
 import '../app_screens/searchdirections.dart';
+import '../app_screens/map.dart';
 
 class MenuDrawer extends StatefulWidget {
   MenuDrawer() {}
@@ -39,6 +40,21 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 ),
               ),
             ),
+          ),
+          ListTile(
+            title: Text(
+              "Home",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                    builder: (context) => MyMainPage(title: 'AroundNUS')),
+              );
+            },
           ),
           ListTile(
             title: Text(
