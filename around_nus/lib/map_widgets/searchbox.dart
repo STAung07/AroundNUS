@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
 
 class SearchBox extends StatefulWidget {
   @override
@@ -26,7 +27,11 @@ class _SearchBoxState extends State<SearchBox> {
     return Container(
       width: width * 0.8,
       child: TextField(
+        // onChanged: (value) {
+        //   locationEntered!(value);
+        // },
         onChanged: (value) {
+          findPlace(value);
           locationEntered!(value);
         },
         controller: controller,
@@ -150,5 +155,23 @@ class _SearchBoxState extends State<SearchBox> {
         ),
       ),
     );
+  }
+
+  void findPlace(String placeName) async {
+    setState(() {
+      print(placeName);
+    });
+    print(placeName);
+    if (placeName.length > 1) {
+      String autoCompleteUrl =
+          "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$placeName&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M&sessiontoken=1234567890";
+      var res = await http.get(Uri.https('maps.googleapis.com',
+          'maps/api/place/autocomplete/json?input=$placeName&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M&sessiontoken=1234567890'));
+      // if (res == "failed") {
+      //   return;
+      // }
+      print("Places Predictions Response :: ");
+      print(res);
+    }
   }
 }
