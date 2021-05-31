@@ -18,7 +18,6 @@ Provide an all in one navigation app for NUS students to find their way around c
 2. As a user, I would be able to find out the bus routes and timings of the bus services available at the bus stops nearest to me.
 3. As a user, I would be able to find the most efficient path from wherever I am to my destination location.
 
-
 ## Scope of Project
 <img src="./README_images/AroundNUS_Features.PNG">  
 

@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -6,6 +7,7 @@ import 'dart:async';
 import '../map_widgets/drawer.dart';
 import '../map_widgets/circularbutton.dart';
 import '../map_widgets/searchbox.dart';
+import '../map_widgets/turnonlocation.dart';
 
 class MyMainPage extends StatefulWidget {
   MyMainPage({Key? key, required this.title}) : super(key: key);
@@ -25,6 +27,32 @@ class _MyMainPageState extends State<MyMainPage> {
   var geoLocator = Geolocator();
 
   void locatePosition() async {
+    bool serviceEnabled;
+    LocationPermission permission;
+
+    // Test if location services are enabled.
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Dialog box asking user to turn on Location Services
+      showDialog(context: context, builder: (_) => TurnOnLocation('Disabled'));
+      return;
+    }
+
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.denied) {
+      permission = await Geolocator.requestPermission();
+      if (permission == LocationPermission.denied) {
+        showDialog(context: context, builder: (_) => TurnOnLocation('Denied'));
+        return;
+      }
+    }
+    if (permission == LocationPermission.deniedForever) {
+      showDialog(
+          context: context,
+          builder: (_) => TurnOnLocation('Permanently Denied'));
+      return;
+    }
+
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     currentPosition = position;
