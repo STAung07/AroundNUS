@@ -27,31 +27,31 @@ class _MyMainPageState extends State<MyMainPage> {
   var geoLocator = Geolocator();
 
   void locatePosition() async {
-    bool serviceEnabled;
-    LocationPermission permission;
+    // bool serviceEnabled;
+    // LocationPermission permission;
 
-    // Test if location services are enabled.
-    serviceEnabled = await Geolocator.isLocationServiceEnabled();
-    if (!serviceEnabled) {
-      // Dialog box asking user to turn on Location Services
-      showDialog(context: context, builder: (_) => TurnOnLocation('Disabled'));
-      return;
-    }
+    // // Test if location services are enabled.
+    // serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    // if (!serviceEnabled) {
+    //   // Dialog box asking user to turn on Location Services
+    //   showDialog(context: context, builder: (_) => TurnOnLocation('Disabled'));
+    //   return;
+    // }
 
-    permission = await Geolocator.checkPermission();
-    if (permission == LocationPermission.denied) {
-      permission = await Geolocator.requestPermission();
-      if (permission == LocationPermission.denied) {
-        showDialog(context: context, builder: (_) => TurnOnLocation('Denied'));
-        return;
-      }
-    }
-    if (permission == LocationPermission.deniedForever) {
-      showDialog(
-          context: context,
-          builder: (_) => TurnOnLocation('Permanently Denied'));
-      return;
-    }
+    // permission = await Geolocator.checkPermission();
+    // if (permission == LocationPermission.denied) {
+    //   permission = await Geolocator.requestPermission();
+    //   if (permission == LocationPermission.denied) {
+    //     showDialog(context: context, builder: (_) => TurnOnLocation('Denied'));
+    //     return;
+    //   }
+    // }
+    // if (permission == LocationPermission.deniedForever) {
+    //   showDialog(
+    //       context: context,
+    //       builder: (_) => TurnOnLocation('Permanently Denied'));
+    //   return;
+    // }
 
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
