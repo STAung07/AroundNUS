@@ -5,8 +5,10 @@ import 'dart:convert' as convert;
 class PlacesService {
   final key = "AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M";
   Future<List<PlaceSearch>> getAutoComplete(String search) async {
+    // var url =
+    //     "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&types=(cities)&key=$key";
     var url =
-        "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$search&types=(cities)&key=$key";
+        "https://maps.googleapis.com/maps/api/place/autocomplete/json?strictbounds=&input=$search&location=1.2966,103.7764&key=$key&radius=900";
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
     var jsonResults = json['predictions'] as List;
