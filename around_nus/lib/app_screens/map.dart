@@ -28,49 +28,18 @@ class _MyMainPageState extends State<MyMainPage> {
       LatLng(currentPosition.latitude, currentPosition.longitude);
   var geoLocator = Geolocator();
 
-  // void locatePosition() async {
-  // bool serviceEnabled;
-  // LocationPermission permission;
+  void locatePosition() async {
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
+    currentPosition = position;
 
-  // // Test if location services are enabled.
-  // serviceEnabled = await Geolocator.isLocationServiceEnabled();
-  // if (!serviceEnabled) {
-  //   // Dialog box asking user to turn on Location Services
-  //   showDialog(context: context, builder: (_) => TurnOnLocation('Disabled'));
-  //   return;
-  // }
-
-  // permission = await Geolocator.checkPermission();
-  // if (permission == LocationPermission.denied) {
-  //   permission = await Geolocator.requestPermission();
-  //   if (permission == LocationPermission.denied) {
-  //     showDialog(context: context, builder: (_) => TurnOnLocation('Denied'));
-  //     return;
-  //   }
-  // }
-  // if (permission == LocationPermission.deniedForever) {
-  //   showDialog(
-  //       context: context,
-  //       builder: (_) => TurnOnLocation('Permanently Denied'));
-  //   return;
-  // }
-
-  // Position position = await Geolocator.getCurrentPosition(
-  //     desiredAccuracy: LocationAccuracy.high);
-  // currentPosition = position;
-
-  // if latlng position out of range of NUS, set latlng position to _defaultCameraPos
-  //   LatLng latlngPosition = LatLng(position.latitude, position.longitude);
-  //   CameraPosition cameraPosition =
-  //       new CameraPosition(target: latlngPosition, zoom: 14.4746);
-  //   newGoogleMapController
-  //       .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
-  // // }
-
-  // static final CameraPosition _defaultCameraPos = CameraPosition(
-  //   target: LatLng(1.2966, 103.7764),
-  //   zoom: 14.4746,
-  // );
+    //if latlng position out of range of NUS, set latlng position to _defaultCameraPos
+    LatLng latlngPosition = LatLng(position.latitude, position.longitude);
+    CameraPosition cameraPosition =
+        new CameraPosition(target: latlngPosition, zoom: 14.4746);
+    newGoogleMapController
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+  }
 
   Set<Marker> _markers = <Marker>{};
   bool _isMarker = false;
@@ -90,20 +59,19 @@ class _MyMainPageState extends State<MyMainPage> {
     });
   }
 
-  // // function to call when user presses userLocation button
-  // void _userLocationButton() {
-  //   _setMarkers(currCoordinates);
-  //   locatePosition();
-  // }
+  // function to call when user presses userLocation button
+  void _userLocationButton() {
+    locatePosition();
+    _setMarkers(currCoordinates);
+  }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //   // get User Search; same as searchdirections
-  //   // void initState()
-  //   _setMarkers(LatLng(1.2966, 103.7764));
-  //   locatePosition();
-  // }
+  @override
+  void initState() {
+    super.initState();
+    // get User Search; same as searchdirections
+    _setMarkers(LatLng(1.2966, 103.7764));
+    locatePosition();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -168,15 +136,15 @@ class _MyMainPageState extends State<MyMainPage> {
               onChanged: (value) => applicationBloc.searchPlaces(value),
             ),
           ),
-          // Align(
-          //   // User Location Button
-          //   alignment: Alignment.bottomCenter,
-          //   child: InkWell(
-          //     //onTap: _userLocationButton,
-          //     onTap:  newGoogleMapController.animateCamera(CameraUpdate.newCameraPosition(cameraPosition)),
-          //     child: CircularButton(),
-          //   ),
-          // )
+          Align(
+            // User Location Button
+            alignment: Alignment.bottomCenter,
+            child: InkWell(
+              //onTap: _userLocationButton,
+              onTap: _userLocationButton,
+              child: CircularButton(),
+            ),
+          ),
           if (applicationBloc.searchResults != null &&
               applicationBloc.searchResults!.length != 0)
             Container(
@@ -194,7 +162,6 @@ class _MyMainPageState extends State<MyMainPage> {
                     itemBuilder: (context, index) {
                       return ListTile(
                         title: Text(
-                          // "hello",
                           applicationBloc.searchResults![index].description,
                           style: TextStyle(color: Colors.white),
                         ),
