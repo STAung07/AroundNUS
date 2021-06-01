@@ -185,18 +185,21 @@ class _MyMainPageState extends State<MyMainPage> {
                 decoration: BoxDecoration(
                     backgroundBlendMode: BlendMode.darken,
                     color: Colors.black.withOpacity(0.6))),
-          Container(
-              height: 415.0,
-              child: ListView.builder(
-                  itemCount: applicationBloc.searchResults!.length,
-                  itemBuilder: (context, index) {
-                    return ListTile(
-                      title: Text(
-                        applicationBloc.searchResults![index].description,
-                        style: TextStyle(color: Colors.white),
-                      ),
-                    );
-                  }))
+          if (applicationBloc.searchResults != null &&
+              applicationBloc.searchResults!.length != 0)
+            Container(
+                height: 415.0,
+                child: ListView.builder(
+                    itemCount: applicationBloc.searchResults!.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(
+                          // "hello",
+                          applicationBloc.searchResults![index].description,
+                          style: TextStyle(color: Colors.white),
+                        ),
+                      );
+                    }))
         ],
       ),
     );
