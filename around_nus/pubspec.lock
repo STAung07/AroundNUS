@@ -233,6 +233,15 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.0.0"
+  nus_nextbus_api:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: HEAD
+      resolved-ref: de30de4a232dfffeafbcedafaec8e665746bccf4
+      url: "https://github.com/jiachen247/nus-nextbus-api.git"
+    source: git
+    version: "0.0.1"
   path:
     dependency: transitive
     description:
