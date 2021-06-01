@@ -11,6 +11,8 @@ class ApplicationBloc with ChangeNotifier {
   //Variables
   Position? currentLocation;
   List<PlaceSearch>? searchResults;
+  List<PlaceSearch>? searchFromResults;
+  List<PlaceSearch>? searchToResults;
 
   ApplicationBloc() {
     setCurrentLocation();
@@ -23,6 +25,9 @@ class ApplicationBloc with ChangeNotifier {
 
   searchPlaces(String searchTerm) async {
     searchResults = await placesService.getAutoComplete(searchTerm);
+    searchFromResults = await placesService.getAutoComplete(searchTerm);
+    searchToResults = await placesService.getAutoComplete(searchTerm);
+
     notifyListeners();
   }
 }

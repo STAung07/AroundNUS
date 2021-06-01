@@ -1,8 +1,10 @@
+import 'package:around_nus/blocs/application_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:provider/provider.dart';
 
 import 'dart:math' show cos, sqrt, asin;
 import '../common_widgets/drawer.dart';
@@ -27,7 +29,8 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
-  CameraPosition _initialLocation = CameraPosition(target: LatLng(0.0, 0.0));
+  CameraPosition _initialLocation =
+      CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 15);
   GoogleMapController? mapController;
 
   Position? _currentPosition;
@@ -360,6 +363,7 @@ class _MapViewState extends State<MapView> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
+    // final applicationBloc = Provider.of<ApplicationBloc>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Directions")),
       drawer: MenuDrawer(),

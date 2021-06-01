@@ -36,7 +36,7 @@ class _MyMainPageState extends State<MyMainPage> {
     //if latlng position out of range of NUS, set latlng position to _defaultCameraPos
     LatLng latlngPosition = LatLng(position.latitude, position.longitude);
     CameraPosition cameraPosition =
-        new CameraPosition(target: latlngPosition, zoom: 14.4746);
+        new CameraPosition(target: latlngPosition, zoom: 15);
     newGoogleMapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
@@ -79,12 +79,12 @@ class _MyMainPageState extends State<MyMainPage> {
     CameraPosition _initialCameraPosition;
     if (applicationBloc.currentLocation == null) {
       _initialCameraPosition =
-          CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 14);
+          CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 15);
     } else {
       _initialCameraPosition = CameraPosition(
           target: LatLng(applicationBloc.currentLocation!.latitude,
               applicationBloc.currentLocation!.longitude),
-          zoom: 14);
+          zoom: 15);
     }
 
     // This method is rerun every time setState is called
@@ -125,14 +125,21 @@ class _MyMainPageState extends State<MyMainPage> {
             },
             // camera target bounds ? to limit to NUS
           ),
-          Positioned(
-            top: 0.0,
-            left: 0.5,
-            right: 0.5,
-            // child: SearchBox(),
+          Container(
+              height: 75,
+              decoration: BoxDecoration(
+                  shape: BoxShape.rectangle,
+                  borderRadius: BorderRadius.only(
+                      bottomLeft: Radius.circular(8.0),
+                      bottomRight: Radius.circular(8.0)),
+                  //backgroundBlendMode: BlendMode.color,
+                  color: Colors.white)),
+          Container(
+            padding: EdgeInsets.all(20),
             child: TextField(
               decoration: InputDecoration(
-                  hintText: "Search Location", suffixIcon: Icon(Icons.search)),
+                  hintText: "Search Location ...",
+                  suffixIcon: Icon(Icons.search)),
               onChanged: (value) => applicationBloc.searchPlaces(value),
             ),
           ),
@@ -148,6 +155,7 @@ class _MyMainPageState extends State<MyMainPage> {
           if (applicationBloc.searchResults != null &&
               applicationBloc.searchResults!.length != 0)
             Container(
+                margin: EdgeInsets.only(top: 70),
                 height: 415.0,
                 width: double.infinity,
                 decoration: BoxDecoration(
@@ -156,6 +164,7 @@ class _MyMainPageState extends State<MyMainPage> {
           if (applicationBloc.searchResults != null &&
               applicationBloc.searchResults!.length != 0)
             Container(
+                padding: EdgeInsets.only(top: 60),
                 height: 415.0,
                 child: ListView.builder(
                     itemCount: applicationBloc.searchResults!.length,
