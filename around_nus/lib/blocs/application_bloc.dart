@@ -25,7 +25,17 @@ class ApplicationBloc with ChangeNotifier {
 
   searchPlaces(String searchTerm) async {
     searchResults = await placesService.getAutoComplete(searchTerm);
+
+    notifyListeners();
+  }
+
+  searchFromPlaces(String searchTerm) async {
     searchFromResults = await placesService.getAutoComplete(searchTerm);
+
+    notifyListeners();
+  }
+
+  searchToPlaces(String searchTerm) async {
     searchToResults = await placesService.getAutoComplete(searchTerm);
 
     notifyListeners();

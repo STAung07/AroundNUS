@@ -40,7 +40,7 @@ class _MapViewState extends State<MapView> {
   final destinationAddressController = TextEditingController();
 
   final startAddressFocusNode = FocusNode();
-  final desrinationAddressFocusNode = FocusNode();
+  final destinationAddressFocusNode = FocusNode();
 
   String _startAddress = '';
   String _destinationAddress = '';
@@ -363,7 +363,7 @@ class _MapViewState extends State<MapView> {
   Widget build(BuildContext context) {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
-    // final applicationBloc = Provider.of<ApplicationBloc>(context);
+    final applicationBloc = Provider.of<ApplicationBloc>(context);
     return Scaffold(
       appBar: AppBar(title: Text("Directions")),
       drawer: MenuDrawer(),
@@ -462,39 +462,93 @@ class _MapViewState extends State<MapView> {
                               style: TextStyle(fontSize: 20.0),
                             ),
                             SizedBox(height: 10),
-                            _textField(
-                                label: 'From',
-                                hint: 'Choose starting point',
-                                prefixIcon: Icon(Icons.looks_one),
-                                suffixIcon: IconButton(
-                                  icon: Icon(Icons.my_location),
-                                  onPressed: () {
-                                    startAddressController.text =
-                                        _currentAddress!;
-                                    _startAddress = _currentAddress!;
-                                  },
-                                ),
-                                controller: startAddressController,
-                                focusNode: startAddressFocusNode,
-                                width: width,
-                                locationCallback: (String value) {
+                            Container(
+                              width: width * 0.8,
+                              child: TextField(
+                                onChanged: (value) {
                                   setState(() {
                                     _startAddress = value;
                                   });
-                                }),
+                                  applicationBloc.searchFromPlaces(value);
+                                },
+                                controller: startAddressController,
+                                focusNode: startAddressFocusNode,
+                                decoration: new InputDecoration(
+                                  prefixIcon: Icon(Icons.looks_one),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.my_location),
+                                    onPressed: () {
+                                      startAddressController.text =
+                                          _currentAddress!;
+                                      _startAddress = _currentAddress!;
+                                    },
+                                  ),
+                                  labelText: "From",
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  contentPadding: EdgeInsets.all(15),
+                                  hintText: "Choose Starting Point",
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 10),
-                            _textField(
-                                label: 'To',
-                                hint: 'Choose destination',
-                                prefixIcon: Icon(Icons.looks_two),
-                                controller: destinationAddressController,
-                                focusNode: desrinationAddressFocusNode,
-                                width: width,
-                                locationCallback: (String value) {
+                            Container(
+                              width: width * 0.8,
+                              child: TextField(
+                                onChanged: (value) {
                                   setState(() {
                                     _destinationAddress = value;
                                   });
-                                }),
+                                  applicationBloc.searchToPlaces(value);
+                                },
+                                controller: destinationAddressController,
+                                focusNode: destinationAddressFocusNode,
+                                decoration: new InputDecoration(
+                                  prefixIcon: Icon(Icons.looks_two),
+                                  labelText: "To",
+                                  filled: true,
+                                  fillColor: Colors.white,
+                                  enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                    borderSide: BorderSide(
+                                      color: Colors.grey,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.all(
+                                      Radius.circular(10.0),
+                                    ),
+                                    borderSide: BorderSide(
+                                      color: Colors.blue,
+                                      width: 2,
+                                    ),
+                                  ),
+                                  contentPadding: EdgeInsets.all(15),
+                                  hintText: "Choose Destination",
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 10),
                             Visibility(
                               visible: _placeDistance == null ? false : true,
@@ -512,7 +566,7 @@ class _MapViewState extends State<MapView> {
                                       _destinationAddress != '')
                                   ? () async {
                                       startAddressFocusNode.unfocus();
-                                      desrinationAddressFocusNode.unfocus();
+                                      destinationAddressFocusNode.unfocus();
                                       setState(() {
                                         if (markers.isNotEmpty) markers.clear();
                                         if (polylines.isNotEmpty)
@@ -565,6 +619,58 @@ class _MapViewState extends State<MapView> {
                   ),
                 ),
               ),
+
+              if (applicationBloc.searchFromResults != null &&
+                  applicationBloc.searchFromResults!.length != 0)
+                Container(
+                    margin: EdgeInsets.only(top: 100, right: 40, left: 40),
+                    height: 415.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        backgroundBlendMode: BlendMode.darken,
+                        color: Colors.black.withOpacity(0.6))),
+              if (applicationBloc.searchFromResults != null &&
+                  applicationBloc.searchFromResults!.length != 0)
+                Container(
+                    padding: EdgeInsets.only(top: 100, right: 35, left: 35),
+                    height: 415.0,
+                    child: ListView.builder(
+                        itemCount: applicationBloc.searchFromResults!.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(
+                              applicationBloc
+                                  .searchFromResults![index].description,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          );
+                        })),
+
+              if (applicationBloc.searchToResults != null &&
+                  applicationBloc.searchToResults!.length != 0)
+                Container(
+                    margin: EdgeInsets.only(top: 160, right: 40, left: 40),
+                    height: 415.0,
+                    width: double.infinity,
+                    decoration: BoxDecoration(
+                        backgroundBlendMode: BlendMode.darken,
+                        color: Colors.black.withOpacity(0.6))),
+              if (applicationBloc.searchToResults != null &&
+                  applicationBloc.searchToResults!.length != 0)
+                Container(
+                    padding: EdgeInsets.only(top: 160, right: 35, left: 35),
+                    height: 415.0,
+                    child: ListView.builder(
+                        itemCount: applicationBloc.searchToResults!.length,
+                        itemBuilder: (context, index) {
+                          return ListTile(
+                            title: Text(
+                              applicationBloc
+                                  .searchToResults![index].description,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          );
+                        })),
               // Show current location button
               SafeArea(
                 child: Align(
