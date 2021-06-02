@@ -130,8 +130,8 @@ class _MyMainPageState extends State<MyMainPage> {
               decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(8.0),
-                      bottomRight: Radius.circular(8.0)),
+                      bottomLeft: Radius.circular(15.0),
+                      bottomRight: Radius.circular(15.0)),
                   //backgroundBlendMode: BlendMode.color,
                   color: Colors.white)),
           Container(
