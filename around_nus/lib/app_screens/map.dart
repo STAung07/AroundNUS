@@ -1,4 +1,5 @@
 import 'package:around_nus/blocs/application_bloc.dart';
+import 'package:around_nus/models/place.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,6 +28,32 @@ class _MyMainPageState extends State<MyMainPage> {
   late LatLng currCoordinates =
       LatLng(currentPosition.latitude, currentPosition.longitude);
   var geoLocator = Geolocator();
+  late StreamSubscription locationSubscription;
+
+  @override
+  void initState() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+    locationSubscription =
+        applicationBloc.selectedLocation.stream.listen((place) {
+      if (place != null) {
+        _goToPlace(place);
+      }
+    });
+    super.initState();
+    // get User Search; same as searchdirections
+    _setMarkers(LatLng(1.2966, 103.7764));
+    locatePosition();
+  }
+
+  @override
+  void dispose() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+    applicationBloc.dispose();
+    locationSubscription.cancel();
+    super.dispose();
+  }
 
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -34,11 +61,11 @@ class _MyMainPageState extends State<MyMainPage> {
     currentPosition = position;
 
     //if latlng position out of range of NUS, set latlng position to _defaultCameraPos
-    LatLng latlngPosition = LatLng(position.latitude, position.longitude);
-    CameraPosition cameraPosition =
-        new CameraPosition(target: latlngPosition, zoom: 15);
-    newGoogleMapController
-        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    // LatLng latlngPosition = LatLng(position.latitude, position.longitude);
+    // CameraPosition cameraPosition =
+    //     new CameraPosition(target: latlngPosition, zoom: 15);
+    // newGoogleMapController
+    //      .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 
   Set<Marker> _markers = <Marker>{};
@@ -63,14 +90,6 @@ class _MyMainPageState extends State<MyMainPage> {
   void _userLocationButton() {
     locatePosition();
     _setMarkers(currCoordinates);
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    // get User Search; same as searchdirections
-    _setMarkers(LatLng(1.2966, 103.7764));
-    locatePosition();
   }
 
   @override
@@ -174,10 +193,25 @@ class _MyMainPageState extends State<MyMainPage> {
                           applicationBloc.searchResults![index].description,
                           style: TextStyle(color: Colors.white),
                         ),
+                        onTap: () {
+                          applicationBloc.setSelectedLocation(
+                              applicationBloc.searchResults![index].placeId);
+                        },
                       );
                     }))
         ],
       ),
     );
+  }
+
+  Future<void> _goToPlace(Place place) async {
+    final GoogleMapController controller = await _controllerGoogleMap.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target:
+            LatLng(place.geometry.location.lat, place.geometry.location.lng),
+        zoom: 15)));
+
+    _setMarkers(
+        LatLng(place.geometry.location.lat, place.geometry.location.lng));
   }
 }
