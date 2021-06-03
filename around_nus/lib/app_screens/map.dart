@@ -29,6 +29,7 @@ class _MyMainPageState extends State<MyMainPage> {
       LatLng(currentPosition.latitude, currentPosition.longitude);
   var geoLocator = Geolocator();
   late StreamSubscription locationSubscription;
+  var _textController = TextEditingController();
 
   @override
   void initState() {
@@ -52,6 +53,7 @@ class _MyMainPageState extends State<MyMainPage> {
         Provider.of<ApplicationBloc>(context, listen: false);
     applicationBloc.dispose();
     locationSubscription.cancel();
+    _textController.dispose();
     super.dispose();
   }
 
@@ -96,6 +98,7 @@ class _MyMainPageState extends State<MyMainPage> {
   Widget build(BuildContext context) {
     final applicationBloc = Provider.of<ApplicationBloc>(context);
     CameraPosition _initialCameraPosition;
+
     if (applicationBloc.currentLocation == null) {
       _initialCameraPosition =
           CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 15);
@@ -156,6 +159,7 @@ class _MyMainPageState extends State<MyMainPage> {
           Container(
             padding: EdgeInsets.all(20),
             child: TextField(
+              controller: _textController,
               decoration: InputDecoration(
                   hintText: "Search Location ...",
                   suffixIcon: Icon(Icons.search)),
@@ -196,6 +200,16 @@ class _MyMainPageState extends State<MyMainPage> {
                         onTap: () {
                           applicationBloc.setSelectedLocation(
                               applicationBloc.searchResults![index].placeId);
+                          // _textController.text =
+                          //     applicationBloc.searchResults![index].description;
+                          _textController.value =
+                              _textController.value.copyWith(
+                            text: applicationBloc
+                                .searchResults![index].description,
+                            selection: TextSelection.collapsed(
+                                offset: applicationBloc
+                                    .searchResults![index].description.length),
+                          );
                         },
                       );
                     }))
