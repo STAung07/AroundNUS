@@ -30,6 +30,7 @@ class _MyMainPageState extends State<MyMainPage> {
   var geoLocator = Geolocator();
   late StreamSubscription locationSubscription;
   var _textController = TextEditingController();
+  // int searchLen = 0;
 
   @override
   void initState() {
@@ -61,13 +62,14 @@ class _MyMainPageState extends State<MyMainPage> {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     currentPosition = position;
+    currCoordinates = LatLng(position.latitude, position.longitude);
 
     //if latlng position out of range of NUS, set latlng position to _defaultCameraPos
-    // LatLng latlngPosition = LatLng(position.latitude, position.longitude);
-    // CameraPosition cameraPosition =
-    //     new CameraPosition(target: latlngPosition, zoom: 15);
-    // newGoogleMapController
-    //      .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    LatLng latlngPosition = LatLng(position.latitude, position.longitude);
+    CameraPosition cameraPosition =
+        new CameraPosition(target: latlngPosition, zoom: 15);
+    newGoogleMapController
+        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 
   Set<Marker> _markers = <Marker>{};
@@ -77,6 +79,7 @@ class _MyMainPageState extends State<MyMainPage> {
   void _setMarkers(LatLng point) {
     _isMarker = true;
     setState(() {
+      _markers.clear();
       // Pass to search info widget
       // add markers subsequently on taps
       _markers.add(
@@ -140,7 +143,7 @@ class _MyMainPageState extends State<MyMainPage> {
             onTap: (point) {
               if (_isMarker) {
                 setState(() {
-                  _markers.clear();
+                  // _markers.clear();
                   _setMarkers(point);
                 });
               }
@@ -154,7 +157,6 @@ class _MyMainPageState extends State<MyMainPage> {
                   borderRadius: BorderRadius.only(
                       bottomLeft: Radius.circular(15.0),
                       bottomRight: Radius.circular(15.0)),
-                  //backgroundBlendMode: BlendMode.color,
                   color: Colors.white)),
           Container(
             padding: EdgeInsets.all(20),
@@ -162,7 +164,10 @@ class _MyMainPageState extends State<MyMainPage> {
               controller: _textController,
               decoration: InputDecoration(
                   hintText: "Search Location ...",
-                  suffixIcon: Icon(Icons.search)),
+                  suffixIcon: IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: _textController.clear),
+                  prefixIcon: Icon(Icons.search)),
               onChanged: (value) => applicationBloc.searchPlaces(value),
             ),
           ),
@@ -200,8 +205,6 @@ class _MyMainPageState extends State<MyMainPage> {
                         onTap: () {
                           applicationBloc.setSelectedLocation(
                               applicationBloc.searchResults![index].placeId);
-                          // _textController.text =
-                          //     applicationBloc.searchResults![index].description;
                           _textController.value =
                               _textController.value.copyWith(
                             text: applicationBloc

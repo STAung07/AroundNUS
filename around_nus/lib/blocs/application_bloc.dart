@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:rxdart/rxdart.dart';
 
 import 'package:around_nus/models/place.dart';
 import 'package:around_nus/models/place_search.dart';
@@ -16,7 +17,8 @@ class ApplicationBloc with ChangeNotifier {
   List<PlaceSearch>? searchResults;
   List<PlaceSearch>? searchFromResults;
   List<PlaceSearch>? searchToResults;
-  StreamController<Place> selectedLocation = StreamController<Place>();
+  // StreamController<Place> selectedLocation = StreamController<Place>();
+  StreamController<Place> selectedLocation = BehaviorSubject();
 
   ApplicationBloc() {
     setCurrentLocation();
