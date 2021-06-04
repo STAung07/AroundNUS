@@ -88,12 +88,6 @@ class _BusTimingsState extends State<BusTimings> {
         },
         itemCount: _nusBusStops.length,
       ),
-//        ElevatedButton(
-//          onPressed: () {
-//            Navigator.pop(context);
-//          },
-//          child: Text("Back"),
-//        ),
     );
   }
 }
