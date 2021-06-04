@@ -54,54 +54,54 @@ class _MapViewState extends State<MapView> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  Widget _textField({
-    TextEditingController? controller,
-    FocusNode? focusNode,
-    String? label,
-    String? hint,
-    double width = 1.0,
-    Icon? prefixIcon,
-    Widget? suffixIcon,
-    Function(String)? locationCallback,
-  }) {
-    return Container(
-      width: width * 0.8,
-      child: TextField(
-        onChanged: (value) {
-          locationCallback!(value);
-        },
-        controller: controller,
-        focusNode: focusNode,
-        decoration: new InputDecoration(
-          prefixIcon: prefixIcon,
-          suffixIcon: suffixIcon,
-          labelText: label,
-          filled: true,
-          fillColor: Colors.white,
-          enabledBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
-            ),
-            borderSide: BorderSide(
-              color: Colors.grey,
-              width: 2,
-            ),
-          ),
-          focusedBorder: OutlineInputBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10.0),
-            ),
-            borderSide: BorderSide(
-              color: Colors.blue,
-              width: 2,
-            ),
-          ),
-          contentPadding: EdgeInsets.all(15),
-          hintText: hint,
-        ),
-      ),
-    );
-  }
+  // Widget _textField({
+  //   TextEditingController? controller,
+  //   FocusNode? focusNode,
+  //   String? label,
+  //   String? hint,
+  //   double width = 1.0,
+  //   Icon? prefixIcon,
+  //   Widget? suffixIcon,
+  //   Function(String)? locationCallback,
+  // }) {
+  //   return Container(
+  //     width: width * 0.8,
+  //     child: TextField(
+  //       onChanged: (value) {
+  //         locationCallback!(value);
+  //       },
+  //       controller: controller,
+  //       focusNode: focusNode,
+  //       decoration: new InputDecoration(
+  //         prefixIcon: prefixIcon,
+  //         suffixIcon: suffixIcon,
+  //         labelText: label,
+  //         filled: true,
+  //         fillColor: Colors.white,
+  //         enabledBorder: OutlineInputBorder(
+  //           borderRadius: BorderRadius.all(
+  //             Radius.circular(10.0),
+  //           ),
+  //           borderSide: BorderSide(
+  //             color: Colors.grey,
+  //             width: 2,
+  //           ),
+  //         ),
+  //         focusedBorder: OutlineInputBorder(
+  //           borderRadius: BorderRadius.all(
+  //             Radius.circular(10.0),
+  //           ),
+  //           borderSide: BorderSide(
+  //             color: Colors.blue,
+  //             width: 2,
+  //           ),
+  //         ),
+  //         contentPadding: EdgeInsets.all(15),
+  //         hintText: hint,
+  //       ),
+  //     ),
+  //   );
+  // }
 
   // Method for retrieving the current location
   _getCurrentLocation() async {
@@ -458,7 +458,7 @@ class _MapViewState extends State<MapView> {
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(
-                              'Enter start and end location',
+                              'Enter Start and End location',
                               style: TextStyle(fontSize: 20.0),
                             ),
                             SizedBox(height: 10),

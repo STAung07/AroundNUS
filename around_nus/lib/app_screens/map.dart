@@ -1,4 +1,5 @@
 import 'package:around_nus/blocs/application_bloc.dart';
+import 'package:around_nus/models/place.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -27,6 +28,34 @@ class _MyMainPageState extends State<MyMainPage> {
   late LatLng currCoordinates =
       LatLng(currentPosition.latitude, currentPosition.longitude);
   var geoLocator = Geolocator();
+  late StreamSubscription locationSubscription;
+  var _textController = TextEditingController();
+
+  @override
+  void initState() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+    locationSubscription =
+        applicationBloc.selectedLocation.stream.listen((place) {
+      if (place != null) {
+        _goToPlace(place);
+      }
+    });
+    super.initState();
+    // get User Search; same as searchdirections
+    _setMarkers(LatLng(1.2966, 103.7764));
+    locatePosition();
+  }
+
+  @override
+  void dispose() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+    applicationBloc.dispose();
+    locationSubscription.cancel();
+    _textController.dispose();
+    super.dispose();
+  }
 
   void locatePosition() async {
     Position position = await Geolocator.getCurrentPosition(
@@ -34,11 +63,11 @@ class _MyMainPageState extends State<MyMainPage> {
     currentPosition = position;
 
     //if latlng position out of range of NUS, set latlng position to _defaultCameraPos
-    LatLng latlngPosition = LatLng(position.latitude, position.longitude);
-    CameraPosition cameraPosition =
-        new CameraPosition(target: latlngPosition, zoom: 15);
-    newGoogleMapController
-        .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
+    // LatLng latlngPosition = LatLng(position.latitude, position.longitude);
+    // CameraPosition cameraPosition =
+    //     new CameraPosition(target: latlngPosition, zoom: 15);
+    // newGoogleMapController
+    //      .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
 
   Set<Marker> _markers = <Marker>{};
@@ -66,17 +95,10 @@ class _MyMainPageState extends State<MyMainPage> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    // get User Search; same as searchdirections
-    _setMarkers(LatLng(1.2966, 103.7764));
-    locatePosition();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final applicationBloc = Provider.of<ApplicationBloc>(context);
     CameraPosition _initialCameraPosition;
+
     if (applicationBloc.currentLocation == null) {
       _initialCameraPosition =
           CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 15);
@@ -130,13 +152,14 @@ class _MyMainPageState extends State<MyMainPage> {
               decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.only(
-                      bottomLeft: Radius.circular(8.0),
-                      bottomRight: Radius.circular(8.0)),
+                      bottomLeft: Radius.circular(15.0),
+                      bottomRight: Radius.circular(15.0)),
                   //backgroundBlendMode: BlendMode.color,
                   color: Colors.white)),
           Container(
             padding: EdgeInsets.all(20),
             child: TextField(
+              controller: _textController,
               decoration: InputDecoration(
                   hintText: "Search Location ...",
                   suffixIcon: Icon(Icons.search)),
@@ -174,10 +197,35 @@ class _MyMainPageState extends State<MyMainPage> {
                           applicationBloc.searchResults![index].description,
                           style: TextStyle(color: Colors.white),
                         ),
+                        onTap: () {
+                          applicationBloc.setSelectedLocation(
+                              applicationBloc.searchResults![index].placeId);
+                          // _textController.text =
+                          //     applicationBloc.searchResults![index].description;
+                          _textController.value =
+                              _textController.value.copyWith(
+                            text: applicationBloc
+                                .searchResults![index].description,
+                            selection: TextSelection.collapsed(
+                                offset: applicationBloc
+                                    .searchResults![index].description.length),
+                          );
+                        },
                       );
                     }))
         ],
       ),
     );
+  }
+
+  Future<void> _goToPlace(Place place) async {
+    final GoogleMapController controller = await _controllerGoogleMap.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target:
+            LatLng(place.geometry.location.lat, place.geometry.location.lng),
+        zoom: 15)));
+
+    _setMarkers(
+        LatLng(place.geometry.location.lat, place.geometry.location.lng));
   }
 }

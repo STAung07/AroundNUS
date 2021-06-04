@@ -1,3 +1,6 @@
+import 'dart:async';
+
+import 'package:around_nus/models/place.dart';
 import 'package:around_nus/models/place_search.dart';
 import 'package:around_nus/services/geolocator_service.dart';
 import 'package:around_nus/services/places_service.dart';
@@ -13,6 +16,7 @@ class ApplicationBloc with ChangeNotifier {
   List<PlaceSearch>? searchResults;
   List<PlaceSearch>? searchFromResults;
   List<PlaceSearch>? searchToResults;
+  StreamController<Place> selectedLocation = StreamController<Place>();
 
   ApplicationBloc() {
     setCurrentLocation();
@@ -25,19 +29,28 @@ class ApplicationBloc with ChangeNotifier {
 
   searchPlaces(String searchTerm) async {
     searchResults = await placesService.getAutoComplete(searchTerm);
-
     notifyListeners();
   }
 
   searchFromPlaces(String searchTerm) async {
     searchFromResults = await placesService.getAutoComplete(searchTerm);
-
     notifyListeners();
   }
 
   searchToPlaces(String searchTerm) async {
     searchToResults = await placesService.getAutoComplete(searchTerm);
-
     notifyListeners();
+  }
+
+  setSelectedLocation(String placeId) async {
+    selectedLocation.add(await placesService.getPlace(placeId));
+    searchResults = null;
+    notifyListeners();
+  }
+
+  @override
+  void dispose() {
+    selectedLocation.close();
+    super.dispose();
   }
 }
