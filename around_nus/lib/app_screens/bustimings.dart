@@ -3,10 +3,16 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import '../common_widgets/drawer.dart';
 import '../models/busstopsinfo_model.dart';
+import '../models/busroutesinfo_model.dart';
 import 'dart:convert';
 
-Future<String> _loadFromAsset() async {
+// load json assets
+Future<String> _loadBusStopInfoFromAsset() async {
   return await rootBundle.loadString("busstopsresult.json");
+}
+
+Future<String> _loadBusRoutesInfoFromAsset() async {
+  return await rootBundle.loadString("busroutesresult.json");
 }
 
 Future<List<BusStop>> fetchBusStopInfo() async {
@@ -19,7 +25,7 @@ Future<List<BusStop>> fetchBusStopInfo() async {
       Uri.parse('https://nnextbus.nus.edu.sg/BusStops'),
       headers: <String, String>{'authorization': basicAuth});
   */
-  String jsonString = await _loadFromAsset();
+  String jsonString = await _loadBusStopInfoFromAsset();
   // get busStopResults
   //var busStopsResult;
   //List<BusStop> busStopList = <BusStop>[];
@@ -31,8 +37,33 @@ Future<List<BusStop>> fetchBusStopInfo() async {
   // and List<BusStop> busStops
   //List<BusStop> busStopList = (busStopsResult).busStopResult.busStops;
   List<BusStop> busStopList = (BusStops.fromJson(busStopsResultJson)).busStops;
-  //}
   return busStopList;
+}
+
+Future<List<RouteDescription>> fetchBusRouteDescriptions() async {
+  /*  
+   String username = 'NUSnextbus';
+   String password = '13dL?zY,3feWR^"T';
+   String basicAuth =
+       'Basic ' + base64Encode(utf8.encode('$username:$password'));
+   var response = await http.get(
+       Uri.parse('https://nnextbus.nus.edu.sg/BusStops'),
+       headers: <String, String>{'authorization': basicAuth});
+   */
+  String jsonString = await _loadBusRoutesInfoFromAsset();
+  // get busStopResults
+  //var busStopsResult;
+  //List<BusStop> busStopList = <BusStop>[];
+
+  //if (response.statusCode == 200) {
+  var busRoutesResultJson = json.decode(jsonString); //response.body);
+  //busStopsResult = BusStopsResult.fromJson(busStopsResultJson);
+  // get list of busStops by accessing BusStops class busStopResult
+  // and List<BusStop> busStops
+  //List<BusStop> busStopList = (busStopsResult).busStopResult.busStops;
+  List<RouteDescription> busRoutesList =
+      (BusRoutes.fromJson(busRoutesResultJson)).busRoutes;
+  return busRoutesList;
 }
 
 class BusTimings extends StatefulWidget {
@@ -43,14 +74,28 @@ class BusTimings extends StatefulWidget {
 class _BusTimingsState extends State<BusTimings> {
   // used to represent bus stops in ListView
   List<BusStop> _nusBusStops = <BusStop>[];
+  List<RouteDescription> _nusBusRoutes = <RouteDescription>[];
 
-  @override
-  void initState() {
+  void _updateListofBusStop() {
     fetchBusStopInfo().then((value) {
       setState(() {
         _nusBusStops.addAll(value);
       });
     });
+  }
+
+  void _updateListofBusRoutes() {
+    fetchBusRouteDescriptions().then((value) {
+      setState(() {
+        _nusBusRoutes.addAll(value);
+      });
+    });
+  }
+
+  @override
+  void initState() {
+    _updateListofBusStop();
+    _updateListofBusRoutes();
     super.initState();
   }
 

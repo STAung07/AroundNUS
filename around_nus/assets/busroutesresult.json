@@ -1,0 +1,50 @@
+{
+    "ServiceDescription":
+    [
+        {
+            "Route":"A1",
+            "RouteDescription":"PGP > KR MRT > CLB > BIZ > PGP"
+        },
+        {
+            "Route":"A2",
+            "RouteDescription":"PGP > BIZ > IT > Opp KR MRT > PGP"
+        },
+        {
+            "Route":"D1",
+            "RouteDescription":"BIZ > UTown (Loop)"
+        },
+        {
+            "Route":"D2",
+            "RouteDescription":
+            "PGP > KR MRT > FoS > UTown (Loop)"
+        },
+        {
+            "Route":"B1",
+            "RouteDescription":"KR Ter > IT > UTown > CLB > BIZ"
+        },
+        {
+            "Route":"B2",
+            "RouteDescription":"BIZ > IT > UTown > EA > KR Ter"
+        },
+        {
+            "Route":"C",
+            "RouteDescription":"KR Ter > UTown > FoS (Loop)"
+        },
+        {
+            "Route":"BTC1",
+            "RouteDescription":"KRC > BTC"
+        },
+        {
+            "Route":"BTC2",
+            "RouteDescription":"BTC > KRC"
+        },
+        {
+            "Route":"A1E",
+            "RouteDescription":"KR MRT > FoS > CLB > BIZ > PGP"
+        },
+        {
+            "Route":"A2E",
+            "RouteDescription":"FASS > IT > FoS > OPP KR MRT"
+        }
+    ]
+}
