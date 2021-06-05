@@ -72,7 +72,8 @@ class BusTimings extends StatefulWidget {
 }
 
 class _BusTimingsState extends State<BusTimings> {
-  // used to represent bus stops in ListView
+  // List of Bus Stops Info & List of Bus Routes Info;
+  // passed into required widgets to use information inside
   List<BusStop> _nusBusStops = <BusStop>[];
   List<RouteDescription> _nusBusRoutes = <RouteDescription>[];
 
