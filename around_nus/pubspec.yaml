@@ -39,6 +39,7 @@ dependencies:
   http: ^0.13.3
   json_path: ^0.3.0
   # requests: ^3.3.0
+  rxdart: ^0.27.1
   
 
 
