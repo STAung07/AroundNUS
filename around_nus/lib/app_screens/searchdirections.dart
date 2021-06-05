@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:around_nus/blocs/application_bloc.dart';
+import 'package:around_nus/models/place.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
@@ -31,7 +34,10 @@ class MapView extends StatefulWidget {
 class _MapViewState extends State<MapView> {
   CameraPosition _initialLocation =
       CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 15);
-  GoogleMapController? mapController;
+  // GoogleMapController? mapController;
+  Completer<GoogleMapController> mapController = Completer();
+  late GoogleMapController newMapController;
+  late StreamSubscription locationSubscription;
 
   Position? _currentPosition;
   String? _currentAddress;
@@ -54,55 +60,6 @@ class _MapViewState extends State<MapView> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Widget _textField({
-  //   TextEditingController? controller,
-  //   FocusNode? focusNode,
-  //   String? label,
-  //   String? hint,
-  //   double width = 1.0,
-  //   Icon? prefixIcon,
-  //   Widget? suffixIcon,
-  //   Function(String)? locationCallback,
-  // }) {
-  //   return Container(
-  //     width: width * 0.8,
-  //     child: TextField(
-  //       onChanged: (value) {
-  //         locationCallback!(value);
-  //       },
-  //       controller: controller,
-  //       focusNode: focusNode,
-  //       decoration: new InputDecoration(
-  //         prefixIcon: prefixIcon,
-  //         suffixIcon: suffixIcon,
-  //         labelText: label,
-  //         filled: true,
-  //         fillColor: Colors.white,
-  //         enabledBorder: OutlineInputBorder(
-  //           borderRadius: BorderRadius.all(
-  //             Radius.circular(10.0),
-  //           ),
-  //           borderSide: BorderSide(
-  //             color: Colors.grey,
-  //             width: 2,
-  //           ),
-  //         ),
-  //         focusedBorder: OutlineInputBorder(
-  //           borderRadius: BorderRadius.all(
-  //             Radius.circular(10.0),
-  //           ),
-  //           borderSide: BorderSide(
-  //             color: Colors.blue,
-  //             width: 2,
-  //           ),
-  //         ),
-  //         contentPadding: EdgeInsets.all(15),
-  //         hintText: hint,
-  //       ),
-  //     ),
-  //   );
-  // }
-
   // Method for retrieving the current location
   _getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
@@ -110,7 +67,7 @@ class _MapViewState extends State<MapView> {
       setState(() {
         _currentPosition = position;
         print('CURRENT POS: $_currentPosition');
-        mapController!.animateCamera(
+        newMapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
               target: LatLng(position.latitude, position.longitude),
@@ -263,7 +220,7 @@ class _MapViewState extends State<MapView> {
 
         // Accommodate the two locations within the
         // camera view of the map
-        mapController!.animateCamera(
+        newMapController.animateCamera(
           CameraUpdate.newLatLngBounds(
             LatLngBounds(
               northeast: LatLng(
@@ -354,7 +311,25 @@ class _MapViewState extends State<MapView> {
   }
 
   @override
+  void dispose() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+    applicationBloc.dispose();
+    locationSubscription.cancel();
+    startAddressController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+    locationSubscription =
+        applicationBloc.selectedLocation.stream.listen((place) {
+      if (place != null) {
+        _goToPlace(place);
+      }
+    });
     super.initState();
     _getCurrentLocation();
   }
@@ -386,7 +361,8 @@ class _MapViewState extends State<MapView> {
                 zoomControlsEnabled: false,
                 polylines: Set<Polyline>.of(polylines.values),
                 onMapCreated: (GoogleMapController controller) {
-                  mapController = controller;
+                  mapController.complete(controller);
+                  newMapController = controller;
                 },
               ),
               // Show zoom buttons
@@ -407,7 +383,7 @@ class _MapViewState extends State<MapView> {
                               child: Icon(Icons.add),
                             ),
                             onTap: () {
-                              mapController!.animateCamera(
+                              newMapController.animateCamera(
                                 CameraUpdate.zoomIn(),
                               );
                             },
@@ -426,7 +402,7 @@ class _MapViewState extends State<MapView> {
                               child: Icon(Icons.remove),
                             ),
                             onTap: () {
-                              mapController!.animateCamera(
+                              newMapController.animateCamera(
                                 CameraUpdate.zoomOut(),
                               );
                             },
@@ -643,6 +619,21 @@ class _MapViewState extends State<MapView> {
                                   .searchFromResults![index].description,
                               style: TextStyle(color: Colors.white),
                             ),
+                            onTap: () {
+                              applicationBloc.setSelectedLocation(
+                                  applicationBloc
+                                      .searchFromResults![index].placeId);
+                              startAddressController.value =
+                                  startAddressController.value.copyWith(
+                                text: applicationBloc
+                                    .searchFromResults![index].description,
+                                selection: TextSelection.collapsed(
+                                    offset: applicationBloc
+                                        .searchFromResults![index]
+                                        .description
+                                        .length),
+                              );
+                            },
                           );
                         })),
 
@@ -688,7 +679,7 @@ class _MapViewState extends State<MapView> {
                             child: Icon(Icons.my_location),
                           ),
                           onTap: () {
-                            mapController!.animateCamera(
+                            newMapController.animateCamera(
                               CameraUpdate.newCameraPosition(
                                 CameraPosition(
                                   target: LatLng(
@@ -711,5 +702,13 @@ class _MapViewState extends State<MapView> {
         ),
       ),
     );
+  }
+
+  Future<void> _goToPlace(Place place) async {
+    final GoogleMapController controller = await mapController.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target:
+            LatLng(place.geometry.location.lat, place.geometry.location.lng),
+        zoom: 15)));
   }
 }
