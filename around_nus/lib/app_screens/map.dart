@@ -167,7 +167,10 @@ class _MyMainPageState extends State<MyMainPage> {
                   suffixIcon: IconButton(
                       icon: const Icon(Icons.clear),
                       onPressed: () {
-                        _textController.clear();
+                        setState(() {
+                          _textController.clear();
+                        });
+
                         print(_textController.text.length);
                       }),
                   prefixIcon: Icon(Icons.search)),
@@ -202,8 +205,8 @@ class _MyMainPageState extends State<MyMainPage> {
               applicationBloc.searchResults!.length != 0 &&
               _textController.text.length != 0)
             Container(
-                padding: EdgeInsets.only(top: 60),
-                height: 415.0,
+                padding: EdgeInsets.only(top: 70),
+                height: 300.0,
                 child: ListView.builder(
                     itemCount: applicationBloc.searchResults!.length,
                     itemBuilder: (context, index) {
