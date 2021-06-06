@@ -101,6 +101,33 @@ class _MapViewState extends State<MapView> {
     }
   }
 
+  void _setMarkers(LatLng point) {
+    setState(() {
+      // markers.clear();
+      // Pass to search info widget
+      // add markers subsequently on taps
+      markers.add(
+        Marker(
+          markerId: MarkerId('Location'),
+          position: point,
+        ),
+      );
+    });
+  }
+  // void _setToMarkers(LatLng point) {
+  //   setState(() {
+  //     markers.clear();
+  //     // Pass to search info widget
+  //     // add markers subsequently on taps
+  //     markers.add(
+  //       Marker(
+  //         markerId: MarkerId('Location'),
+  //         position: point,
+  //       ),
+  //     );
+  //   });
+  // }
+
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
     try {
@@ -596,6 +623,7 @@ class _MapViewState extends State<MapView> {
                 ),
               ),
 
+              //SEARCH FROM RESULTS STORED INTO THESE 2 CONTAINERS
               if (applicationBloc.searchFromResults != null &&
                   applicationBloc.searchFromResults!.length != 0)
                 Container(
@@ -637,6 +665,7 @@ class _MapViewState extends State<MapView> {
                           );
                         })),
 
+              //SEARCH TO RESULTS STORED INTO THESE TWO CONTAINERS
               if (applicationBloc.searchToResults != null &&
                   applicationBloc.searchToResults!.length != 0)
                 Container(
@@ -660,8 +689,24 @@ class _MapViewState extends State<MapView> {
                                   .searchToResults![index].description,
                               style: TextStyle(color: Colors.white),
                             ),
+                            onTap: () {
+                              applicationBloc.setSelectedLocation(
+                                  applicationBloc
+                                      .searchToResults![index].placeId);
+                              destinationAddressController.value =
+                                  destinationAddressController.value.copyWith(
+                                text: applicationBloc
+                                    .searchToResults![index].description,
+                                selection: TextSelection.collapsed(
+                                    offset: applicationBloc
+                                        .searchToResults![index]
+                                        .description
+                                        .length),
+                              );
+                            },
                           );
                         })),
+
               // Show current location button
               SafeArea(
                 child: Align(
@@ -710,5 +755,7 @@ class _MapViewState extends State<MapView> {
         target:
             LatLng(place.geometry.location.lat, place.geometry.location.lng),
         zoom: 15)));
+    _setMarkers(
+        LatLng(place.geometry.location.lat, place.geometry.location.lng));
   }
 }
