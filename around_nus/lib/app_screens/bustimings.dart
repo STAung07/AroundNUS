@@ -102,6 +102,7 @@ class _BusTimingsState extends State<BusTimings> {
 
   @override
   Widget build(BuildContext context) {
+    //var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff7285A5),
@@ -109,31 +110,41 @@ class _BusTimingsState extends State<BusTimings> {
       ),
       drawer: MenuDrawer(),
       drawerEnableOpenDragGesture: true,
-      body: ListView.builder(
-        itemBuilder: (context, index) {
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    _nusBusStops[index].name,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text(_nusBusStops[index].caption),
-                  Text('Bus Stop Position: '),
-                  Text(
-                      'Latitude: ' + (_nusBusStops[index].latitude).toString()),
-                  Text('Longitude: ' +
-                      (_nusBusStops[index].longitude).toString()),
-                ],
+      body:
+          //ListView.separated(
+          //  itemCount: _nusBusStops.length,
+          //  itemBuilder: (_, index) => Text(_nusBusStops[index].caption),
+          //  separatorBuilder: (_, index) => Divider(),
+          Column(children: <Widget>[
+        Expanded(
+            child: ListView.builder(
+          itemCount: _nusBusStops.length,
+          itemBuilder: (_, index) {
+            return Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      _nusBusStops[index].name,
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    Text(_nusBusStops[index].caption),
+                    Text('Bus Stop Position: '),
+                    Text('Latitude: ' +
+                        (_nusBusStops[index].latitude).toString()),
+                    Text('Longitude: ' +
+                        (_nusBusStops[index].longitude).toString()),
+                  ],
+                ),
               ),
-            ),
-          );
-        },
-        itemCount: _nusBusStops.length,
-      ),
+            );
+          },
+        ))
+      ]),
+      //),
     );
   }
 }
