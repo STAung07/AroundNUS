@@ -9,8 +9,6 @@ import 'dart:async';
 
 import '../common_widgets/drawer.dart';
 import '../map_widgets/circularbutton.dart';
-// import '../map_widgets/searchbox.dart';
-// import '../map_widgets/turnonlocation.dart';
 
 class MyMainPage extends StatefulWidget {
   MyMainPage({Key? key, required this.title}) : super(key: key);
