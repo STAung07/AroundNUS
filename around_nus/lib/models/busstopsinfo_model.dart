@@ -1,5 +1,5 @@
 // BusStopsResults is map of string to BusStops
-/*
+
 class BusStopsResult {
   final BusStops busStopResult;
 
@@ -7,10 +7,10 @@ class BusStopsResult {
 
   factory BusStopsResult.fromJson(Map<String, dynamic> parsedJson) {
     var busStops = parsedJson['BusStopsResult'] as Map<String, dynamic>;
+    print(busStops.runtimeType);
     return BusStopsResult(busStopResult: BusStops.fromJson(busStops));
   }
 }
-*/
 
 // BusStops is List of BusStop
 class BusStops {
