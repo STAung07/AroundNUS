@@ -102,37 +102,30 @@ class _BusTimingsState extends State<BusTimings> {
 
   @override
   Widget build(BuildContext context) {
+    var height = MediaQuery.of(context).size.height;
+    var width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff7285A5),
+        backgroundColor: Colors.blueGrey,
         title: Text("Bus Timings"),
       ),
       drawer: MenuDrawer(),
       drawerEnableOpenDragGesture: true,
       body: ListView.builder(
-        itemBuilder: (context, index) {
-          return Card(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: <Widget>[
-                  Text(
-                    _nusBusStops[index].name,
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                  Text(_nusBusStops[index].caption),
-                  Text('Bus Stop Position: '),
-                  Text(
-                      'Latitude: ' + (_nusBusStops[index].latitude).toString()),
-                  Text('Longitude: ' +
-                      (_nusBusStops[index].longitude).toString()),
-                ],
-              ),
-            ),
-          );
-        },
         itemCount: _nusBusStops.length,
+        itemBuilder: (context, index) {
+          return Text(
+            _nusBusStops[index].name,
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          );
+          // Text(_nusBusStops[index].caption),
+          // Text('Bus Stop Position: '),
+          // Text('Latitude: ' +
+          //     (_nusBusStops[index].latitude).toString()),
+          // Text('Longitude: ' +
+          //     (_nusBusStops[index].longitude).toString()),
+        },
+        // itemCount: _nusBusStops.length,
       ),
     );
   }
