@@ -95,6 +95,8 @@ class _MapViewState extends State<MapView> {
             "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
         startAddressController.text = _currentAddress!;
         _startAddress = _currentAddress!;
+        _setMarkers(
+            LatLng(_currentPosition!.latitude, _currentPosition!.longitude));
       });
     } catch (e) {
       print(e);
@@ -114,19 +116,6 @@ class _MapViewState extends State<MapView> {
       );
     });
   }
-  // void _setToMarkers(LatLng point) {
-  //   setState(() {
-  //     markers.clear();
-  //     // Pass to search info widget
-  //     // add markers subsequently on taps
-  //     markers.add(
-  //       Marker(
-  //         markerId: MarkerId('Location'),
-  //         position: point,
-  //       ),
-  //     );
-  //   });
-  // }
 
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
