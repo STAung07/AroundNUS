@@ -63,7 +63,7 @@ class _BusTimingsState extends State<BusTimings> {
   void initState() {
     _updateListofBusStop();
     _updateListofBusRoutes();
-    _updatePickUpPointsInfo("A2");
+    //_updatePickUpPointsInfo("A2");
     super.initState();
   }
 
@@ -81,7 +81,7 @@ class _BusTimingsState extends State<BusTimings> {
         children: <Widget>[
           Expanded(
             child: ListView.builder(
-              itemCount: _currPickUpPoints.length,
+              itemCount: _nusBusStops.length,
               itemBuilder: (_, busIndex) {
                 // inside each card; call updateshuttleservices info with curr
                 // bus stop name from _nusBusStops List
@@ -97,7 +97,7 @@ class _BusTimingsState extends State<BusTimings> {
                       children: <Widget>[
                         // Current Bus Stop
                         Text(
-                          _currPickUpPoints[busIndex].pickUpName,
+                          _nusBusStops[busIndex].name,
                           style: TextStyle(
                               fontSize: 20, fontWeight: FontWeight.bold),
                         ),
