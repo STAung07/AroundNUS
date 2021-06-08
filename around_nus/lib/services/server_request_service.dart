@@ -1,3 +1,4 @@
+import 'package:around_nus/models/pickuppointinfo_model.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import '../models/busstopsinfo_model.dart';
@@ -71,4 +72,24 @@ Future<List<RouteDescription>> fetchBusRouteDescriptions() async {
     busRoutesList = (busRoutesResults).busRoutesResult.busRoutes;
   }
   return busRoutesList;
+}
+
+Future<List<PickUpPointInfo>> fetchPickUpPointInfo(String _busRouteName) async {
+  String username = 'NUSnextbus';
+  String password = '13dL?zY,3feWR^"T';
+  String basicAuth =
+      'Basic ' + base64Encode(utf8.encode('$username:$password'));
+  var response = await http.get(
+      Uri.parse(
+          'https://nnextbus.nus.edu.sg/PickupPoint?route_code=$_busRouteName'),
+      headers: <String, String>{'authorization': basicAuth});
+  var pickUpPointResults;
+  List<PickUpPointInfo> pickUpPointInfoList = <PickUpPointInfo>[];
+
+  if (response.statusCode == 200) {
+    var pickUpPointResultsJson = json.decode(response.body);
+    pickUpPointResults = PickUpPointsResult.fromJson(pickUpPointResultsJson);
+    pickUpPointInfoList = (pickUpPointResults).pickUpPointsResult.pickUpPoints;
+  }
+  return pickUpPointInfoList;
 }
