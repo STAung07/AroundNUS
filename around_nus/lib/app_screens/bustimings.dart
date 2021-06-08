@@ -72,7 +72,7 @@ class _BusTimingsState extends State<BusTimings> {
     //var screenSize = MediaQuery.of(context).size;
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff7285A5),
+        backgroundColor: Colors.blueGrey,
         title: Text("Bus Timings"),
       ),
       drawer: MenuDrawer(),

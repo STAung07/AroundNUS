@@ -25,7 +25,7 @@ class _MyMainPageState extends State<MyMainPage> {
   late Position currentPosition;
   late LatLng currCoordinates =
       LatLng(currentPosition.latitude, currentPosition.longitude);
-  var geoLocator = Geolocator();
+  // var geoLocator = Geolocator();
   late StreamSubscription locationSubscription;
   var _textController = TextEditingController();
   // int searchLen = 0;
@@ -164,7 +164,11 @@ class _MyMainPageState extends State<MyMainPage> {
                   hintText: "Search Location ...",
                   suffixIcon: IconButton(
                       icon: const Icon(Icons.clear),
-                      onPressed: _textController.clear),
+                      onPressed: () {
+                        setState(() {
+                          _textController.clear();
+                        });
+                      }),
                   prefixIcon: Icon(Icons.search)),
               onChanged: (value) => applicationBloc.searchPlaces(value),
             ),
@@ -178,8 +182,12 @@ class _MyMainPageState extends State<MyMainPage> {
               child: CircularButton(),
             ),
           ),
+
+          // darkened container background for the search results
+
           if (applicationBloc.searchResults != null &&
-              applicationBloc.searchResults!.length != 0)
+              applicationBloc.searchResults!.length != 0 &&
+              _textController.text.length != 0)
             Container(
                 margin: EdgeInsets.only(top: 70),
                 height: 415.0,
@@ -187,11 +195,14 @@ class _MyMainPageState extends State<MyMainPage> {
                 decoration: BoxDecoration(
                     backgroundBlendMode: BlendMode.darken,
                     color: Colors.black.withOpacity(0.6))),
+
+          //container to store the search results
           if (applicationBloc.searchResults != null &&
-              applicationBloc.searchResults!.length != 0)
+              applicationBloc.searchResults!.length != 0 &&
+              _textController.text.length != 0)
             Container(
-                padding: EdgeInsets.only(top: 60),
-                height: 415.0,
+                padding: EdgeInsets.only(top: 70),
+                height: 300.0,
                 child: ListView.builder(
                     itemCount: applicationBloc.searchResults!.length,
                     itemBuilder: (context, index) {

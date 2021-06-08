@@ -47,6 +47,8 @@ class ApplicationBloc with ChangeNotifier {
   setSelectedLocation(String placeId) async {
     selectedLocation.add(await placesService.getPlace(placeId));
     searchResults = null;
+    searchFromResults = null;
+    searchToResults = null;
     notifyListeners();
   }
 

@@ -1,4 +1,7 @@
+import 'dart:async';
+
 import 'package:around_nus/blocs/application_bloc.dart';
+import 'package:around_nus/models/place.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
 import 'package:geocoding/geocoding.dart';
@@ -30,8 +33,11 @@ class MapView extends StatefulWidget {
 
 class _MapViewState extends State<MapView> {
   CameraPosition _initialLocation =
-      CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 15);
-  GoogleMapController? mapController;
+      CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 14);
+  // GoogleMapController? mapController;
+  Completer<GoogleMapController> mapController = Completer();
+  late GoogleMapController newMapController;
+  late StreamSubscription locationSubscription;
 
   Position? _currentPosition;
   String? _currentAddress;
@@ -45,7 +51,8 @@ class _MapViewState extends State<MapView> {
   String _startAddress = '';
   String _destinationAddress = '';
   String? _placeDistance;
-
+  // Marker startMarker;
+  // Marker endMarker;
   Set<Marker> markers = {};
 
   PolylinePoints? polylinePoints;
@@ -54,55 +61,6 @@ class _MapViewState extends State<MapView> {
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  // Widget _textField({
-  //   TextEditingController? controller,
-  //   FocusNode? focusNode,
-  //   String? label,
-  //   String? hint,
-  //   double width = 1.0,
-  //   Icon? prefixIcon,
-  //   Widget? suffixIcon,
-  //   Function(String)? locationCallback,
-  // }) {
-  //   return Container(
-  //     width: width * 0.8,
-  //     child: TextField(
-  //       onChanged: (value) {
-  //         locationCallback!(value);
-  //       },
-  //       controller: controller,
-  //       focusNode: focusNode,
-  //       decoration: new InputDecoration(
-  //         prefixIcon: prefixIcon,
-  //         suffixIcon: suffixIcon,
-  //         labelText: label,
-  //         filled: true,
-  //         fillColor: Colors.white,
-  //         enabledBorder: OutlineInputBorder(
-  //           borderRadius: BorderRadius.all(
-  //             Radius.circular(10.0),
-  //           ),
-  //           borderSide: BorderSide(
-  //             color: Colors.grey,
-  //             width: 2,
-  //           ),
-  //         ),
-  //         focusedBorder: OutlineInputBorder(
-  //           borderRadius: BorderRadius.all(
-  //             Radius.circular(10.0),
-  //           ),
-  //           borderSide: BorderSide(
-  //             color: Colors.blue,
-  //             width: 2,
-  //           ),
-  //         ),
-  //         contentPadding: EdgeInsets.all(15),
-  //         hintText: hint,
-  //       ),
-  //     ),
-  //   );
-  // }
-
   // Method for retrieving the current location
   _getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
@@ -110,11 +68,11 @@ class _MapViewState extends State<MapView> {
       setState(() {
         _currentPosition = position;
         print('CURRENT POS: $_currentPosition');
-        mapController!.animateCamera(
+        newMapController.animateCamera(
           CameraUpdate.newCameraPosition(
             CameraPosition(
               target: LatLng(position.latitude, position.longitude),
-              zoom: 18.0,
+              zoom: 14.0,
             ),
           ),
         );
@@ -138,9 +96,83 @@ class _MapViewState extends State<MapView> {
             "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
         startAddressController.text = _currentAddress!;
         _startAddress = _currentAddress!;
+        _setMarkers(
+            LatLng(_currentPosition!.latitude, _currentPosition!.longitude));
       });
     } catch (e) {
       print(e);
+    }
+  }
+
+  Future<void> _setMarkers(LatLng point) async {
+    // setState(() {
+
+    //   // markers.add(
+    //   //   Marker(
+    //   //     markerId: MarkerId('Location'),
+    //   //     position: point,
+    //   //   ),
+    //   // );
+    // });
+
+    //set starting marker
+    markers.clear();
+    if (_startAddress.length != 0) {
+      print("start");
+      List<Location> startPlacemark = await locationFromAddress(_startAddress);
+      print(startPlacemark[0]);
+      Position startCoordinates = Position(
+          latitude: startPlacemark[0].latitude,
+          longitude: startPlacemark[0].longitude,
+          speed: 0.0,
+          speedAccuracy: 0.0,
+          heading: 0.0,
+          altitude: 0.0,
+          timestamp: DateTime.now(),
+          accuracy: 0.0);
+      Marker startMarker = Marker(
+        markerId: MarkerId('$startCoordinates'),
+        position: LatLng(
+          startCoordinates.latitude,
+          startCoordinates.longitude,
+        ),
+        infoWindow: InfoWindow(
+          title: 'Start',
+          snippet: _startAddress,
+        ),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      );
+      setState(() {
+        markers.add(startMarker);
+      });
+    }
+    if (_destinationAddress.length != 0) {
+      List<Location> endPlacemark =
+          await locationFromAddress(_destinationAddress);
+      Position endCoordinates = Position(
+          latitude: endPlacemark[0].latitude,
+          longitude: endPlacemark[0].longitude,
+          speed: 0.0,
+          speedAccuracy: 0.0,
+          heading: 0.0,
+          altitude: 0.0,
+          timestamp: DateTime.now(),
+          accuracy: 0.0);
+      Marker endMarker = Marker(
+        markerId: MarkerId('$endCoordinates'),
+        position: LatLng(
+          endCoordinates.latitude,
+          endCoordinates.longitude,
+        ),
+        infoWindow: InfoWindow(
+          title: 'Destination',
+          snippet: _destinationAddress,
+        ),
+        icon: BitmapDescriptor.defaultMarker,
+      );
+      setState(() {
+        markers.add(endMarker);
+      });
     }
   }
 
@@ -263,7 +295,7 @@ class _MapViewState extends State<MapView> {
 
         // Accommodate the two locations within the
         // camera view of the map
-        mapController!.animateCamera(
+        newMapController.animateCamera(
           CameraUpdate.newLatLngBounds(
             LatLngBounds(
               northeast: LatLng(
@@ -354,7 +386,25 @@ class _MapViewState extends State<MapView> {
   }
 
   @override
+  void dispose() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+    applicationBloc.dispose();
+    locationSubscription.cancel();
+    startAddressController.dispose();
+    super.dispose();
+  }
+
+  @override
   void initState() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+    locationSubscription =
+        applicationBloc.selectedLocation.stream.listen((place) {
+      if (place != null) {
+        _goToPlace(place);
+      }
+    });
     super.initState();
     _getCurrentLocation();
   }
@@ -386,19 +436,20 @@ class _MapViewState extends State<MapView> {
                 zoomControlsEnabled: false,
                 polylines: Set<Polyline>.of(polylines.values),
                 onMapCreated: (GoogleMapController controller) {
-                  mapController = controller;
+                  mapController.complete(controller);
+                  newMapController = controller;
                 },
               ),
               // Show zoom buttons
               SafeArea(
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 10.0),
+                  padding: const EdgeInsets.only(top: 160.0, left: 10.0),
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
                       ClipOval(
                         child: Material(
-                          color: Colors.blue[100], // button color
+                          color: Colors.blueGrey, // button color
                           child: InkWell(
                             splashColor: Colors.blue, // inkwell color
                             child: SizedBox(
@@ -407,7 +458,7 @@ class _MapViewState extends State<MapView> {
                               child: Icon(Icons.add),
                             ),
                             onTap: () {
-                              mapController!.animateCamera(
+                              newMapController.animateCamera(
                                 CameraUpdate.zoomIn(),
                               );
                             },
@@ -417,7 +468,7 @@ class _MapViewState extends State<MapView> {
                       SizedBox(height: 20),
                       ClipOval(
                         child: Material(
-                          color: Colors.blue[100], // button color
+                          color: Colors.blueGrey, // button color
                           child: InkWell(
                             splashColor: Colors.blue, // inkwell color
                             child: SizedBox(
@@ -426,7 +477,7 @@ class _MapViewState extends State<MapView> {
                               child: Icon(Icons.remove),
                             ),
                             onTap: () {
-                              mapController!.animateCamera(
+                              newMapController.animateCamera(
                                 CameraUpdate.zoomOut(),
                               );
                             },
@@ -475,12 +526,20 @@ class _MapViewState extends State<MapView> {
                                 focusNode: startAddressFocusNode,
                                 decoration: new InputDecoration(
                                   prefixIcon: Icon(Icons.looks_one),
+                                  // suffixIcon: IconButton(
+                                  //   icon: Icon(Icons.my_location),
+                                  //   onPressed: () {
+                                  //     startAddressController.text =
+                                  //         _currentAddress!;
+                                  //     _startAddress = _currentAddress!;
+                                  //   },
+                                  // ),
                                   suffixIcon: IconButton(
-                                    icon: Icon(Icons.my_location),
+                                    icon: Icon(Icons.clear),
                                     onPressed: () {
-                                      startAddressController.text =
-                                          _currentAddress!;
-                                      _startAddress = _currentAddress!;
+                                      setState(() {
+                                        startAddressController.clear();
+                                      });
                                     },
                                   ),
                                   labelText: "From",
@@ -523,6 +582,14 @@ class _MapViewState extends State<MapView> {
                                 focusNode: destinationAddressFocusNode,
                                 decoration: new InputDecoration(
                                   prefixIcon: Icon(Icons.looks_two),
+                                  suffixIcon: IconButton(
+                                    icon: Icon(Icons.clear),
+                                    onPressed: () {
+                                      setState(() {
+                                        destinationAddressController.clear();
+                                      });
+                                    },
+                                  ),
                                   labelText: "To",
                                   filled: true,
                                   fillColor: Colors.white,
@@ -620,8 +687,10 @@ class _MapViewState extends State<MapView> {
                 ),
               ),
 
+              //SEARCH FROM RESULTS STORED INTO THESE 2 CONTAINERS
               if (applicationBloc.searchFromResults != null &&
-                  applicationBloc.searchFromResults!.length != 0)
+                  applicationBloc.searchFromResults!.length != 0 &&
+                  startAddressController.text.length != 0)
                 Container(
                     margin: EdgeInsets.only(top: 100, right: 40, left: 40),
                     height: 415.0,
@@ -630,7 +699,8 @@ class _MapViewState extends State<MapView> {
                         backgroundBlendMode: BlendMode.darken,
                         color: Colors.black.withOpacity(0.6))),
               if (applicationBloc.searchFromResults != null &&
-                  applicationBloc.searchFromResults!.length != 0)
+                  applicationBloc.searchFromResults!.length != 0 &&
+                  startAddressController.text.length != 0)
                 Container(
                     padding: EdgeInsets.only(top: 100, right: 35, left: 35),
                     height: 415.0,
@@ -643,11 +713,28 @@ class _MapViewState extends State<MapView> {
                                   .searchFromResults![index].description,
                               style: TextStyle(color: Colors.white),
                             ),
+                            onTap: () {
+                              applicationBloc.setSelectedLocation(
+                                  applicationBloc
+                                      .searchFromResults![index].placeId);
+                              startAddressController.value =
+                                  startAddressController.value.copyWith(
+                                text: applicationBloc
+                                    .searchFromResults![index].description,
+                                selection: TextSelection.collapsed(
+                                    offset: applicationBloc
+                                        .searchFromResults![index]
+                                        .description
+                                        .length),
+                              );
+                            },
                           );
                         })),
 
+              //SEARCH TO RESULTS STORED INTO THESE TWO CONTAINERS
               if (applicationBloc.searchToResults != null &&
-                  applicationBloc.searchToResults!.length != 0)
+                  applicationBloc.searchToResults!.length != 0 &&
+                  destinationAddressController.text.length != 0)
                 Container(
                     margin: EdgeInsets.only(top: 160, right: 40, left: 40),
                     height: 415.0,
@@ -656,7 +743,8 @@ class _MapViewState extends State<MapView> {
                         backgroundBlendMode: BlendMode.darken,
                         color: Colors.black.withOpacity(0.6))),
               if (applicationBloc.searchToResults != null &&
-                  applicationBloc.searchToResults!.length != 0)
+                  applicationBloc.searchToResults!.length != 0 &&
+                  destinationAddressController.text.length != 0)
                 Container(
                     padding: EdgeInsets.only(top: 160, right: 35, left: 35),
                     height: 415.0,
@@ -669,8 +757,24 @@ class _MapViewState extends State<MapView> {
                                   .searchToResults![index].description,
                               style: TextStyle(color: Colors.white),
                             ),
+                            onTap: () {
+                              applicationBloc.setSelectedLocation(
+                                  applicationBloc
+                                      .searchToResults![index].placeId);
+                              destinationAddressController.value =
+                                  destinationAddressController.value.copyWith(
+                                text: applicationBloc
+                                    .searchToResults![index].description,
+                                selection: TextSelection.collapsed(
+                                    offset: applicationBloc
+                                        .searchToResults![index]
+                                        .description
+                                        .length),
+                              );
+                            },
                           );
                         })),
+
               // Show current location button
               SafeArea(
                 child: Align(
@@ -688,14 +792,14 @@ class _MapViewState extends State<MapView> {
                             child: Icon(Icons.my_location),
                           ),
                           onTap: () {
-                            mapController!.animateCamera(
+                            newMapController.animateCamera(
                               CameraUpdate.newCameraPosition(
                                 CameraPosition(
                                   target: LatLng(
                                     _currentPosition!.latitude,
                                     _currentPosition!.longitude,
                                   ),
-                                  zoom: 18.0,
+                                  zoom: 14.0,
                                 ),
                               ),
                             );
@@ -711,5 +815,15 @@ class _MapViewState extends State<MapView> {
         ),
       ),
     );
+  }
+
+  Future<void> _goToPlace(Place place) async {
+    final GoogleMapController controller = await mapController.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
+        target:
+            LatLng(place.geometry.location.lat, place.geometry.location.lng),
+        zoom: 15)));
+    _setMarkers(
+        LatLng(place.geometry.location.lat, place.geometry.location.lng));
   }
 }
