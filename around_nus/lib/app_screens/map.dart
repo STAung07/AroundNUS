@@ -168,8 +168,6 @@ class _MyMainPageState extends State<MyMainPage> {
                         setState(() {
                           _textController.clear();
                         });
-
-                        print(_textController.text.length);
                       }),
                   prefixIcon: Icon(Icons.search)),
               onChanged: (value) => applicationBloc.searchPlaces(value),
