@@ -6,7 +6,7 @@ import '../models/busroutesinfo_model.dart';
 import '../models/busserviceinfo_model.dart';
 
 // Request for List of Bus Stop
-Future<List<BusStop>> fetchBusStopInfo() async {
+Future<List> fetchBusStopInfo(search) async {
   String username = 'NUSnextbus';
   String password = '13dL?zY,3feWR^"T';
   String basicAuth =
@@ -25,7 +25,14 @@ Future<List<BusStop>> fetchBusStopInfo() async {
     // and List<BusStop> busStops
     busStopList = (busStopsResult).busStopResult.busStops;
   }
-  return busStopList;
+  // return busStopList;
+  var results = [];
+  for (int i = 0; i < busStopList.length; i++) {
+    if (busStopList[i].name.toLowerCase().contains(search.toLowerCase())) {
+      results.add(busStopList[i].name);
+    }
+  }
+  return results;
 }
 
 // Call in bustimings.dart depending on current bus stop name / caption
