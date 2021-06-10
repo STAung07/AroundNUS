@@ -19,6 +19,7 @@ class _BusTimingsState extends State<BusTimings> {
   List<BusStop> _nusBusStops = <BusStop>[];
   List<RouteDescription> _nusBusRoutes = <RouteDescription>[];
   List<PickUpPointInfo> _currPickUpPoints = <PickUpPointInfo>[];
+  //late StreamSubscription busStopSubscription;
 
   void _updatePickUpPointsInfo(String _routeName) {
     fetchPickUpPointInfo(_routeName).then((value) {
@@ -54,7 +55,7 @@ class _BusTimingsState extends State<BusTimings> {
 
   @override
   Widget build(BuildContext context) {
-    //var screenSize = MediaQuery.of(context).size;
+    //final applicationBloc = Provider.of<ApplicationBloc>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -66,6 +67,8 @@ class _BusTimingsState extends State<BusTimings> {
         children: <Widget>[
           Expanded(
             child: ListView.builder(
+              // modify or point _nusBusStops at different list
+              // based on curr Searched BusStop
               itemCount: _nusBusStops.length,
               itemBuilder: (_, busIndex) {
                 // inside each card; call updateshuttleservices info with curr

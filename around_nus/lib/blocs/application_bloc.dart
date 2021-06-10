@@ -18,6 +18,7 @@ class ApplicationBloc with ChangeNotifier {
   List<PlaceSearch>? searchFromResults;
   List<PlaceSearch>? searchToResults;
   List? searchNUSResults;
+
   // StreamController<Place> selectedLocation = StreamController<Place>();
   StreamController<Place> selectedLocation = BehaviorSubject();
 

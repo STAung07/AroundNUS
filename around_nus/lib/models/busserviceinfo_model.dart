@@ -77,13 +77,3 @@ class ArrivalInformation {
     );
   }
 }
-
-class BusServicesTile {
-  final String currBusStop;
-  final List<ArrivalInformation> servicesInformation;
-
-  BusServicesTile({
-    required this.currBusStop,
-    required this.servicesInformation,
-  });
-}
