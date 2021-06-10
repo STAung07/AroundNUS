@@ -1,4 +1,7 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:around_nus/blocs/application_bloc.dart';
+import 'package:provider/provider.dart';
 import '../common_widgets/drawer.dart';
 import '../models/busstopsinfo_model.dart';
 import '../models/busroutesinfo_model.dart';
@@ -16,10 +19,11 @@ class _BusTimingsState extends State<BusTimings> {
   // passed into required widgets to use information inside
 
   // use Bus Stop Names to display bus services available at that stop
-  List<BusStop> _nusBusStops = <BusStop>[];
+  // List<BusStop> _nusBusStops = <BusStop>[];
   List<RouteDescription> _nusBusRoutes = <RouteDescription>[];
   List<PickUpPointInfo> _currPickUpPoints = <PickUpPointInfo>[];
-  //late StreamSubscription busStopSubscription;
+  late StreamSubscription busStopSubscription;
+  var _textController = TextEditingController();
 
   void _updatePickUpPointsInfo(String _routeName) {
     fetchPickUpPointInfo(_routeName).then((value) {
@@ -47,6 +51,10 @@ class _BusTimingsState extends State<BusTimings> {
 
   @override
   void initState() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+    busStopSubscription =
+        applicationBloc.selectedLocation.stream.listen((place) {});
     // _updateListofBusStop();
     _updateListofBusRoutes();
     //_updatePickUpPointsInfo("A2");
@@ -54,8 +62,18 @@ class _BusTimingsState extends State<BusTimings> {
   }
 
   @override
+  void dispose() {
+    final applicationBloc =
+        Provider.of<ApplicationBloc>(context, listen: false);
+    applicationBloc.dispose();
+    busStopSubscription.cancel();
+    _textController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
-    //final applicationBloc = Provider.of<ApplicationBloc>(context);
+    final applicationBloc = Provider.of<ApplicationBloc>(context);
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
@@ -63,8 +81,77 @@ class _BusTimingsState extends State<BusTimings> {
       ),
       drawer: MenuDrawer(),
       drawerEnableOpenDragGesture: true,
-      body: Column(
+      body: Stack(
         children: <Widget>[
+          Container(
+            padding: EdgeInsets.all(20),
+            child: TextField(
+              controller: _textController,
+              decoration: InputDecoration(
+                  hintText: "Search Bus Stops ...",
+                  suffixIcon: IconButton(
+                      icon: const Icon(Icons.clear),
+                      onPressed: () {
+                        setState(() {
+                          _textController.clear();
+                        });
+                      }),
+                  prefixIcon: Icon(Icons.search)),
+              onChanged: (value) {
+                applicationBloc.searchBusStops(value);
+                // getNUSAutoComplete(value);
+              },
+            ),
+          ),
+          if (applicationBloc.searchBusStopsResults != null)
+            Container(
+              padding: EdgeInsets.only(top: 70),
+              height: 800.0,
+              // child: _buildList()
+              child: ListView.builder(
+                // itemCount: applicationBloc.searchResults!.length,
+                itemCount: applicationBloc.searchBusStopsResults!.length,
+                itemBuilder: (context, index) {
+                  return ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      onPrimary: Colors.white,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        //mainAxisSize: MainAxisSize.min,
+                        // Create a tile class
+                        children: [
+                          // Current Bus Stop
+                          Expanded(
+                            child: Text(
+                              applicationBloc.searchBusStopsResults![index],
+                              style: TextStyle(
+                                  fontSize: 20,
+                                  color: Colors.black,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          Icon(Icons.arrow_forward, color: Colors.blue),
+                        ],
+                      ),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => BusServicesAtStop(
+                              busStopName: applicationBloc
+                                  .searchBusStopsResults![index]),
+                        ),
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          /*
           Expanded(
             child: ListView.builder(
               // modify or point _nusBusStops at different list
@@ -111,6 +198,7 @@ class _BusTimingsState extends State<BusTimings> {
               },
             ),
           ),
+          */
         ],
       ),
     );
