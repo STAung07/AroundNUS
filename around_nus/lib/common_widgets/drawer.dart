@@ -1,5 +1,7 @@
+import 'package:around_nus/app_screens/try.dart';
+import 'package:around_nus/models/busstopsinfo_model.dart';
 import 'package:flutter/material.dart';
-import '../app_screens/bustimings.dart';
+import '../app_screens/try.dart';
 import '../app_screens/settings.dart';
 import '../app_screens/searchdirections.dart';
 import '../app_screens/map.dart';
@@ -80,7 +82,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
             onTap: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => BusTimings()),
+                MaterialPageRoute(builder: (context) => busStopsNames()),
               );
             },
           ),

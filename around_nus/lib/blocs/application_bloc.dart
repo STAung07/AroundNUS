@@ -7,6 +7,7 @@ import 'package:around_nus/services/geolocator_service.dart';
 import 'package:around_nus/services/places_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:around_nus/services/server_request_service.dart';
 
 class ApplicationBloc with ChangeNotifier {
   final geoLocatorService = GeolocatorService();
@@ -18,6 +19,7 @@ class ApplicationBloc with ChangeNotifier {
   List<PlaceSearch>? searchFromResults;
   List<PlaceSearch>? searchToResults;
   List? searchNUSResults;
+  List? searchBusStopsResults;
   // StreamController<Place> selectedLocation = StreamController<Place>();
   StreamController<Place> selectedLocation = BehaviorSubject();
 
@@ -46,6 +48,13 @@ class ApplicationBloc with ChangeNotifier {
 
   searchToPlaces(String searchTerm) async {
     searchToResults = await placesService.getAutoComplete(searchTerm);
+    notifyListeners();
+  }
+
+  searchBusStops(String searchTerm) async {
+    searchBusStopsResults = await fetchBusStopInfo(searchTerm);
+    print(searchBusStopsResults);
+    print("here");
     notifyListeners();
   }
 

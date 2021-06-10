@@ -28,13 +28,13 @@ class _BusTimingsState extends State<BusTimings> {
     });
   }
 
-  void _updateListofBusStop() {
-    fetchBusStopInfo().then((value) {
-      setState(() {
-        _nusBusStops.addAll(value);
-      });
-    });
-  }
+  // void _updateListofBusStop() {
+  //   fetchBusStopInfo(s).then((value) {
+  //     setState(() {
+  //       _nusBusStops.addAll(value);
+  //     });
+  //   });
+  // }
 
   void _updateListofBusRoutes() {
     fetchBusRouteDescriptions().then((value) {
@@ -46,7 +46,7 @@ class _BusTimingsState extends State<BusTimings> {
 
   @override
   void initState() {
-    _updateListofBusStop();
+    // _updateListofBusStop();
     _updateListofBusRoutes();
     //_updatePickUpPointsInfo("A2");
     super.initState();
