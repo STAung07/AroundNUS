@@ -16,6 +16,12 @@ class PlacesService {
     return jsonResults.map((place) => PlaceSearch.fromJson(place)).toList();
   }
 
+  // Future<List> getNUSAutoComplete(String search) async {
+  //   var url = "https://api.nusmods.com/v2/2020-2021/semesters/2/venues.json";
+  //   var response = await http.get(Uri.parse(url)) as List;
+  //   return response[0];
+  // }
+
   Future<Place> getPlace(String place_id) async {
     var url =
         "https://maps.googleapis.com/maps/api/place/details/json?key=$key&place_id=$place_id";

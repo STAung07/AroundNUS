@@ -6,9 +6,10 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
-
+import 'package:http/http.dart' as http;
 import '../common_widgets/drawer.dart';
 import '../map_widgets/circularbutton.dart';
+import 'dart:convert' as convert;
 
 class MyMainPage extends StatefulWidget {
   MyMainPage({Key? key, required this.title}) : super(key: key);
@@ -25,10 +26,8 @@ class _MyMainPageState extends State<MyMainPage> {
   late Position currentPosition;
   late LatLng currCoordinates =
       LatLng(currentPosition.latitude, currentPosition.longitude);
-  // var geoLocator = Geolocator();
   late StreamSubscription locationSubscription;
   var _textController = TextEditingController();
-  // int searchLen = 0;
 
   @override
   void initState() {
@@ -99,6 +98,10 @@ class _MyMainPageState extends State<MyMainPage> {
   Widget build(BuildContext context) {
     final applicationBloc = Provider.of<ApplicationBloc>(context);
     CameraPosition _initialCameraPosition;
+    // var search = [];
+    // int searchCount = 0;
+
+    // var searchResults = [];
 
     if (applicationBloc.currentLocation == null) {
       _initialCameraPosition =
@@ -170,7 +173,10 @@ class _MyMainPageState extends State<MyMainPage> {
                         });
                       }),
                   prefixIcon: Icon(Icons.search)),
-              onChanged: (value) => applicationBloc.searchPlaces(value),
+              onChanged: (value) {
+                applicationBloc.searchPlaces(value);
+                getNUSAutoComplete(value);
+              },
             ),
           ),
           Align(
@@ -228,6 +234,20 @@ class _MyMainPageState extends State<MyMainPage> {
         ],
       ),
     );
+  }
+
+  Future<List> getNUSAutoComplete(String search) async {
+    var url = "https://api.nusmods.com/v2/2020-2021/semesters/2/venues.json";
+    var results = [];
+    var response = await http.get(Uri.parse(url));
+    var venues = convert.jsonDecode(response.body);
+    for (int i = 0; i < venues.length; i++) {
+      if (venues[i].toLowerCase().contains(search.toLowerCase())) {
+        print(venues[i]);
+        results.add(venues[i]);
+      }
+    }
+    return results;
   }
 
   Future<void> _goToPlace(Place place) async {

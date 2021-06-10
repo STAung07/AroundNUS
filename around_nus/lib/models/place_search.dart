@@ -6,6 +6,8 @@ class PlaceSearch {
 
   factory PlaceSearch.fromJson(Map<String, dynamic> json) {
     return PlaceSearch(
-        description: json["description"], placeId: json["place_id"]);
+        description:
+            json["terms"][0]["value"] + ", " + json["terms"][1]["value"],
+        placeId: json["place_id"]);
   }
 }
