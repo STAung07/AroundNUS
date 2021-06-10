@@ -17,11 +17,16 @@ class ApplicationBloc with ChangeNotifier {
   List<PlaceSearch>? searchResults;
   List<PlaceSearch>? searchFromResults;
   List<PlaceSearch>? searchToResults;
+  List? searchNUSResults;
   // StreamController<Place> selectedLocation = StreamController<Place>();
   StreamController<Place> selectedLocation = BehaviorSubject();
 
   ApplicationBloc() {
     setCurrentLocation();
+  }
+  searchNUSPlaces(String searchTerm) async {
+    searchNUSResults = await placesService.getNUSAutoComplete(searchTerm);
+    notifyListeners();
   }
 
   setCurrentLocation() async {

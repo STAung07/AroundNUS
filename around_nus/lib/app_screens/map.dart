@@ -10,6 +10,7 @@ import 'package:http/http.dart' as http;
 import '../common_widgets/drawer.dart';
 import '../map_widgets/circularbutton.dart';
 import 'dart:convert' as convert;
+import 'package:dio/dio.dart';
 
 class MyMainPage extends StatefulWidget {
   MyMainPage({Key? key, required this.title}) : super(key: key);
@@ -28,6 +29,8 @@ class _MyMainPageState extends State<MyMainPage> {
       LatLng(currentPosition.latitude, currentPosition.longitude);
   late StreamSubscription locationSubscription;
   var _textController = TextEditingController();
+  // List filteredNames = [];
+  // List names = [];
 
   @override
   void initState() {
@@ -39,6 +42,7 @@ class _MyMainPageState extends State<MyMainPage> {
         _goToPlace(place);
       }
     });
+    // this.getNames();
     super.initState();
     // get User Search; same as searchdirections
     _setMarkers(LatLng(1.2966, 103.7764));
@@ -98,10 +102,7 @@ class _MyMainPageState extends State<MyMainPage> {
   Widget build(BuildContext context) {
     final applicationBloc = Provider.of<ApplicationBloc>(context);
     CameraPosition _initialCameraPosition;
-    // var search = [];
     // int searchCount = 0;
-
-    // var searchResults = [];
 
     if (applicationBloc.currentLocation == null) {
       _initialCameraPosition =
@@ -112,6 +113,27 @@ class _MyMainPageState extends State<MyMainPage> {
               applicationBloc.currentLocation!.longitude),
           zoom: 15);
     }
+
+    // Widget _buildList() {
+    //   List tempList = [];
+    //   for (int i = 0; i < filteredNames.length; i++) {
+    //     if (filteredNames[i]
+    //         .toLowerCase()
+    //         .contains(_textController.text.toLowerCase())) {
+    //       tempList.add(filteredNames[i]);
+    //       print(_textController.text);
+    //     }
+    //   }
+
+    //   filteredNames = tempList;
+
+    //   return ListView.builder(
+    //     itemCount: filteredNames.length,
+    //     itemBuilder: (BuildContext context, int index) {
+    //       return ListTile(title: Text(filteredNames[index]));
+    //     },
+    //   );
+    // }
 
     // This method is rerun every time setState is called
     return Scaffold(
@@ -174,8 +196,8 @@ class _MyMainPageState extends State<MyMainPage> {
                       }),
                   prefixIcon: Icon(Icons.search)),
               onChanged: (value) {
-                applicationBloc.searchPlaces(value);
-                getNUSAutoComplete(value);
+                applicationBloc.searchNUSPlaces(value);
+                // getNUSAutoComplete(value);
               },
             ),
           ),
@@ -191,8 +213,8 @@ class _MyMainPageState extends State<MyMainPage> {
 
           // darkened container background for the search results
 
-          if (applicationBloc.searchResults != null &&
-              applicationBloc.searchResults!.length != 0 &&
+          if (applicationBloc.searchNUSResults != null &&
+              applicationBloc.searchNUSResults!.length != 0 &&
               _textController.text.length != 0)
             Container(
                 margin: EdgeInsets.only(top: 70),
@@ -203,32 +225,34 @@ class _MyMainPageState extends State<MyMainPage> {
                     color: Colors.black.withOpacity(0.6))),
 
           //container to store the search results
-          if (applicationBloc.searchResults != null &&
-              applicationBloc.searchResults!.length != 0 &&
+          if (applicationBloc.searchNUSResults != null &&
+              applicationBloc.searchNUSResults!.length != 0 &&
               _textController.text.length != 0)
             Container(
                 padding: EdgeInsets.only(top: 70),
                 height: 300.0,
+                // child: _buildList()
                 child: ListView.builder(
-                    itemCount: applicationBloc.searchResults!.length,
+                    // itemCount: applicationBloc.searchResults!.length,
+                    itemCount: applicationBloc.searchNUSResults!.length,
                     itemBuilder: (context, index) {
                       return ListTile(
                         title: Text(
-                          applicationBloc.searchResults![index].description,
+                          applicationBloc.searchNUSResults![index],
                           style: TextStyle(color: Colors.white),
                         ),
-                        onTap: () {
-                          applicationBloc.setSelectedLocation(
-                              applicationBloc.searchResults![index].placeId);
-                          _textController.value =
-                              _textController.value.copyWith(
-                            text: applicationBloc
-                                .searchResults![index].description,
-                            selection: TextSelection.collapsed(
-                                offset: applicationBloc
-                                    .searchResults![index].description.length),
-                          );
-                        },
+                        // onTap: () {
+                        //   applicationBloc.setSelectedLocation(
+                        //       applicationBloc.searchResults![index].placeId);
+                        //   _textController.value =
+                        //       _textController.value.copyWith(
+                        //     text: applicationBloc
+                        //         .searchResults![index].description,
+                        //     selection: TextSelection.collapsed(
+                        //         offset: applicationBloc
+                        //             .searchResults![index].description.length),
+                        //   );
+                        // },
                       );
                     }))
         ],
@@ -236,19 +260,35 @@ class _MyMainPageState extends State<MyMainPage> {
     );
   }
 
-  Future<List> getNUSAutoComplete(String search) async {
-    var url = "https://api.nusmods.com/v2/2020-2021/semesters/2/venues.json";
-    var results = [];
-    var response = await http.get(Uri.parse(url));
-    var venues = convert.jsonDecode(response.body);
-    for (int i = 0; i < venues.length; i++) {
-      if (venues[i].toLowerCase().contains(search.toLowerCase())) {
-        print(venues[i]);
-        results.add(venues[i]);
-      }
-    }
-    return results;
-  }
+  // Future<List> getNUSAutoComplete() async {
+  //   var url = "https://api.nusmods.com/v2/2020-2021/semesters/2/venues.json";
+  //   var results = [];
+  //   var response = await http.get(Uri.parse(url));
+  //   var venues = convert.jsonDecode(response.body);
+  //   for (int i = 0; i < venues.length; i++) {
+  //     if (venues[i].toLowerCase().contains(search.toLowerCase())) {
+  //       print(venues[i]);
+  //       results.add(venues[i]);
+  //     }
+  //   }
+  //   return results;
+  // }
+  // void getNames() async {
+  //   var url = "https://api.nusmods.com/v2/2020-2021/semesters/2/venues.json";
+  //   var tempList = [];
+  //   // var response = await http.get(Uri.parse(url));
+  //   // var venues = convert.jsonDecode(response.body);
+  //   final response = await Dio().get(url);
+  //   for (int i = 0; i < response.data.length; i++) {
+  //     tempList.add(response.data[i]);
+  //   }
+
+  //   setState(() {
+  //     names = tempList;
+  //     names.shuffle();
+  //     filteredNames = names;
+  //   });
+  // }
 
   Future<void> _goToPlace(Place place) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;

@@ -16,11 +16,19 @@ class PlacesService {
     return jsonResults.map((place) => PlaceSearch.fromJson(place)).toList();
   }
 
-  // Future<List> getNUSAutoComplete(String search) async {
-  //   var url = "https://api.nusmods.com/v2/2020-2021/semesters/2/venues.json";
-  //   var response = await http.get(Uri.parse(url)) as List;
-  //   return response[0];
-  // }
+  Future<List> getNUSAutoComplete(String search) async {
+    var url = "https://api.nusmods.com/v2/2020-2021/semesters/2/venues.json";
+    var results = [];
+    var response = await http.get(Uri.parse(url));
+    var venues = convert.jsonDecode(response.body) as List;
+    for (int i = 0; i < venues.length; i++) {
+      if (venues[i].toLowerCase().contains(search.toLowerCase())) {
+        print(venues[i]);
+        results.add(venues[i]);
+      }
+    }
+    return results;
+  }
 
   Future<Place> getPlace(String place_id) async {
     var url =
