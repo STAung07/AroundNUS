@@ -12,6 +12,7 @@ import 'package:around_nus/services/server_request_service.dart';
 class ApplicationBloc with ChangeNotifier {
   final geoLocatorService = GeolocatorService();
   final placesService = PlacesService();
+  final busService = NusNextBus();
 
   //Variables
   Position? currentLocation;
@@ -52,7 +53,8 @@ class ApplicationBloc with ChangeNotifier {
   }
 
   searchBusStops(String searchTerm) async {
-    searchBusStopsResults = await fetchBusStopInfo(searchTerm);
+    //searchBusStopsResults = await fetchBusStopInfo(searchTerm);
+    searchBusStopsResults = await busService.autoCompleteBusStops(searchTerm);
     print(searchBusStopsResults);
     print("here");
     notifyListeners();

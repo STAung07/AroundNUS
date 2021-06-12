@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:around_nus/blocs/application_bloc.dart';
 import 'package:provider/provider.dart';
 import '../common_widgets/drawer.dart';
-import '../models/busstopsinfo_model.dart';
+//import '../models/busstopsinfo_model.dart';
 import '../models/busroutesinfo_model.dart';
 import '../models/pickuppointinfo_model.dart';
 import '../bustimings_widgets/services_expansionlist.dart';
@@ -20,11 +20,13 @@ class _BusTimingsState extends State<BusTimings> {
 
   // use Bus Stop Names to display bus services available at that stop
   // List<BusStop> _nusBusStops = <BusStop>[];
+  final busService = NusNextBus();
   List<RouteDescription> _nusBusRoutes = <RouteDescription>[];
   List<PickUpPointInfo> _currPickUpPoints = <PickUpPointInfo>[];
   late StreamSubscription busStopSubscription;
   var _textController = TextEditingController();
 
+  /*
   void _updatePickUpPointsInfo(String _routeName) {
     fetchPickUpPointInfo(_routeName).then((value) {
       setState(() {
@@ -33,16 +35,18 @@ class _BusTimingsState extends State<BusTimings> {
     });
   }
 
-  // void _updateListofBusStop() {
-  //   fetchBusStopInfo(s).then((value) {
-  //     setState(() {
-  //       _nusBusStops.addAll(value);
-  //     });
-  //   });
-  // }
+
+  void _updateListofBusStop() {
+    fetchBusStopInfo(s).then((value) {
+      setState(() {
+        _nusBusStops.addAll(value);
+      });
+    });
+  }
+  */
 
   void _updateListofBusRoutes() {
-    fetchBusRouteDescriptions().then((value) {
+    busService.fetchBusRouteDescriptions().then((value) {
       setState(() {
         _nusBusRoutes.addAll(value);
       });
@@ -107,20 +111,17 @@ class _BusTimingsState extends State<BusTimings> {
             Container(
               padding: EdgeInsets.only(top: 70),
               height: 800.0,
-              // child: _buildList()
               child: ListView.builder(
-                // itemCount: applicationBloc.searchResults!.length,
                 itemCount: applicationBloc.searchBusStopsResults!.length,
                 itemBuilder: (context, index) {
                   return ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      onPrimary: Colors.white,
+                    style: ButtonStyle(
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
                     ),
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
                       child: Row(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        //mainAxisSize: MainAxisSize.min,
                         // Create a tile class
                         children: [
                           // Current Bus Stop

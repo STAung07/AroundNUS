@@ -12,11 +12,12 @@ class BusServicesAtStop extends StatefulWidget {
 }
 
 class _BusServicesAtStopState extends State<BusServicesAtStop> {
+  final busService = NusNextBus();
   List<ArrivalInformation> _currBusStopServices = <ArrivalInformation>[];
 
   void _updateShuttleServicesInfo(String _busStopName) {
     // each busStop has their own list of ArrivalInformaton
-    fetchArrivalInfo(_busStopName).then((value) {
+    busService.fetchArrivalInfo(_busStopName).then((value) {
       setState(() {
         _currBusStopServices.addAll(value);
       });
