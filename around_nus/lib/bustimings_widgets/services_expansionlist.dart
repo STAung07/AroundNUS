@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import '../models/busserviceinfo_model.dart';
-import '../services/server_request_service.dart';
+import '../services/nusnextbus_service.dart';
 
 class BusServicesAtStop extends StatefulWidget {
   final String busStopName;

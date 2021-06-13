@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:settings_ui/settings_ui.dart';
 import '../common_widgets/drawer.dart';
 
-class Settings extends StatelessWidget {
+class Settings extends StatefulWidget {
+  const Settings({Key? key}) : super(key: key);
+
+  @override
+  _SettingsState createState() => _SettingsState();
+}
+
+class _SettingsState extends State<Settings> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +19,21 @@ class Settings extends StatelessWidget {
       ),
       drawer: MenuDrawer(),
       drawerEnableOpenDragGesture: true,
-      body: Center(
+      body: SettingsList(
+        sections: [
+          SettingsSection(
+            title: 'General',
+            tiles: [
+              SettingsTile(
+                title: 'Language',
+                leading: Icon(Icons.language),
+              ),
+            ],
+          ),
+        ],
+      ),
+      /*
+      Center(
         child: ElevatedButton(
           onPressed: () {
             Navigator.pop(context);
@@ -19,6 +41,7 @@ class Settings extends StatelessWidget {
           child: Text("Back"),
         ),
       ),
+      */
     );
   }
 }

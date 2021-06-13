@@ -7,7 +7,7 @@ import 'package:around_nus/services/geolocator_service.dart';
 import 'package:around_nus/services/places_service.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:around_nus/services/server_request_service.dart';
+import 'package:around_nus/services/nusnextbus_service.dart';
 
 class ApplicationBloc with ChangeNotifier {
   final geoLocatorService = GeolocatorService();

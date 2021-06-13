@@ -7,7 +7,7 @@ import '../common_widgets/drawer.dart';
 import '../models/busroutesinfo_model.dart';
 import '../models/pickuppointinfo_model.dart';
 import '../bustimings_widgets/services_expansionlist.dart';
-import '../services/server_request_service.dart';
+import '../services/nusnextbus_service.dart';
 
 class BusTimings extends StatefulWidget {
   @override
@@ -22,7 +22,7 @@ class _BusTimingsState extends State<BusTimings> {
   // List<BusStop> _nusBusStops = <BusStop>[];
   final busService = NusNextBus();
   List<RouteDescription> _nusBusRoutes = <RouteDescription>[];
-  List<PickUpPointInfo> _currPickUpPoints = <PickUpPointInfo>[];
+  //List<PickUpPointInfo> _currPickUpPoints = <PickUpPointInfo>[];
   late StreamSubscription busStopSubscription;
   var _textController = TextEditingController();
 
@@ -59,6 +59,7 @@ class _BusTimingsState extends State<BusTimings> {
         Provider.of<ApplicationBloc>(context, listen: false);
     busStopSubscription =
         applicationBloc.selectedLocation.stream.listen((place) {});
+    applicationBloc.searchBusStops("");
     // _updateListofBusStop();
     _updateListofBusRoutes();
     //_updatePickUpPointsInfo("A2");
@@ -98,6 +99,7 @@ class _BusTimingsState extends State<BusTimings> {
                       onPressed: () {
                         setState(() {
                           _textController.clear();
+                          applicationBloc.searchBusStops("");
                         });
                       }),
                   prefixIcon: Icon(Icons.search)),
