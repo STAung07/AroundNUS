@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../app_screens/bustimings.dart';
 import '../app_screens/settings.dart';
 import '../app_screens/searchdirections.dart';
+import '../app_screens/osmtrial.dart';
 import '../app_screens/map.dart';
 
 class MenuDrawer extends StatefulWidget {
