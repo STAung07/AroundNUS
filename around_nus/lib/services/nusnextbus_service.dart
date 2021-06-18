@@ -86,6 +86,7 @@ class NusNextBus {
     return busRoutesList;
   }
 
+  // when route passed in, able to return all pickup points within route
   Future<List<PickUpPointInfo>> fetchPickUpPointInfo(
       String _busRouteName) async {
     String username = 'NUSnextbus';

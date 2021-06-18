@@ -9,6 +9,9 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
+import '../models/pickuppointinfo_model.dart';
+import '../models/busstopsinfo_model.dart';
+import '../services/nusnextbus_service.dart';
 import 'dart:math' show cos, sqrt, asin;
 import '../common_widgets/drawer.dart';
 import '../directions_widgets/apikey.dart'; // Stores the Google Maps API Key
@@ -38,8 +41,9 @@ class _MapViewState extends State<MapView> {
   Completer<GoogleMapController> mapController = Completer();
   late GoogleMapController newMapController;
   late StreamSubscription locationSubscription;
-  late MapController osmController;
+  //late MapController osmController;
 
+  /*
   // MapController for OSM
   MapController _getOSMController() {
     return MapController(
@@ -47,10 +51,7 @@ class _MapViewState extends State<MapView> {
       initPosition: GeoPoint(latitude: 1.2966, longitude: 103.7764),
     );
   }
-
-  // Marker on start and end location
-  // Route
-  // Update user location
+  */
 
   Position? _currentPosition;
   String? _currentAddress;
@@ -63,21 +64,42 @@ class _MapViewState extends State<MapView> {
 
   String _startAddress = '';
   String _destinationAddress = '';
-  //String? _placeDistance;
+  String? _placeDistance;
   // Marker startMarker;
   // Marker endMarker;
-  //Set<Marker> markers = {};
+  Set<Marker> markers = {};
+
+  /*
   List<StaticPositionGeoPoint> osmMarkers = [];
   List<GeoPoint> osmGeoPoints = [];
+  */
 
+  // polyline points contain coordinates of route to draw on map
   PolylinePoints? polylinePoints;
   Map<PolylineId, Polyline> polylines = {};
+
+  // holds each polyline coordinate as Lat and Lng Pairs
   List<LatLng> polylineCoordinates = [];
+
+  // generates every polyline between start and finish
+  PolylinePoints polyLinePoints = PolylinePoints();
+
+  NusNextBus busService = NusNextBus();
+
+  // list of bus stops as possible wayPoint
+  List<BusStop> _wayPoints = [];
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
-// Get Current Location GoogleMaps
-  /*
+  void _updateListofBusStop() {
+    busService.fetchBusStopInfo().then((value) {
+      setState(() {
+        _wayPoints.addAll(value);
+      });
+    });
+  }
+
+  // Get Current Location GoogleMaps
   // Method for retrieving the current location
   _getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
@@ -99,11 +121,10 @@ class _MapViewState extends State<MapView> {
       print(e);
     });
   }
-  */
 
   // Method for retrieving the address; edit to get GeoPoint
   // current version waits for input in search bars of from and to
-  /*
+
   _getAddress() async {
     try {
       List<Placemark> p = await placemarkFromCoordinates(
@@ -116,16 +137,15 @@ class _MapViewState extends State<MapView> {
             "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
         startAddressController.text = _currentAddress!;
         _startAddress = _currentAddress!;
-        //_setMarkers(LatLng(_currentPosition!.latitude, _currentPosition!.longitude));
+        _setMarkers(
+            LatLng(_currentPosition!.latitude, _currentPosition!.longitude));
       });
     } catch (e) {
       print(e);
     }
   }
-  */
 
-// Google Maps SetMarkers; not applicable in OSMview
-  /*
+  // Google Maps SetMarkers; not applicable in OSMview
   Future<void> _setMarkers(LatLng point) async {
     // setState(() {
 
@@ -197,10 +217,8 @@ class _MapViewState extends State<MapView> {
       });
     }
   }
-  */
 
-// Calculate distance between 2 points
-  /*
+  // Calculate distance between 2 points
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
     try {
@@ -345,7 +363,8 @@ class _MapViewState extends State<MapView> {
         //   destinationCoordinates.longitude,
         // );
 
-        await _createPolylines(startCoordinates, destinationCoordinates);
+        await _createGoogleMapsPolylines(
+            startCoordinates, destinationCoordinates);
 
         double totalDistance = 0.0;
 
@@ -385,8 +404,13 @@ class _MapViewState extends State<MapView> {
   }
 
   // Create the polylines for showing the route between two places
-  _createPolylines(Position start, Position destination) async {
+  // Polylines from google
+  _createGoogleMapsPolylines(Position start, Position destination) async {
+    // initializing PolylinePoints
     polylinePoints = PolylinePoints();
+
+    // generating list of coordinates to be used for drawing polylines
+    // can add waypoints {bus stops}
     PolylineResult result = await polylinePoints!.getRouteBetweenCoordinates(
       Secrets.API_KEY, // Google Maps API Key
       PointLatLng(start.latitude, start.longitude),
@@ -394,13 +418,19 @@ class _MapViewState extends State<MapView> {
       travelMode: TravelMode.transit,
     );
 
+    // adding coordinates to the list
+    // ADJUST / ADD coodinates of NUS shuttle busstops here
+    // to be drawn on polyline
     if (result.points.isNotEmpty) {
       result.points.forEach((PointLatLng point) {
         polylineCoordinates.add(LatLng(point.latitude, point.longitude));
       });
     }
 
+    // defining an ID
     PolylineId id = PolylineId('poly');
+
+    // initialising Polyline
     Polyline polyline = Polyline(
       polylineId: id,
       color: Colors.red,
@@ -409,7 +439,10 @@ class _MapViewState extends State<MapView> {
     );
     polylines[id] = polyline;
   }
-  */
+
+  // function that finds route from one location to another
+  // via nus bus stops and bus routes;
+  // use pickuppoint result for bus stops each route passes by as well as busstop location
 
   @override
   void dispose() {
@@ -419,7 +452,7 @@ class _MapViewState extends State<MapView> {
     locationSubscription.cancel();
     startAddressController.dispose();
     // dispose OSM controller
-    osmController.dispose();
+    //osmController.dispose();
     super.dispose();
   }
 
@@ -433,8 +466,9 @@ class _MapViewState extends State<MapView> {
         _goToPlace(place);
       }
     });
-    osmController = _getOSMController();
-    //_getCurrentLocation();
+    //osmController = _getOSMController();
+    _getCurrentLocation();
+    _updateListofBusStop();
     super.initState();
   }
 
@@ -455,7 +489,6 @@ class _MapViewState extends State<MapView> {
           body: Stack(
             children: <Widget>[
               // GoogleMap View
-              /*
               GoogleMap(
                 markers: Set<Marker>.from(markers),
                 initialCameraPosition: _initialLocation,
@@ -464,6 +497,7 @@ class _MapViewState extends State<MapView> {
                 mapType: MapType.normal,
                 zoomGesturesEnabled: true,
                 zoomControlsEnabled: false,
+                // draws all polyline values in polylines map
                 polylines: Set<Polyline>.of(polylines.values),
                 onMapCreated: (GoogleMapController controller) {
                   mapController.complete(controller);
@@ -518,8 +552,8 @@ class _MapViewState extends State<MapView> {
                   ),
                 ),
               ),
-              */
               // OSM view
+              /*
               OSMFlutter(
                 controller: osmController,
                 showZoomController: true,
@@ -532,6 +566,7 @@ class _MapViewState extends State<MapView> {
                 // Edit functions to return GeoPoint for
                 // static position geopoint
               ),
+              */
               // Show the place input fields & button for
               // showing the route
               SafeArea(
@@ -823,7 +858,6 @@ class _MapViewState extends State<MapView> {
                             },
                           );
                         })),
-              /*
               // Show current location button
               SafeArea(
                 child: Align(
@@ -859,7 +893,6 @@ class _MapViewState extends State<MapView> {
                   ),
                 ),
               ),
-              */
             ],
           ),
         ),
@@ -869,18 +902,19 @@ class _MapViewState extends State<MapView> {
 
 // Change _goToPlace based on OSM controller
   Future<void> _goToPlace(Place place) async {
-    /*
     final GoogleMapController controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target:
             LatLng(place.geometry.location.lat, place.geometry.location.lng),
         zoom: 15)));
-    */
-    //_setMarkers(LatLng(place.geometry.location.lat, place.geometry.location.lng));
+    _setMarkers(
+        LatLng(place.geometry.location.lat, place.geometry.location.lng));
+    /*
     await osmController.changeLocation(
       GeoPoint(
           latitude: place.geometry.location.lat,
           longitude: place.geometry.location.lng),
     );
+    */
   }
 }
