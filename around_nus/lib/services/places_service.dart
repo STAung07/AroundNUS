@@ -1,5 +1,7 @@
+import 'package:around_nus/models/location.dart';
 import 'package:around_nus/models/place.dart';
 import 'package:around_nus/models/place_search.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
 
@@ -17,7 +19,7 @@ class PlacesService {
   }
 
   Future<List> getNUSAutoComplete(String search) async {
-    var url = "https://api.nusmods.com/v2/2020-2021/semesters/2/venues.json";
+    var url = "https://api.nusmods.com/v2/2020-2021/semesters/3/venues.json";
     var results = [];
     var response = await http.get(Uri.parse(url));
     var venues = convert.jsonDecode(response.body) as List;
@@ -38,4 +40,14 @@ class PlacesService {
     var jsonResult = json["result"] as Map<String, dynamic>;
     return Place.fromJson(jsonResult);
   }
+
+  // Future<String> getNUSPlaceID(double lat, double lng) async {
+  //   LatLng LATLNG = LatLng(lat, lng);
+  //   var url =
+  //       "https://maps.googleapis.com/maps/api/geocode/json?latlng=$LATLNG&key=$key";
+  //   var response = await http.get(Uri.parse(url));
+  //   var json = convert.jsonDecode(response.body);
+  //   var jsonResult = json[]
+
+  // }
 }

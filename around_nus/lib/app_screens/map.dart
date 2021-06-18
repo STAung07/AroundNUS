@@ -6,10 +6,12 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import 'dart:async';
+import 'package:flutter/services.dart' show rootBundle;
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import '../common_widgets/drawer.dart';
 import '../map_widgets/circularbutton.dart';
-import 'dart:convert' as convert;
+import 'dart:convert';
 import 'package:dio/dio.dart';
 
 class MyMainPage extends StatefulWidget {
@@ -29,6 +31,7 @@ class _MyMainPageState extends State<MyMainPage> {
       LatLng(currentPosition.latitude, currentPosition.longitude);
   late StreamSubscription locationSubscription;
   var _textController = TextEditingController();
+  Map nusVenuesData = {};
   // List filteredNames = [];
   // List names = [];
 
@@ -42,10 +45,12 @@ class _MyMainPageState extends State<MyMainPage> {
         _goToPlace(place);
       }
     });
+    this.loadJsonData();
     // this.getNames();
     super.initState();
     // get User Search; same as searchdirections
     _setMarkers(LatLng(1.2966, 103.7764));
+
     locatePosition();
   }
 
@@ -57,6 +62,15 @@ class _MyMainPageState extends State<MyMainPage> {
     locationSubscription.cancel();
     _textController.dispose();
     super.dispose();
+  }
+
+  Future<String> loadJsonData() async {
+    var jsonText = await rootBundle.loadString('assets/nusvenues.json');
+
+    setState(() {
+      nusVenuesData = json.decode(jsonText);
+    });
+    return "success";
   }
 
   void locatePosition() async {
@@ -241,10 +255,27 @@ class _MyMainPageState extends State<MyMainPage> {
                           applicationBloc.searchNUSResults![index],
                           style: TextStyle(color: Colors.white),
                         ),
+
+                        onTap: () {
+                          applicationBloc.searchPlaces(nusVenuesData[
+                                  applicationBloc.searchNUSResults![index]]
+                              ["description"]);
+                          applicationBloc.setSelectedLocation(
+                              applicationBloc.searchResults![0].placeId);
+                          // clearing the textfield
+                          _textController.value =
+                              _textController.value.copyWith(
+                            text: applicationBloc.searchNUSResults![index],
+                            selection: TextSelection.collapsed(
+                                offset: applicationBloc
+                                    .searchNUSResults![index].length),
+                          );
+                        },
                         // onTap: () {
                         //   applicationBloc.setSelectedLocation(
                         //       applicationBloc.searchResults![index].placeId);
-                        //   _textController.value =
+                        ////clearing the textfield
+                        //_textController.value =
                         //       _textController.value.copyWith(
                         //     text: applicationBloc
                         //         .searchResults![index].description,
@@ -260,34 +291,12 @@ class _MyMainPageState extends State<MyMainPage> {
     );
   }
 
-  // Future<List> getNUSAutoComplete() async {
-  //   var url = "https://api.nusmods.com/v2/2020-2021/semesters/2/venues.json";
-  //   var results = [];
-  //   var response = await http.get(Uri.parse(url));
-  //   var venues = convert.jsonDecode(response.body);
-  //   for (int i = 0; i < venues.length; i++) {
-  //     if (venues[i].toLowerCase().contains(search.toLowerCase())) {
-  //       print(venues[i]);
-  //       results.add(venues[i]);
-  //     }
-  //   }
-  //   return results;
-  // }
-  // void getNames() async {
-  //   var url = "https://api.nusmods.com/v2/2020-2021/semesters/2/venues.json";
-  //   var tempList = [];
-  //   // var response = await http.get(Uri.parse(url));
-  //   // var venues = convert.jsonDecode(response.body);
-  //   final response = await Dio().get(url);
-  //   for (int i = 0; i < response.data.length; i++) {
-  //     tempList.add(response.data[i]);
-  //   }
+  // Future<void> _goToNUSPlace(double lat, double lng) async {
+  //   final GoogleMapController controller = await _controllerGoogleMap.future;
+  //   controller.animateCamera(CameraUpdate.newCameraPosition(
+  //       CameraPosition(target: LatLng(lat, lng), zoom: 15)));
 
-  //   setState(() {
-  //     names = tempList;
-  //     names.shuffle();
-  //     filteredNames = names;
-  //   });
+  //   _setMarkers(LatLng(lat, lng));
   // }
 
   Future<void> _goToPlace(Place place) async {
