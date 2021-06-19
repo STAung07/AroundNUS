@@ -68,6 +68,11 @@ class ApplicationBloc with ChangeNotifier {
     notifyListeners();
   }
 
+  setNUSSelectedLocation() async {
+    searchNUSResults = null;
+    notifyListeners();
+  }
+
   @override
   void dispose() {
     selectedLocation.close();

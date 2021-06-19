@@ -211,6 +211,7 @@ class _MyMainPageState extends State<MyMainPage> {
                   prefixIcon: Icon(Icons.search)),
               onChanged: (value) {
                 applicationBloc.searchNUSPlaces(value);
+
                 // getNUSAutoComplete(value);
               },
             ),
@@ -257,12 +258,8 @@ class _MyMainPageState extends State<MyMainPage> {
                         ),
 
                         onTap: () {
-                          applicationBloc.searchPlaces(nusVenuesData[
-                                  applicationBloc.searchNUSResults![index]]
-                              ["description"]);
-                          applicationBloc.setSelectedLocation(
-                              applicationBloc.searchResults![0].placeId);
-                          // clearing the textfield
+                          FocusScope.of(context).unfocus();
+
                           _textController.value =
                               _textController.value.copyWith(
                             text: applicationBloc.searchNUSResults![index],
@@ -270,7 +267,17 @@ class _MyMainPageState extends State<MyMainPage> {
                                 offset: applicationBloc
                                     .searchNUSResults![index].length),
                           );
+                          _goToNUSPlace(
+                              nusVenuesData[applicationBloc
+                                  .searchNUSResults![index]]["latitude"],
+                              nusVenuesData[applicationBloc
+                                  .searchNUSResults![index]]["longitude"]);
+
+                          // clearing the textfield
+
+                          applicationBloc.setNUSSelectedLocation();
                         },
+
                         // onTap: () {
                         //   applicationBloc.setSelectedLocation(
                         //       applicationBloc.searchResults![index].placeId);
@@ -291,13 +298,13 @@ class _MyMainPageState extends State<MyMainPage> {
     );
   }
 
-  // Future<void> _goToNUSPlace(double lat, double lng) async {
-  //   final GoogleMapController controller = await _controllerGoogleMap.future;
-  //   controller.animateCamera(CameraUpdate.newCameraPosition(
-  //       CameraPosition(target: LatLng(lat, lng), zoom: 15)));
+  Future<void> _goToNUSPlace(double lat, double lng) async {
+    final GoogleMapController controller = await _controllerGoogleMap.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 15)));
 
-  //   _setMarkers(LatLng(lat, lng));
-  // }
+    _setMarkers(LatLng(lat, lng));
+  }
 
   Future<void> _goToPlace(Place place) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;

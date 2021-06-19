@@ -1,257 +1,314 @@
 {
     "E-Learn_C": {
         "name": "E-Learn_C",
-        "description": "none"
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
     },
     "BIZ1-0301": {
         "name": "BIZ1-0301",
-        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245"
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.292415,
+        "longitude": 103.77405
     },
     "E-Hybrid_C": {
         "name": "E-Hybrid_C",
-        "description": "none"
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
     },
     "BIZ1-0504": {
         "name": "BIZ1-0504",
-        "description": "11 Kent Ridge Dr, Singapore 119244"
+        "description": "11 Kent Ridge Dr, Singapore 119244",
+        "latitude": 1.293326,
+        "longitude": 103.773658
     },
     "BIZ2-0509": {
         "name": "BIZ2-0509",
-        "description": "1 Business Link, Singapore 117592"
-    }
-,
+        "description": "1 Business Link, Singapore 117592",
+        "latitude": 1.293257,
+        "longitude": 103.775344
+    },
     "BIZ1-0303": {
         "name": "BIZ1-0303",
-        "description": "Hon Sui Sen Dr"
-    }
-,
+        "description": "Hon Sui Sen Dr",
+        "latitude": 1.29264,
+        "longitude": 103.773814
+    },
     "BIZ1-0201": {
         "name": "BIZ1-0201",
-        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245"
-    }
-,
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.29242,
+        "longitude": 103.774051
+    },
     "BIZ1-0302": {
         "name": "BIZ1-0302",
-        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245"
-    }
-,
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.292476,
+        "longitude": 103.773923
+    },
     "BIZ1-0307": {
         "name": "BIZ1-0307",
-        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245"
-    }
-,
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.292528,
+        "longitude": 103.774369
+    },
     "COM1-B110": {
         "name": "COM1-B110",
-        "description": "15 Computing Dr, Singapore 117418"
-    }
-,
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294806,
+        "longitude": 103.773899
+    },
     "COM1-B111": {
         "name": "COM1-B111",
-        "description": "15 Computing Dr, Singapore 117418"
-    }
-,
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294932,
+        "longitude": 103.773907
+    },
     "COM1-B112": {
         "name": "COM1-B112",
-        "description": "15 Computing Dr, Singapore 117418"
-    }
-,
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294958,
+        "longitude": 103.773849
+    },
     "COM1-0120": {
         "name": "COM1-0120",
-        "description": "15 Computing Dr, Singapore 117418"
-    }
-,
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.29469,
+        "longitude": 103.773937
+    },
     "COM1-B109": {
         "name": "COM1-B109",
-        "description": "15 Computing Dr, Singapore 117418"
-    }
-,
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294842,
+        "longitude": 103.77395
+    },
     "COM1-B108": {
         "name": "COM1-B108",
-        "description": "15 Computing Dr, Singapore 117418"
-    }
-,
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.29488,
+        "longitude": 103.773995
+    },
     "E5-03-19": {
         "name": "E5-03-19",
-        "description": "4 Engineering Drive 4, #02-09 Blk E5, Singapore 117585"
-    }
-,
+        "description": "4 Engineering Drive 4, #02-09 Blk E5, Singapore 117585",
+        "latitude": 1.298178,
+        "longitude": 103.772033
+    },
     "E1-06-07": {
         "name": "E1-06-07",
-        "description": "3 Engineering Drive 2, Singapore 117578"
-    }
-,
+        "description": "3 Engineering Drive 2, Singapore 117578",
+        "latitude": 1.298887,
+        "longitude": 103.771036
+    },
     "E5-03-20": {
         "name": "E5-03-20",
-        "description": "4 Engineering Drive 4, #02-09 Blk E5, Singapore 117585"
-    }
-,
+        "description": "4 Engineering Drive 4, #02-09 Blk E5, Singapore 117585",
+        "latitude": 1.298137,
+        "longitude": 103.772146
+    },
     "E4A-06-07": {
         "name": "E4A-06-07",
-        "description": "10 Kent Ridge Cres, Singapore 119260"
-    }
-,
+        "description": "10 Kent Ridge Cres, Singapore 119260",
+        "latitude": 1.298821,
+        "longitude": 103.771802
+    },
     "LT2": {
         "name": "LT2",
-        "description": "Engineering Block 2 1 Engineering Drive 2 #E2-03-02/03, Singapore 117579"
-    }
-,
+        "description": "Engineering Block 2 1 Engineering Drive 2 #E2-03-02/03, Singapore 117579",
+        "latitude": 1.299312,
+        "longitude": 103.771405
+    },
     "LT1": {
         "name": "LT1",
-        "description": "5 Engineering Drive 2, Singapore 117579"
-    }
-,
+        "description": "5 Engineering Drive 2, Singapore 117579",
+        "latitude": 1.299513,
+        "longitude": 103.771293
+    },
     "E4-04-03": {
         "name": "E4-04-03",
-        "description": "5 Engineering Drive 1, Singapore 117608"
-    }
-,
+        "description": "5 Engineering Drive 1, Singapore 117608",
+        "latitude": 1.298852,
+        "longitude": 103.771701
+    },
     "E4-04-02": {
         "name": "E4-04-02",
-        "description": "10 Kent Ridge Cres, Singapore 119260"
-    }
-,
+        "description": "10 Kent Ridge Cres, Singapore 119260",
+        "latitude": 1.298714,
+        "longitude": 103.771816
+    },
     "E3-06-08": {
         "name": "E3-06-08",
-        "description": "Engineering Drive 2, Singapore 117579"
-    }
-,
+        "description": "Engineering Drive 2, Singapore 117579",
+        "latitude": 1.299832,
+        "longitude": 103.771445
+    },
     "E4-04-04": {
         "name": "E4-04-04",
-        "description": "3 Engineering Drive 2, Singapore 117579"
-    }
-,
+        "description": "3 Engineering Drive 2, Singapore 117579",
+        "latitude": 1.298798,
+        "longitude": 103.771717
+    },
     "LT28": {
         "name": "LT28",
-        "description": "Yong Loo Lin School of Medicine"
-    }
-,
+        "description": "Yong Loo Lin School of Medicine",
+        "latitude": 1.2972,
+        "longitude": 103.78115
+    },
     "S5-0410": {
         "name": "S5-0410",
-        "description": "18 Science Drive 4, Singapore 117559"
-    }
-,
+        "description": "18 Science Drive 4, Singapore 117559",
+        "latitude": 1.295504,
+        "longitude": 103.779715
+    },
     "E-Learn_B": {
         "name": "E-Learn_B",
-        "description": "none"
-    }
-,
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    },
     "S4A-0308": {
         "name": "S4A-0308",
-        "description": "18 Science Drive 4, Singapore 117559"
-    }
-,
+        "description": "18 Science Drive 4, Singapore 117559",
+        "latitude": 1.295772,
+        "longitude": 103.779261
+    },
     "E-Learn_D": {
         "name": "E-Learn_D",
-        "description": "none"
-    }
-,
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    },
     "E-Hybrid_A": {
         "name": "E-Hybrid_A",
-        "description": "none"
-    }
-,
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    },
     "RC4-SR1-2": {
         "name": "RC4-SR1-2",
-        "description": "2 College Ave E, Singapore 138612"
-    }
-,
+        "description": "2 College Ave E, Singapore 138612",
+        "latitude": 1.308243,
+        "longitude": 103.772883
+    },
     "E5-03-23": {
         "name": "E5-03-23",
-        "description": "E5"
-    }
-,
+        "description": "E5",
+        "latitude": 1.29806,
+        "longitude": 103.772357
+    },
     "LT3": {
         "name": "LT3",
-        "description": "10 Kent Ridge Cres, Singapore 119260"
-    }
-,
+        "description": "10 Kent Ridge Cres, Singapore 119260",
+        "latitude": 1.297783,
+        "longitude": 103.773401
+    },
     "E-Learn_E": {
         "name": "E-Learn_E",
-        "description": "none"
-    }
-,
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    },
     "E1-06-0809": {
         "name": "E1-06-0809",
-        "description": "none"
-    }
-,
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    },
     "LT4": {
         "name": "LT4",
-        "description": "10 Kent Ridge Crescent, 119260"
-    }
-,
+        "description": "10 Kent Ridge Crescent, 119260",
+        "latitude": 1.297478,
+        "longitude": 103.773518
+    },
     "E1-06-02": {
         "name": "E1-06-02",
-        "description": "9 Engineering Drive 1, Singapore 117575"
-    }
-,
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.29855,
+        "longitude": 103.771195
+    },
     "EA-06-02": {
         "name": "EA-06-02",
-        "description": "9 Engineering Drive 1, Singapore 117575"
-    }
-,
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.299893,
+        "longitude": 103.770382
+    },
     "I3-0344": {
         "name": "I3-0344",
-        "description": "21 Heng Mui Keng Terrace, Icube Building, Singapore 119613"
-    }
-,
+        "description": "21 Heng Mui Keng Terrace, Icube Building, Singapore 119613",
+        "latitude": 1.292453,
+        "longitude": 103.775568
+    },
     "LT15": {
         "name": "LT15",
-        "description": "11 Computing Drive, 117416"
-    }
-,
+        "description": "11 Computing Drive, 117416",
+        "latitude": 1.295523,
+        "longitude": 103.773409
+    },
     "COM1-VCRM": {
         "name": "COM1-VCRM",
-        "description": "15 Computing Dr, Singapore 117418"
-    }
-,
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294736,
+        "longitude": 103.774009
+    },
     "E-Learn_A": {
         "name": "E-Learn_A",
-        "description": "none"
-    }
-,
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    },
     "LT19": {
         "name": "LT19",
-        "description": "13 Computing Dr, Singapore 117417"
-    }
-,
+        "description": "13 Computing Dr, Singapore 117417",
+        "latitude": 1.29373,
+        "longitude": 103.774303
+    },
     "E1-06-08": {
         "name": "E1-06-08",
-        "description": "3 Engineering Drive 2, Singapore 117578"
-    }
-,
+        "description": "3 Engineering Drive 2, Singapore 117578",
+        "latitude": 1.298996,
+        "longitude": 103.770985
+    },
     "E1-06-09": {
         "name": "E1-06-09",
-        "description": "3 Engineering Drive 2, Singapore 117578"
-    }
-,
+        "description": "3 Engineering Drive 2, Singapore 117578",
+        "latitude": 1.299028,
+        "longitude": 103.771053
+    },
     "E1-06-01": {
         "name": "E1-06-01",
-        "description": "9 Engineering Drive 1, Singapore 117575"
-    }
-,
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.298478,
+        "longitude": 103.771229
+    },
     "TP-GLR": {
         "name": "TP-GLR",
-        "description": "1 College Ave E, CREATE Tower, Singapore 049374"
-    }
-,
+        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
+        "latitude": 1.303998,
+        "longitude": 103.773409
+    },
     "TP-SR1": {
         "name": "TP-SR1",
-        "description": "1 College Ave E, CREATE Tower, Singapore 049374"
-    }
-,
+        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
+        "latitude": 1.303998,
+        "longitude": 103.773409
+    },
     "TP-SR5": {
         "name": "TP-SR5",
-        "description": "1 College Ave E, CREATE Tower, Singapore 049374"
-    }
-,
+        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
+        "latitude": 1.303998,
+        "longitude": 103.773409
+    },
     "TP-SR7": {
         "name": "TP-SR7",
-        "description": "1 College Ave E, CREATE Tower, Singapore 049374"
-    }
-,
+        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
+        "latitude": 1.303998,
+        "longitude": 103.773409
+    },
     "TP-SR3": {
         "name": "TP-SR3",
-        "description": "1 College Ave E, CREATE Tower, Singapore 049374"
+        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
+        "latitude": 1.303998,
+        "longitude": 103.773409
     }
 }
