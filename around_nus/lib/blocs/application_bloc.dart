@@ -65,11 +65,13 @@ class ApplicationBloc with ChangeNotifier {
     searchResults = null;
     searchFromResults = null;
     searchToResults = null;
+    searchNUSResults = null;
     notifyListeners();
   }
 
   setNUSSelectedLocation() async {
     searchNUSResults = null;
+    searchResults = null;
     notifyListeners();
   }
 
