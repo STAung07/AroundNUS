@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:typed_data';
 
 import 'package:around_nus/blocs/application_bloc.dart';
 import 'package:around_nus/models/place.dart';
@@ -8,7 +9,6 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_osm_plugin/flutter_osm_plugin.dart';
 import '../models/pickuppointinfo_model.dart';
 import '../models/busstopsinfo_model.dart';
 import '../services/nusnextbus_service.dart';
@@ -82,21 +82,30 @@ class _MapViewState extends State<MapView> {
   List<LatLng> polylineCoordinates = [];
 
   // generates every polyline between start and finish
-  PolylinePoints polyLinePoints = PolylinePoints();
 
   NusNextBus busService = NusNextBus();
+  //HaversineDistance distanceCalculator = HaversineDistance();
 
   // list of bus stops as possible wayPoint
-  List<BusStop> _wayPoints = [];
+  List<BusStop> _nusBusStops = [];
+  List<PolylineWayPoint> _wayPoints = [];
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _updateListofBusStop() {
     busService.fetchBusStopInfo().then((value) {
       setState(() {
-        _wayPoints.addAll(value);
+        _nusBusStops.addAll(value);
       });
     });
+  }
+
+  void _getWayPoints() {
+    for (int i = 0; i < _nusBusStops.length; i++) {
+      String lat = _nusBusStops[i].latitude.toString();
+      String lng = _nusBusStops[i].longitude.toString();
+      _wayPoints.add(PolylineWayPoint(location: '$lat,$lng', stopOver: true));
+    }
   }
 
   // Get Current Location GoogleMaps
@@ -363,11 +372,11 @@ class _MapViewState extends State<MapView> {
         //   destinationCoordinates.longitude,
         // );
 
-        await _createGoogleMapsPolylines(
-            startCoordinates, destinationCoordinates);
+        await _getWalkingAndBusPath(startCoordinates, destinationCoordinates);
 
         double totalDistance = 0.0;
 
+        /*
         // Calculating the total distance by adding the distance
         // between small segments
         for (int i = 0; i < polylineCoordinates.length - 1; i++) {
@@ -378,6 +387,7 @@ class _MapViewState extends State<MapView> {
             polylineCoordinates[i + 1].longitude,
           );
         }
+        */
 
         setState(() {
           _placeDistance = totalDistance.toStringAsFixed(2);
@@ -403,19 +413,95 @@ class _MapViewState extends State<MapView> {
     return 12742 * asin(sqrt(a));
   }
 
+  Position _nearestBusStop(Position pos) {
+    // distance between pos and first bus stop in list
+    double currMinDist = _coordinateDistance(pos.latitude, pos.longitude,
+        _nusBusStops[0].latitude, _nusBusStops[0].longitude);
+
+    int currIndex = 0;
+
+    // go through all bus stops; find nearest
+    for (int i = 1; i < _nusBusStops.length; i++) {
+      double currDist = _coordinateDistance(pos.latitude, pos.longitude,
+          _nusBusStops[i].latitude, _nusBusStops[i].longitude);
+      if (currDist < currMinDist) {
+        currIndex = i;
+        currMinDist = currDist;
+      }
+    }
+    return Position(
+      longitude: _nusBusStops[currIndex].longitude,
+      latitude: _nusBusStops[currIndex].latitude,
+      speed: 0.0,
+      speedAccuracy: 0.0,
+      heading: 0.0,
+      altitude: 0.0,
+      accuracy: 0.0,
+      timestamp: DateTime.now(),
+    );
+  }
+
+  _getWalkingAndBusPath(
+      Position startCoordinates, Position destinationCoordinates) async {
+    await _createGoogleMapsPolylines(
+      startCoordinates,
+      _nearestBusStop(startCoordinates),
+      Colors.yellow,
+      TravelMode.walking,
+      [],
+      PolylineId('toStartBusStop'),
+    );
+
+    // bus driving route; add wayPoints to be busstops along route
+    // check which route at start bus stop has both start and end bus stop;
+    // check shuttleService {parseJson} for busses stopping at start BusStop;
+    // use PickUpPoint {parseJson} to find all pickuppoints of routes to check overlap
+    // if no route has same bus stop, check for connecting routes
+    // waypoints are checkpoints {parseJson} of bus route taken at busstop
+    await _createGoogleMapsPolylines(
+      _nearestBusStop(startCoordinates),
+      _nearestBusStop(destinationCoordinates),
+      Colors.blue,
+      TravelMode.driving,
+      _wayPoints,
+      PolylineId('betweenBusStops'),
+    );
+
+    // walking path from end bus stop to end
+    await _createGoogleMapsPolylines(
+      _nearestBusStop(destinationCoordinates),
+      destinationCoordinates,
+      Colors.yellow,
+      TravelMode.walking,
+      [],
+      PolylineId('fromEndBusStop'),
+    );
+  }
+
   // Create the polylines for showing the route between two places
   // Polylines from google
-  _createGoogleMapsPolylines(Position start, Position destination) async {
+  _createGoogleMapsPolylines(
+    Position start,
+    Position destination,
+    Color colour,
+    TravelMode modeOfTravel,
+    List<PolylineWayPoint> wayPoints,
+    PolylineId id,
+  ) async {
     // initializing PolylinePoints
     polylinePoints = PolylinePoints();
 
-    // generating list of coordinates to be used for drawing polylines
-    // can add waypoints {bus stops}
+    // reset polylineCoordinates each time called
+    polylineCoordinates = [];
+
+    // add wayPoints of start and destination to _wayPoints
+    // can add waypoints {bus stops along route}
     PolylineResult result = await polylinePoints!.getRouteBetweenCoordinates(
       Secrets.API_KEY, // Google Maps API Key
       PointLatLng(start.latitude, start.longitude),
       PointLatLng(destination.latitude, destination.longitude),
-      travelMode: TravelMode.transit,
+      travelMode: modeOfTravel,
+      wayPoints: wayPoints,
     );
 
     // adding coordinates to the list
@@ -427,22 +513,18 @@ class _MapViewState extends State<MapView> {
       });
     }
 
-    // defining an ID
-    PolylineId id = PolylineId('poly');
+    //PolylineId id = PolylineId('line');
+    //Color colour = Colors.blue;
 
     // initialising Polyline
     Polyline polyline = Polyline(
       polylineId: id,
-      color: Colors.red,
+      color: colour,
       points: polylineCoordinates,
       width: 3,
     );
     polylines[id] = polyline;
   }
-
-  // function that finds route from one location to another
-  // via nus bus stops and bus routes;
-  // use pickuppoint result for bus stops each route passes by as well as busstop location
 
   @override
   void dispose() {
@@ -469,6 +551,7 @@ class _MapViewState extends State<MapView> {
     //osmController = _getOSMController();
     _getCurrentLocation();
     _updateListofBusStop();
+    _getWayPoints();
     super.initState();
   }
 
@@ -697,7 +780,6 @@ class _MapViewState extends State<MapView> {
                                 ),
                               ),
                             ),
-                            /*
                             // Distance Calculation
                             SizedBox(height: 10),
                             Visibility(
@@ -721,8 +803,10 @@ class _MapViewState extends State<MapView> {
                                         if (markers.isNotEmpty) markers.clear();
                                         if (polylines.isNotEmpty)
                                           polylines.clear();
+                                        /*
                                         if (polylineCoordinates.isNotEmpty)
                                           polylineCoordinates.clear();
+                                        */
                                         _placeDistance = null;
                                       });
 
@@ -762,7 +846,6 @@ class _MapViewState extends State<MapView> {
                                 ),
                               ),
                             ),
-                            */
                           ],
                         ),
                       ),
