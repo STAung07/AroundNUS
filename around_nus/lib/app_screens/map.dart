@@ -130,27 +130,6 @@ class _MyMainPageState extends State<MyMainPage> {
           zoom: 15);
     }
 
-    // Widget _buildList() {
-    //   List tempList = [];
-    //   for (int i = 0; i < filteredNames.length; i++) {
-    //     if (filteredNames[i]
-    //         .toLowerCase()
-    //         .contains(_textController.text.toLowerCase())) {
-    //       tempList.add(filteredNames[i]);
-    //       print(_textController.text);
-    //     }
-    //   }
-
-    //   filteredNames = tempList;
-
-    //   return ListView.builder(
-    //     itemCount: filteredNames.length,
-    //     itemBuilder: (BuildContext context, int index) {
-    //       return ListTile(title: Text(filteredNames[index]));
-    //     },
-    //   );
-    // }
-
     // This method is rerun every time setState is called
     return Scaffold(
       appBar: AppBar(
@@ -252,7 +231,7 @@ class _MyMainPageState extends State<MyMainPage> {
               _textController.text.length != 0)
             Container(
                 padding: EdgeInsets.only(top: 70),
-                height: 410.0,
+                height: 415.0,
                 // child: _buildList()
                 child: ListView.builder(
                     // itemCount: applicationBloc.searchResults!.length,

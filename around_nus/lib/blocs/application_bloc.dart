@@ -20,6 +20,8 @@ class ApplicationBloc with ChangeNotifier {
   List<PlaceSearch>? searchFromResults;
   List<PlaceSearch>? searchToResults;
   List? searchNUSResults;
+  List? searchNUSFromResults;
+  List? searchNUSToResults;
   List? searchBusStopsResults;
   // StreamController<Place> selectedLocation = StreamController<Place>();
   StreamController<Place> selectedLocation = BehaviorSubject();
@@ -29,6 +31,16 @@ class ApplicationBloc with ChangeNotifier {
   }
   searchNUSPlaces(String searchTerm) async {
     searchNUSResults = await placesService.getNUSAutoComplete(searchTerm);
+    notifyListeners();
+  }
+
+  searchNUSFromPlaces(String searchTerm) async {
+    searchNUSFromResults = await placesService.getNUSAutoComplete(searchTerm);
+    notifyListeners();
+  }
+
+  searchNUSToPlaces(String searchTerm) async {
+    searchNUSToResults = await placesService.getNUSAutoComplete(searchTerm);
     notifyListeners();
   }
 
@@ -66,12 +78,18 @@ class ApplicationBloc with ChangeNotifier {
     searchFromResults = null;
     searchToResults = null;
     searchNUSResults = null;
+    searchNUSFromResults = null;
+    searchNUSToResults = null;
     notifyListeners();
   }
 
   setNUSSelectedLocation() async {
-    searchNUSResults = null;
     searchResults = null;
+    searchFromResults = null;
+    searchToResults = null;
+    searchNUSResults = null;
+    searchNUSFromResults = null;
+    searchNUSToResults = null;
     notifyListeners();
   }
 

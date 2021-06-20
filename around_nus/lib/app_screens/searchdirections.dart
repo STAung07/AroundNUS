@@ -14,7 +14,9 @@ import '../models/busstopsinfo_model.dart';
 import '../services/nusnextbus_service.dart';
 import 'dart:math' show cos, sqrt, asin;
 import '../common_widgets/drawer.dart';
+import 'dart:convert';
 import '../directions_widgets/apikey.dart'; // Stores the Google Maps API Key
+import 'package:flutter/services.dart' show rootBundle;
 
 class FindDirections extends StatelessWidget {
   @override
@@ -41,6 +43,8 @@ class _MapViewState extends State<MapView> {
   Completer<GoogleMapController> mapController = Completer();
   late GoogleMapController newMapController;
   late StreamSubscription locationSubscription;
+
+  Map nusVenuesData = {};
   //late MapController osmController;
 
   /*
@@ -156,21 +160,13 @@ class _MapViewState extends State<MapView> {
 
   // Google Maps SetMarkers; not applicable in OSMview
   Future<void> _setMarkers(LatLng point) async {
-    // setState(() {
-
-    //   // markers.add(
-    //   //   Marker(
-    //   //     markerId: MarkerId('Location'),
-    //   //     position: point,
-    //   //   ),
-    //   // );
-    // });
-
     //set starting marker
     markers.clear();
     if (_startAddress.length != 0) {
-      print("start");
+      print("start address: ");
+      print(_startAddress);
       List<Location> startPlacemark = await locationFromAddress(_startAddress);
+      print("start placemark: ");
       print(startPlacemark[0]);
       Position startCoordinates = Position(
           latitude: startPlacemark[0].latitude,
@@ -197,9 +193,14 @@ class _MapViewState extends State<MapView> {
         markers.add(startMarker);
       });
     }
+
     if (_destinationAddress.length != 0) {
+      print("destination address: ");
+      print(_destinationAddress);
       List<Location> endPlacemark =
           await locationFromAddress(_destinationAddress);
+      print("destination placemark: ");
+      print(endPlacemark[0]);
       Position endCoordinates = Position(
           latitude: endPlacemark[0].latitude,
           longitude: endPlacemark[0].longitude,
@@ -454,7 +455,7 @@ class _MapViewState extends State<MapView> {
 
     // bus driving route; add wayPoints to be busstops along route
     // check which route at start bus stop has both start and end bus stop;
-    // check shuttleService {parseJson} for busses stopping at start BusStop;
+    // check shuttleService {parseJson} for buses stopping at start BusStop;
     // use PickUpPoint {parseJson} to find all pickuppoints of routes to check overlap
     // if no route has same bus stop, check for connecting routes
     // waypoints are checkpoints {parseJson} of bus route taken at busstop
@@ -552,7 +553,17 @@ class _MapViewState extends State<MapView> {
     _getCurrentLocation();
     _updateListofBusStop();
     _getWayPoints();
+    this.loadJsonData();
     super.initState();
+  }
+
+  Future<String> loadJsonData() async {
+    var jsonText = await rootBundle.loadString('assets/nusvenues.json');
+
+    setState(() {
+      nusVenuesData = json.decode(jsonText);
+    });
+    return "success";
   }
 
   @override
@@ -680,10 +691,11 @@ class _MapViewState extends State<MapView> {
                               width: width * 0.8,
                               child: TextField(
                                 onChanged: (value) {
-                                  setState(() {
-                                    _startAddress = value;
-                                  });
+                                  // setState(() {
+                                  //   _startAddress = value;
+                                  // });
                                   applicationBloc.searchFromPlaces(value);
+                                  applicationBloc.searchNUSFromPlaces(value);
                                 },
                                 controller: startAddressController,
                                 focusNode: startAddressFocusNode,
@@ -737,9 +749,10 @@ class _MapViewState extends State<MapView> {
                               width: width * 0.8,
                               child: TextField(
                                 onChanged: (value) {
-                                  setState(() {
-                                    _destinationAddress = value;
-                                  });
+                                  // setState(() {
+                                  //   _destinationAddress = value;
+                                  // });
+                                  applicationBloc.searchNUSToPlaces(value);
                                   applicationBloc.searchToPlaces(value);
                                 },
                                 controller: destinationAddressController,
@@ -855,8 +868,10 @@ class _MapViewState extends State<MapView> {
               ),
 
               //SEARCH FROM RESULTS STORED INTO THESE 2 CONTAINERS
-              if (applicationBloc.searchFromResults != null &&
-                  applicationBloc.searchFromResults!.length != 0 &&
+              if ((applicationBloc.searchNUSFromResults != null ||
+                      applicationBloc.searchFromResults != null) &&
+                  (applicationBloc.searchNUSFromResults!.length != 0 ||
+                      applicationBloc.searchFromResults!.length != 0) &&
                   startAddressController.text.length != 0)
                 Container(
                     margin: EdgeInsets.only(top: 100, right: 40, left: 40),
@@ -865,42 +880,106 @@ class _MapViewState extends State<MapView> {
                     decoration: BoxDecoration(
                         backgroundBlendMode: BlendMode.darken,
                         color: Colors.black.withOpacity(0.6))),
-              if (applicationBloc.searchFromResults != null &&
-                  applicationBloc.searchFromResults!.length != 0 &&
+              if ((applicationBloc.searchNUSFromResults != null ||
+                      applicationBloc.searchFromResults != null) &&
+                  (applicationBloc.searchNUSFromResults!.length != 0 ||
+                      applicationBloc.searchFromResults!.length != 0) &&
                   startAddressController.text.length != 0)
                 Container(
                     padding: EdgeInsets.only(top: 100, right: 35, left: 35),
                     height: 415.0,
                     child: ListView.builder(
-                        itemCount: applicationBloc.searchFromResults!.length,
+                        itemCount: (applicationBloc.searchFromResults!.length +
+                            applicationBloc.searchNUSFromResults!.length),
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(
-                              applicationBloc
-                                  .searchFromResults![index].description,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            onTap: () {
-                              applicationBloc.setSelectedLocation(
-                                  applicationBloc
-                                      .searchFromResults![index].placeId);
-                              startAddressController.value =
-                                  startAddressController.value.copyWith(
-                                text: applicationBloc
-                                    .searchFromResults![index].description,
-                                selection: TextSelection.collapsed(
-                                    offset: applicationBloc
-                                        .searchFromResults![index]
-                                        .description
-                                        .length),
-                              );
-                            },
-                          );
+                          if (index <
+                              applicationBloc.searchNUSFromResults!.length)
+                            return ListTile(
+                              title: Text(
+                                applicationBloc.searchNUSFromResults![index],
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onTap: () {
+                                //removes inbuilt keyboard
+                                FocusScope.of(context).unfocus();
+                                //set start address as tapped location
+                                setState(() {
+                                  _startAddress = nusVenuesData[applicationBloc
+                                          .searchNUSFromResults![index]]
+                                      ["description"];
+                                });
+                                //textfield value is selected location
+                                startAddressController.value =
+                                    startAddressController.value.copyWith(
+                                  text: applicationBloc
+                                      .searchNUSFromResults![index],
+                                  selection: TextSelection.collapsed(
+                                      offset: applicationBloc
+                                          .searchNUSFromResults![index].length),
+                                );
+                                // bring camera to selected location
+                                _goToNUSPlace(
+                                    nusVenuesData[applicationBloc
+                                            .searchNUSFromResults![index]]
+                                        ["latitude"],
+                                    nusVenuesData[applicationBloc
+                                            .searchNUSFromResults![index]]
+                                        ["longitude"]);
+
+                                applicationBloc.setNUSSelectedLocation();
+                              },
+                            );
+                          else {
+                            return ListTile(
+                              title: Text(
+                                applicationBloc
+                                    .searchFromResults![index -
+                                        applicationBloc
+                                            .searchNUSFromResults!.length]
+                                    .description,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                setState(() {
+                                  _startAddress = applicationBloc
+                                      .searchFromResults![index -
+                                          applicationBloc
+                                              .searchNUSFromResults!.length]
+                                      .description;
+                                });
+
+                                applicationBloc.setSelectedLocation(
+                                    applicationBloc
+                                        .searchFromResults![index -
+                                            applicationBloc
+                                                .searchNUSFromResults!.length]
+                                        .placeId);
+                                startAddressController.value =
+                                    startAddressController.value.copyWith(
+                                  text: applicationBloc
+                                      .searchFromResults![index -
+                                          applicationBloc
+                                              .searchNUSFromResults!.length]
+                                      .description,
+                                  selection: TextSelection.collapsed(
+                                      offset: applicationBloc
+                                          .searchFromResults![index -
+                                              applicationBloc
+                                                  .searchNUSFromResults!.length]
+                                          .description
+                                          .length),
+                                );
+                              },
+                            );
+                          }
                         })),
 
               //SEARCH TO RESULTS STORED INTO THESE TWO CONTAINERS
-              if (applicationBloc.searchToResults != null &&
-                  applicationBloc.searchToResults!.length != 0 &&
+              if ((applicationBloc.searchNUSToResults != null ||
+                      applicationBloc.searchToResults != null) &&
+                  (applicationBloc.searchNUSToResults!.length != 0 ||
+                      applicationBloc.searchToResults!.length != 0) &&
                   destinationAddressController.text.length != 0)
                 Container(
                     margin: EdgeInsets.only(top: 160, right: 40, left: 40),
@@ -909,37 +988,97 @@ class _MapViewState extends State<MapView> {
                     decoration: BoxDecoration(
                         backgroundBlendMode: BlendMode.darken,
                         color: Colors.black.withOpacity(0.6))),
-              if (applicationBloc.searchToResults != null &&
-                  applicationBloc.searchToResults!.length != 0 &&
+              if ((applicationBloc.searchNUSToResults != null ||
+                      applicationBloc.searchToResults != null) &&
+                  (applicationBloc.searchNUSToResults!.length != 0 ||
+                      applicationBloc.searchToResults!.length != 0) &&
                   destinationAddressController.text.length != 0)
                 Container(
                     padding: EdgeInsets.only(top: 160, right: 35, left: 35),
                     height: 415.0,
                     child: ListView.builder(
-                        itemCount: applicationBloc.searchToResults!.length,
+                        itemCount: (applicationBloc.searchToResults!.length +
+                            applicationBloc.searchNUSToResults!.length),
                         itemBuilder: (context, index) {
-                          return ListTile(
-                            title: Text(
-                              applicationBloc
-                                  .searchToResults![index].description,
-                              style: TextStyle(color: Colors.white),
-                            ),
-                            onTap: () {
-                              applicationBloc.setSelectedLocation(
-                                  applicationBloc
-                                      .searchToResults![index].placeId);
-                              destinationAddressController.value =
-                                  destinationAddressController.value.copyWith(
-                                text: applicationBloc
-                                    .searchToResults![index].description,
-                                selection: TextSelection.collapsed(
-                                    offset: applicationBloc
-                                        .searchToResults![index]
-                                        .description
-                                        .length),
-                              );
-                            },
-                          );
+                          if (index <
+                              applicationBloc.searchNUSToResults!.length)
+                            return ListTile(
+                              title: Text(
+                                applicationBloc.searchNUSToResults![index],
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                setState(() {
+                                  _destinationAddress = nusVenuesData[
+                                          applicationBloc
+                                              .searchNUSToResults![index]]
+                                      ["description"];
+                                });
+
+                                destinationAddressController.value =
+                                    destinationAddressController.value.copyWith(
+                                  text: applicationBloc
+                                      .searchNUSToResults![index],
+                                  selection: TextSelection.collapsed(
+                                      offset: applicationBloc
+                                          .searchNUSToResults![index].length),
+                                );
+                                _goToNUSPlace(
+                                    nusVenuesData[applicationBloc
+                                            .searchNUSToResults![index]]
+                                        ["latitude"],
+                                    nusVenuesData[applicationBloc
+                                            .searchNUSToResults![index]]
+                                        ["longitude"]);
+
+                                applicationBloc.setNUSSelectedLocation();
+                              },
+                            );
+                          else {
+                            return ListTile(
+                              title: Text(
+                                applicationBloc
+                                    .searchToResults![index -
+                                        applicationBloc
+                                            .searchNUSToResults!.length]
+                                    .description,
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                setState(() {
+                                  _destinationAddress = applicationBloc
+                                      .searchToResults![index -
+                                          applicationBloc
+                                              .searchNUSToResults!.length]
+                                      .description;
+                                });
+                                _destinationAddress;
+                                applicationBloc.setSelectedLocation(
+                                    applicationBloc
+                                        .searchToResults![index -
+                                            applicationBloc
+                                                .searchNUSToResults!.length]
+                                        .placeId);
+                                destinationAddressController.value =
+                                    destinationAddressController.value.copyWith(
+                                  text: applicationBloc
+                                      .searchToResults![index -
+                                          applicationBloc
+                                              .searchNUSToResults!.length]
+                                      .description,
+                                  selection: TextSelection.collapsed(
+                                      offset: applicationBloc
+                                          .searchToResults![index -
+                                              applicationBloc
+                                                  .searchNUSToResults!.length]
+                                          .description
+                                          .length),
+                                );
+                              },
+                            );
+                          }
                         })),
               // Show current location button
               SafeArea(
@@ -983,7 +1122,14 @@ class _MapViewState extends State<MapView> {
     );
   }
 
-// Change _goToPlace based on OSM controller
+  Future<void> _goToNUSPlace(double lat, double lng) async {
+    final GoogleMapController controller = await mapController.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 15)));
+
+    _setMarkers(LatLng(lat, lng));
+  }
+
   Future<void> _goToPlace(Place place) async {
     final GoogleMapController controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
