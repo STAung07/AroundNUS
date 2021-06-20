@@ -5,7 +5,6 @@ import 'package:provider/provider.dart';
 import '../common_widgets/drawer.dart';
 //import '../models/busstopsinfo_model.dart';
 import '../models/busroutesinfo_model.dart';
-import '../models/pickuppointinfo_model.dart';
 import '../bustimings_widgets/services_expansionlist.dart';
 import '../services/nusnextbus_service.dart';
 
@@ -31,15 +30,6 @@ class _BusTimingsState extends State<BusTimings> {
     fetchPickUpPointInfo(_routeName).then((value) {
       setState(() {
         _currPickUpPoints.addAll(value);
-      });
-    });
-  }
-
-
-  void _updateListofBusStop() {
-    fetchBusStopInfo(s).then((value) {
-      setState(() {
-        _nusBusStops.addAll(value);
       });
     });
   }
