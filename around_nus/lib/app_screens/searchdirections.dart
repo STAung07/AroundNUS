@@ -10,6 +10,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
 import '../models/pickuppointinfo_model.dart';
+import '../models/checkpointinfo_model.dart';
 import '../models/busstopsinfo_model.dart';
 import '../services/nusnextbus_service.dart';
 import 'dart:math' show cos, sqrt, asin;
@@ -1054,7 +1055,7 @@ class _MapViewState extends State<MapView> {
                                               .searchNUSToResults!.length]
                                       .description;
                                 });
-                                _destinationAddress;
+                                //_destinationAddress;
                                 applicationBloc.setSelectedLocation(
                                     applicationBloc
                                         .searchToResults![index -
