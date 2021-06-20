@@ -63,13 +63,12 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 fontSize: 20,
               ),
             ),
-            // onTap: () {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => MapView()),
-            //     //MaterialPageRoute(builder: (context) => FindDirections()),
-            //   );
-            // },
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => FindDirections()),
+              );
+            },
           ),
           ListTile(
             title: Text(
