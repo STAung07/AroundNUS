@@ -191,8 +191,10 @@ class _MyMainPageState extends State<MyMainPage> {
                       }),
                   prefixIcon: Icon(Icons.search)),
               onChanged: (value) {
-                applicationBloc.searchNUSPlaces(value);
-                applicationBloc.searchPlaces(value);
+                if (value != null) {
+                  applicationBloc.searchNUSPlaces(value);
+                  applicationBloc.searchPlaces(value);
+                }
 
                 // getNUSAutoComplete(value);
               },
