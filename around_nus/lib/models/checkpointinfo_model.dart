@@ -7,6 +7,7 @@ class CheckPointResult {
 
   factory CheckPointResult.fromJson(Map<String, dynamic> parsedJson) {
     var checkPoints = parsedJson['CheckPointResult'] as Map<String, dynamic>;
+    print(checkPoints.runtimeType);
     return CheckPointResult(
       checkPointsResult: CheckPoints.fromJson(checkPoints),
     );
@@ -24,6 +25,7 @@ class CheckPoints {
     var list = parsedJson['CheckPoint'] as List;
     List<CheckPointInfo> checkPointInfoList =
         list.map((i) => CheckPointInfo.fromJson(i)).toList();
+    print(list.runtimeType);
     return CheckPoints(
       checkpoints: checkPointInfoList,
     );
