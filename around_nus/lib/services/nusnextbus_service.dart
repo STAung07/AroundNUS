@@ -126,7 +126,7 @@ class NusNextBus {
     if (response.statusCode == 200) {
       var checkPointResultsJson = json.decode(response.body);
       checkPointResults = CheckPointResult.fromJson(checkPointResultsJson);
-      checkPointInfoList = (checkPointResults).checkPointsResult.checkPoints;
+      checkPointInfoList = (checkPointResults).checkPointsResult.checkpoints;
     }
     return checkPointInfoList;
   }

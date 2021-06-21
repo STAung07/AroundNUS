@@ -9,10 +9,11 @@ import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
-import '../models/pickuppointinfo_model.dart';
 import '../models/busstopsinfo_model.dart';
+import '../models/pickuppointinfo_model.dart';
+import '../models/checkpointinfo_model.dart';
 import '../services/nusnextbus_service.dart';
-import 'dart:math' show cos, sqrt, asin;
+import 'dart:math'; //show cos, sqrt, asin;
 import '../common_widgets/drawer.dart';
 import 'dart:convert';
 import '../directions_widgets/apikey.dart'; // Stores the Google Maps API Key
@@ -45,17 +46,6 @@ class _MapViewState extends State<MapView> {
   late StreamSubscription locationSubscription;
 
   Map nusVenuesData = {};
-  //late MapController osmController;
-
-  /*
-  // MapController for OSM
-  MapController _getOSMController() {
-    return MapController(
-      initMapWithUserPosition: false,
-      initPosition: GeoPoint(latitude: 1.2966, longitude: 103.7764),
-    );
-  }
-  */
 
   Position? _currentPosition;
   String? _currentAddress;
@@ -73,11 +63,6 @@ class _MapViewState extends State<MapView> {
   // Marker endMarker;
   Set<Marker> markers = {};
 
-  /*
-  List<StaticPositionGeoPoint> osmMarkers = [];
-  List<GeoPoint> osmGeoPoints = [];
-  */
-
   // polyline points contain coordinates of route to draw on map
   PolylinePoints? polylinePoints;
   Map<PolylineId, Polyline> polylines = {};
@@ -92,11 +77,14 @@ class _MapViewState extends State<MapView> {
 
   // list of bus stops as possible wayPoint
   List<BusStop> _nusBusStops = [];
+  List<PickUpPointInfo> _routePickUpPoints = [];
+  List<CheckPointInfo> _routeCheckPoints = [];
   List<PolylineWayPoint> _wayPoints = [];
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _updateListofBusStop() {
+    //_nusBusStops = [];
     busService.fetchBusStopInfo().then((value) {
       setState(() {
         _nusBusStops.addAll(value);
@@ -104,15 +92,33 @@ class _MapViewState extends State<MapView> {
     });
   }
 
-  void _getWayPoints() {
-    for (int i = 0; i < _nusBusStops.length; i++) {
-      String lat = _nusBusStops[i].latitude.toString();
-      String lng = _nusBusStops[i].longitude.toString();
-      _wayPoints.add(PolylineWayPoint(location: '$lat,$lng', stopOver: true));
-    }
+  void _updateListofCheckPoint(String _busRouteName) {
+    //_routeCheckPoints = [];
+    busService.fetchCheckPointInfo(_busRouteName).then((value) {
+      setState(() {
+        _routeCheckPoints.addAll(value);
+      });
+    });
   }
 
-  // Get Current Location GoogleMaps
+  void _updateListofPickUpPoint(String _busRouteName) {
+    //_routePickUpPoints = [];
+    busService.fetchPickUpPointInfo(_busRouteName).then((value) {
+      setState(() {
+        _routePickUpPoints.addAll(value);
+        /*
+        for (int i = 0; i < _routePickUpPoints.length; i++) {
+          // for each checkpoint, get lat and lng as string and add to waypoint
+          String lat = _routePickUpPoints[i].latitude.toString();
+          String lng = _routePickUpPoints[i].longitude.toString();
+          _wayPoints
+              .add(PolylineWayPoint(location: '$lat,$lng', stopOver: true));
+        }
+        */
+      });
+    });
+  }
+
   // Method for retrieving the current location
   _getCurrentLocation() async {
     await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
@@ -135,9 +141,7 @@ class _MapViewState extends State<MapView> {
     });
   }
 
-  // Method for retrieving the address; edit to get GeoPoint
   // current version waits for input in search bars of from and to
-
   _getAddress() async {
     try {
       List<Placemark> p = await placemarkFromCoordinates(
@@ -228,7 +232,6 @@ class _MapViewState extends State<MapView> {
     }
   }
 
-  // Calculate distance between 2 points
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
     try {
@@ -373,7 +376,30 @@ class _MapViewState extends State<MapView> {
         //   destinationCoordinates.longitude,
         // );
 
+        // get walking + bus route; colour coded yellow and blue
         await _getWalkingAndBusPath(startCoordinates, destinationCoordinates);
+
+        /*
+        // get walking path; colour coded green
+        await _createGoogleMapsPolylines(
+          startCoordinates,
+          destinationCoordinates,
+          Colors.green,
+          TravelMode.walking,
+          [],
+          PolylineId('walking'),
+        );
+
+        // get driving path; colour coded red
+        await _createGoogleMapsPolylines(
+          startCoordinates,
+          destinationCoordinates,
+          Colors.red,
+          TravelMode.driving,
+          [],
+          PolylineId('driving'),
+        );
+        */
 
         double totalDistance = 0.0;
 
@@ -442,6 +468,19 @@ class _MapViewState extends State<MapView> {
     );
   }
 
+  _getBusWayPoints(String _routeName) {
+    _updateListofPickUpPoint(_routeName);
+
+    print(_routePickUpPoints);
+
+    for (int i = 0; i < _routePickUpPoints.length; i++) {
+      // for each checkpoint, get lat and lng as string and add to waypoint
+      String lat = _routePickUpPoints[i].latitude.toString();
+      String lng = _routePickUpPoints[i].longitude.toString();
+      _wayPoints.add(PolylineWayPoint(location: '$lat,$lng', stopOver: true));
+    }
+  }
+
   _getWalkingAndBusPath(
       Position startCoordinates, Position destinationCoordinates) async {
     await _createGoogleMapsPolylines(
@@ -459,6 +498,21 @@ class _MapViewState extends State<MapView> {
     // use PickUpPoint {parseJson} to find all pickuppoints of routes to check overlap
     // if no route has same bus stop, check for connecting routes
     // waypoints are checkpoints {parseJson} of bus route taken at busstop
+
+    // shortestPath algo which returns shortest bus route to get there
+
+    // function that adds checkpoints based on current route; WayPoints
+    // replace D1 with route obtained from shortestPath algo function on top
+    _getBusWayPoints('D1');
+
+    print(_wayPoints);
+
+    // cannot use travelMode and getRouteBetweenCoordinates;
+    // need to manually add all pickuppoints of route obtained from shortestPath
+    // algo and plot polylineCoordinates from there; separate function to get
+    // list of bus stops between start and end bus stop to add as polylines(List of LatLngs)
+
+    ///*
     await _createGoogleMapsPolylines(
       _nearestBusStop(startCoordinates),
       _nearestBusStop(destinationCoordinates),
@@ -467,6 +521,17 @@ class _MapViewState extends State<MapView> {
       _wayPoints,
       PolylineId('betweenBusStops'),
     );
+    //*/
+
+    /*
+    _createNusBusPolylines(
+      _nearestBusStop(startCoordinates),
+      _nearestBusStop(destinationCoordinates),
+      'D1',
+      Colors.blue,
+      PolylineId('betweenBusStops'),
+    );
+    */
 
     // walking path from end bus stop to end
     await _createGoogleMapsPolylines(
@@ -477,6 +542,65 @@ class _MapViewState extends State<MapView> {
       [],
       PolylineId('fromEndBusStop'),
     );
+  }
+
+  // Manually add polylines for current busRoute
+  _createNusBusPolylines(
+    Position start,
+    Position end,
+    String route,
+    Color colour,
+    //List<PolylineWayPoint> wayPoints,
+    PolylineId id,
+  ) {
+    polylinePoints = PolylinePoints();
+
+    // _routePickUpPoints has all the infos of the pickuppoints of route
+    // need to add checkpoints between start and end? maybe?
+    _updateListofPickUpPoint(route);
+    //_updateListofCheckPoint(route);
+
+    // lists not empty
+    //print(_routeCheckPoints);
+    print(_routePickUpPoints);
+
+    polylineCoordinates = [];
+
+    // find index of start busstop to know which way to iterate
+    /*
+    int startIndex = 0;
+    int endIndex = _routePickUpPoints.length - 1;
+    for (int i = 0; i < _routePickUpPoints.length; i++) {
+      if (_routePickUpPoints[i].latitude == start.latitude &&
+          _routePickUpPoints[i].longitude == start.longitude) {
+        startIndex = i;
+      }
+      if (_routePickUpPoints[i].latitude == end.latitude &&
+          _routePickUpPoints[i].longitude == end.longitude) {
+        endIndex = i;
+      }
+    }
+    */
+
+    // loop from min of startIndex and endIndex to max of startIndex and endIndex
+    // add LatLng into polylineCoordinates
+    //for (int i = min(startIndex, endIndex); i < max(startIndex, endIndex); i++)
+
+    for (int i = 0; i < _routePickUpPoints.length; i++) {
+      double lat = _routePickUpPoints[i].latitude;
+      double lng = _routePickUpPoints[i].longitude;
+      polylineCoordinates.add(LatLng(lat, lng));
+    }
+
+    Polyline polyline = Polyline(
+      polylineId: id,
+      color: colour,
+      visible: true,
+      points: polylineCoordinates,
+      width: 3,
+    );
+
+    polylines[id] = polyline;
   }
 
   // Create the polylines for showing the route between two places
@@ -552,7 +676,9 @@ class _MapViewState extends State<MapView> {
     //osmController = _getOSMController();
     _getCurrentLocation();
     _updateListofBusStop();
-    _getWayPoints();
+    //_updateListofPickUpPoint('D1');
+    //_updateListofCheckPoint('D1');
+    //_getBusWayPoints('D1');
     this.loadJsonData();
     super.initState();
   }
@@ -646,21 +772,6 @@ class _MapViewState extends State<MapView> {
                   ),
                 ),
               ),
-              // OSM view
-              /*
-              OSMFlutter(
-                controller: osmController,
-                showZoomController: true,
-                defaultZoom: 2.0,
-                onLocationChanged: (myLocation) {
-                  print(myLocation);
-                },
-                // shows markers
-                staticPoints: osmMarkers,
-                // Edit functions to return GeoPoint for
-                // static position geopoint
-              ),
-              */
               // Show the place input fields & button for
               // showing the route
               SafeArea(
@@ -1138,12 +1249,5 @@ class _MapViewState extends State<MapView> {
         zoom: 15)));
     _setMarkers(
         LatLng(place.geometry.location.lat, place.geometry.location.lng));
-    /*
-    await osmController.changeLocation(
-      GeoPoint(
-          latitude: place.geometry.location.lat,
-          longitude: place.geometry.location.lng),
-    );
-    */
   }
 }
