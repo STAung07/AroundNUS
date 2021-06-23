@@ -89,6 +89,8 @@ class _MapViewState extends State<MapView> {
   //List<CheckPointInfo> _routeCheckPoints = [];
   //List<PolylineWayPoint> _wayPoints = [];
 
+  List<bool> _selections = List.generate(3, (_) => false);
+
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _updateListofBusStop() {
@@ -866,13 +868,13 @@ class _MapViewState extends State<MapView> {
                       ),
                       width: width * 0.9,
                       child: Padding(
-                        padding: const EdgeInsets.only(top: 10.0, bottom: 10.0),
+                        padding: const EdgeInsets.only(top: 2.0, bottom: 10.0),
                         child: Column(
                           mainAxisSize: MainAxisSize.min,
                           children: <Widget>[
                             Text(
                               'Enter Start and End location',
-                              style: TextStyle(fontSize: 20.0),
+                              style: TextStyle(fontSize: 16.0),
                             ),
                             // Getting Starting Location
                             SizedBox(height: 10),
@@ -986,13 +988,35 @@ class _MapViewState extends State<MapView> {
                             SizedBox(height: 10),
                             Visibility(
                               visible: _placeDistance == null ? false : true,
-                              child: Text(
-                                'DISTANCE: $_placeDistance km',
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              child: ToggleButtons(
+                                children: <Widget>[
+                                  Icon(Icons.nordic_walking),
+                                  Icon(Icons.directions_car),
+                                  Icon(Icons.directions_bus),
+                                ],
+                                onPressed: (int index) {
+                                  setState(() {
+                                    for (int buttonIndex = 0;
+                                        buttonIndex < _selections.length;
+                                        buttonIndex++) {
+                                      if (buttonIndex == index) {
+                                        _selections[buttonIndex] = true;
+                                      } else {
+                                        _selections[buttonIndex] = false;
+                                      }
+                                    }
+                                  });
+                                },
+                                isSelected: _selections,
+                                // isSelected: isSelected,
                               ),
+                              // child: Text(
+                              //   'DISTANCE: $_placeDistance km',
+                              //   style: TextStyle(
+                              //     fontSize: 16,
+                              //     fontWeight: FontWeight.bold,
+                              //   ),
+                              // ),
                             ),
                             SizedBox(height: 5),
                             RaisedButton(
