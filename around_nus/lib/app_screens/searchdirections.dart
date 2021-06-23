@@ -68,6 +68,12 @@ class _MapViewState extends State<MapView> {
 
   // polyline points contain coordinates of route to draw on map
   PolylinePoints? polylinePoints;
+
+  // assign polylines to each Map based on button pressed
+  // switch between Map based on button pressed
+  Map<PolylineId, Polyline> walkingPathPolylines = {};
+  Map<PolylineId, Polyline> drivingPathPolylines = {};
+  Map<PolylineId, Polyline> hybridPathPolylines = {};
   Map<PolylineId, Polyline> polylines = {};
 
   // holds each polyline coordinate as Lat and Lng Pairs
@@ -405,9 +411,9 @@ class _MapViewState extends State<MapView> {
         // display diff routes; walking, driving, hybrid
 
         // get walking + bus route; colour coded yellow and blue
-        await _getWalkingAndBusPath(startCoordinates, destinationCoordinates);
+        await _getWalkingAndBusPath(
+            startCoordinates, destinationCoordinates, hybridPathPolylines);
 
-        /*
         // get walking path; colour coded green
         await _createGoogleMapsPolylines(
           startCoordinates,
@@ -416,6 +422,7 @@ class _MapViewState extends State<MapView> {
           TravelMode.walking,
           [],
           PolylineId('walking'),
+          walkingPathPolylines,
         );
 
         // get driving path; colour coded red
@@ -426,8 +433,8 @@ class _MapViewState extends State<MapView> {
           TravelMode.driving,
           [],
           PolylineId('driving'),
+          drivingPathPolylines,
         );
-        */
 
         double totalDistance = 0.0;
 
@@ -548,7 +555,10 @@ class _MapViewState extends State<MapView> {
   }
 
   _getWalkingAndBusPath(
-      Position startCoordinates, Position destinationCoordinates) async {
+    Position startCoordinates,
+    Position destinationCoordinates,
+    Map<PolylineId, Polyline> hybridPolyline,
+  ) async {
     // walk to nearest start bus stop
     await _createGoogleMapsPolylines(
       startCoordinates,
@@ -557,6 +567,7 @@ class _MapViewState extends State<MapView> {
       TravelMode.walking,
       [],
       PolylineId('toStartBusStop'),
+      hybridPolyline,
     );
 
     print('Walk to start bus stop');
@@ -590,6 +601,7 @@ class _MapViewState extends State<MapView> {
       TravelMode.driving,
       [], //_wayPoints,
       PolylineId('betweenBusStops'),
+      hybridPolyline,
     );
 
     /*
@@ -610,6 +622,7 @@ class _MapViewState extends State<MapView> {
       TravelMode.walking,
       [],
       PolylineId('fromEndBusStop'),
+      hybridPolyline,
     );
 
     print('Walk from end bus stop to destination');
@@ -688,6 +701,7 @@ class _MapViewState extends State<MapView> {
     TravelMode modeOfTravel,
     List<PolylineWayPoint> wayPoints,
     PolylineId id,
+    Map<PolylineId, Polyline> currPolyline,
   ) async {
     // initializing PolylinePoints
     polylinePoints = PolylinePoints();
@@ -724,7 +738,7 @@ class _MapViewState extends State<MapView> {
       points: polylineCoordinates,
       width: 3,
     );
-    polylines[id] = polyline;
+    currPolyline[id] = polyline;
   }
 
   @override
@@ -754,6 +768,8 @@ class _MapViewState extends State<MapView> {
     _updateListofBusStop();
     _updateListofBusRoutes();
     _populateRoutePickUpPointMap();
+    // default show hybrid path
+    polylines = hybridPathPolylines;
     //adjList(_nusBusStops);
     //print(adjacencyList);
     //_updateListofPickUpPoint('D1');
@@ -996,6 +1012,7 @@ class _MapViewState extends State<MapView> {
                                 ],
                                 onPressed: (int index) {
                                   setState(() {
+                                    /*
                                     for (int buttonIndex = 0;
                                         buttonIndex < _selections.length;
                                         buttonIndex++) {
@@ -1005,6 +1022,26 @@ class _MapViewState extends State<MapView> {
                                         _selections[buttonIndex] = false;
                                       }
                                     }
+                                    */
+                                    // if first button pressed; walking path
+                                    if (index == 0) {
+                                      polylines = walkingPathPolylines;
+                                      _selections[0] = true;
+                                      _selections[1] = false;
+                                      _selections[2] = false;
+                                    } else if (index == 1) {
+                                      polylines = drivingPathPolylines;
+                                      _selections[0] = false;
+                                      _selections[1] = true;
+                                      _selections[2] = false;
+                                    } else {
+                                      polylines = hybridPathPolylines;
+                                      _selections[0] = false;
+                                      _selections[1] = false;
+                                      _selections[2] = true;
+                                    }
+                                    // if second button pressed; driving path
+                                    // if third button pressed;
                                   });
                                 },
                                 isSelected: _selections,
