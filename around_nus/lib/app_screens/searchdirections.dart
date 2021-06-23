@@ -82,15 +82,12 @@ class _MapViewState extends State<MapView> {
   // generates every polyline between start and finish
 
   NusNextBus busService = NusNextBus();
-  PathFindingAlgo pathFinder = PathFindingAlgo();
-  //Map<LatLng, List<ConnectedBusStop>> currAdjList = {};
-  Map<LatLng, List<ConnectedBusStop>> adjacencyList = {};
-  //HaversineDistance distanceCalculator = HaversineDistance();
+  Map<LatLng, List<ConnectedBusStops>> adjacencyList = {};
+  //PathFindingAlgo pathFinder = PathFindingAlgo(adjacencyList: adjacencyList);
+  late PathFindingAlgo pathFinder;
 
   // list of bus stops as possible wayPoint
   List<BusStop> _nusBusStops = [];
-  List<RouteDescription> _nusBusRoutes = [];
-  Map<String, List<PickUpPointInfo>> routeToPickUpPoints = {};
   //List<PickUpPointInfo> _routePickUpPoints = [];
   //List<CheckPointInfo> _routeCheckPoints = [];
   //List<PolylineWayPoint> _wayPoints = [];
@@ -108,26 +105,6 @@ class _MapViewState extends State<MapView> {
     });
   }
 
-  void _updateListofBusRoutes() {
-    busService.fetchBusRouteDescriptions().then((value) {
-      setState(() {
-        _nusBusRoutes.addAll(value);
-      });
-    });
-  }
-
-  // for each bus route in _nusBusRoutesNames, get pickuppoints
-  void _populateRoutePickUpPointMap() {
-    for (int i = 0; i < _nusBusRoutes.length; i++) {
-      List<PickUpPointInfo> currRoutePickUpPoints = [];
-      busService.fetchPickUpPointInfo(_nusBusRoutes[i].name).then((value) {
-        setState(() {
-          currRoutePickUpPoints.addAll(value);
-          routeToPickUpPoints[_nusBusRoutes[i].name] = currRoutePickUpPoints;
-        });
-      });
-    }
-  }
   /*
   void _updateListofCheckPoint(String _busRouteName) {
     //_routeCheckPoints = [];
@@ -518,40 +495,41 @@ class _MapViewState extends State<MapView> {
   }
   */
 
-  void adjList(List<BusStop> busStops) {
-    //Map<LatLng, List<ConnectedBusStop>> adjacencyList = {};
+  // Future Map Method for adjacency list
+  Future<Map<LatLng, List<ConnectedBusStops>>> adjList(
+      List<BusStop> busStops) async {
+    Map<LatLng, List<ConnectedBusStops>> adjacencyList = {};
     for (int i = 0; i < busStops.length; i++) {
       String currBusStopName = busStops[i].name;
       // LatLng to map List of ConnectedBusStop to
       LatLng currBusStopLatLng =
           LatLng(busStops[i].latitude, busStops[i].longitude);
       // list of connected bus stops to curr Bus Stop
-      List<ConnectedBusStop> listConnectedBusStops = [];
-      List<ArrivalInformation> servicesAtCurrStop = [];
-      busService.fetchArrivalInfo(currBusStopName).then((value) {
-        setState(() {
-          servicesAtCurrStop.addAll(value);
-          // for each route passing through currBusStop
-          for (int j = 0; j < servicesAtCurrStop.length; j++) {
-            String currRoute = servicesAtCurrStop[j].name;
-            // for current route; use map of routename to pickupppoints
-            List<PickUpPointInfo>? pickUpPointsCurrRoute =
-                routeToPickUpPoints[currRoute];
-            // for each pickUpPoint along currRoute;
-            print(pickUpPointsCurrRoute);
-            for (int k = 0; k < pickUpPointsCurrRoute!.length; k++) {
-              String connectedBusStop = pickUpPointsCurrRoute[k].pickUpName;
-              // add as connected BusStop to List<ConnectedBusStop> for currBusStop
-              listConnectedBusStops.add(ConnectedBusStop(
-                  routeName: currRoute, busStopName: connectedBusStop));
-            }
-          }
-        });
-      });
+      List<ConnectedBusStops> listConnectedBusStops = [];
+      List<ArrivalInformation> servicesAtCurrStop =
+          await busService.fetchArrivalInfo(currBusStopName);
+      // for each route passing through currBusStop
+      for (var services in servicesAtCurrStop) {
+        String currRoute = services.name;
+        // get list of PickUpPoints for each route
+        List<PickUpPointInfo> pickUpPointsCurrRoute =
+            await busService.fetchPickUpPointInfo(currRoute);
+        // for each pickUpPoint along currRoute;
+        for (var pickUpPoint in pickUpPointsCurrRoute) {
+          String connectedBusStop = pickUpPoint.pickUpName;
+          // add as connected BusStop to List<ConnectedBusStop> for currBusStop
+          listConnectedBusStops.add(ConnectedBusStops(
+              routeName: currRoute, busStopName: connectedBusStop));
+        }
+      }
       // add key value pair of currBusStopLatLng
       adjacencyList[currBusStopLatLng] = listConnectedBusStops;
     }
-    //return adjacencyList;
+    return adjacencyList;
+  }
+
+  void callAdjListFuture() async {
+    adjacencyList = await adjList(_nusBusStops);
   }
 
   _getWalkingAndBusPath(
@@ -586,12 +564,7 @@ class _MapViewState extends State<MapView> {
     // algo and plot polylineCoordinates from there; separate function to get
     // list of bus stops between start and end bus stop to add as polylines(List of LatLngs)
 
-    //currAdjList = pathFinder.adjList(_nusBusStops);
-
-    print(_nusBusRoutes);
-    //_populateRoutePickUpPointMap();
-    print(routeToPickUpPoints);
-    adjList(_nusBusStops);
+    print(_nusBusStops);
     print(adjacencyList);
 
     await _createGoogleMapsPolylines(
@@ -748,8 +721,6 @@ class _MapViewState extends State<MapView> {
     applicationBloc.dispose();
     locationSubscription.cancel();
     startAddressController.dispose();
-    // dispose OSM controller
-    //osmController.dispose();
     super.dispose();
   }
 
@@ -763,15 +734,12 @@ class _MapViewState extends State<MapView> {
         _goToPlace(place);
       }
     });
-    //osmController = _getOSMController();
     _getCurrentLocation();
     _updateListofBusStop();
-    _updateListofBusRoutes();
-    _populateRoutePickUpPointMap();
+    callAdjListFuture();
+    pathFinder = PathFindingAlgo(adjacencyList: adjacencyList);
     // default show hybrid path
     polylines = hybridPathPolylines;
-    //adjList(_nusBusStops);
-    //print(adjacencyList);
     //_updateListofPickUpPoint('D1');
     //_updateListofCheckPoint('D1');
     //_getBusWayPoints('D1');
