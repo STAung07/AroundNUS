@@ -2,7 +2,7 @@ import 'dart:ffi';
 
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
-
+import 'package:geolocator/geolocator.dart';
 import '../models/pickuppointinfo_model.dart';
 import '../models/busstopsinfo_model.dart';
 import '../models/busserviceinfo_model.dart';
@@ -18,19 +18,45 @@ import '../services/nusnextbus_service.dart';
 class ConnectedBusStops {
   final String routeName;
   final String busStopName;
+  final int stopsAway;
   ConnectedBusStops({
     required this.routeName,
     required this.busStopName,
+    required this.stopsAway,
   });
 }
 
 class PathFindingAlgo {
   final busService = NusNextBus();
-  final Map<LatLng, List<ConnectedBusStops>> adjacencyList;
+  final Map<String, List<ConnectedBusStops>> adjacencyList;
+  final Map<String, Position> busStopToPos;
 
-  PathFindingAlgo({required this.adjacencyList});
-  // Map LatLng of each bus stop to its connected bus stops
+  PathFindingAlgo({required this.adjacencyList, required this.busStopToPos});
+
   // function takes in start and end bus stop names
   // function returns shortest route between start and end bus stop
-  void _getBusPath(String startBusStopName, String endBusStopName) {}
+  String getBusPath(String startBusStopName, String endBusStopName) {
+    // check if direct route
+    // check connectedbusstops of startBusStopName
+    List<ConnectedBusStops> currConnectedBusStops =
+        adjacencyList[startBusStopName] as List<ConnectedBusStops>;
+    String shortestPath = '';
+    bool directRoute = false;
+    int busStopsVisited = 36;
+    for (var connectedBusStop in currConnectedBusStops) {
+      // if endbusstop found; check for shortest number of stops
+      if (connectedBusStop.busStopName == endBusStopName) {
+        directRoute = true;
+        if (connectedBusStop.stopsAway < busStopsVisited) {
+          shortestPath = connectedBusStop.routeName;
+          busStopsVisited = connectedBusStop.stopsAway;
+        }
+      }
+    }
+    if (directRoute) {
+      return shortestPath;
+    }
+    // if no direct route; use BFS
+    return "";
+  }
 }
