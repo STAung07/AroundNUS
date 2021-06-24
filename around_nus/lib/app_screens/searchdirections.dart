@@ -82,7 +82,7 @@ class _MapViewState extends State<MapView> {
   // generates every polyline between start and finish
 
   NusNextBus busService = NusNextBus();
-  Map<LatLng, List<ConnectedBusStops>> adjacencyList = {};
+  Map<String, List<ConnectedBusStops>> adjacencyList = {};
   //PathFindingAlgo pathFinder = PathFindingAlgo(adjacencyList: adjacencyList);
   late PathFindingAlgo pathFinder;
 
@@ -438,6 +438,7 @@ class _MapViewState extends State<MapView> {
     return 12742 * asin(sqrt(a));
   }
 
+  // adjust to account for travel there or back; get accurate start and end
   String _nearestBusStop(Position pos) {
     // distance between pos and first bus stop in list
     double currMinDist = _coordinateDistance(pos.latitude, pos.longitude,
@@ -456,18 +457,6 @@ class _MapViewState extends State<MapView> {
     }
 
     return _nusBusStops[currIndex].name;
-    /*
-    return Position(
-      longitude: _nusBusStops[currIndex].longitude,
-      latitude: _nusBusStops[currIndex].latitude,
-      speed: 0.0,
-      speedAccuracy: 0.0,
-      heading: 0.0,
-      altitude: 0.0,
-      accuracy: 0.0,
-      timestamp: DateTime.now(),
-    );
-    */
   }
 
   // Works; BUT need to constrain waypoints being added, from entire bus route to just
@@ -511,14 +500,11 @@ class _MapViewState extends State<MapView> {
   }
 
   // Future Map Method for adjacency list
-  Future<Map<LatLng, List<ConnectedBusStops>>> adjList(
+  Future<Map<String, List<ConnectedBusStops>>> adjList(
       List<BusStop> busStops) async {
-    Map<LatLng, List<ConnectedBusStops>> adjacencyList = {};
+    Map<String, List<ConnectedBusStops>> adjacencyList = {};
     for (int i = 0; i < busStops.length; i++) {
       String currBusStopName = busStops[i].name;
-      // LatLng to map List of ConnectedBusStop to
-      LatLng currBusStopLatLng =
-          LatLng(busStops[i].latitude, busStops[i].longitude);
       // list of connected bus stops to curr Bus Stop
       List<ConnectedBusStops> listConnectedBusStops = [];
       List<ArrivalInformation> servicesAtCurrStop =
@@ -530,28 +516,29 @@ class _MapViewState extends State<MapView> {
         List<PickUpPointInfo> pickUpPointsCurrRoute =
             await busService.fetchPickUpPointInfo(currRoute);
         // for each pickUpPoint along currRoute;
+        // only add BusStops in pickUpPoitnsCurrRoute after currBusStopName
+        bool isAfter = false;
         for (var pickUpPoint in pickUpPointsCurrRoute) {
-          String connectedBusStop = pickUpPoint.pickUpName;
+          String connectedBusStop = pickUpPoint.busStopCode;
           // add as connected BusStop to List<ConnectedBusStop> for currBusStop
-          listConnectedBusStops.add(ConnectedBusStops(
-              routeName: currRoute, busStopName: connectedBusStop));
+          int counter = 0;
+          if (isAfter) {
+            counter++;
+            listConnectedBusStops.add(ConnectedBusStops(
+                routeName: currRoute,
+                busStopName: connectedBusStop,
+                stopsAway: counter));
+          }
+          // once currBusStopname found; make it true
+          if (connectedBusStop == currBusStopName) {
+            isAfter = true;
+          }
         }
       }
       // add key value pair of currBusStopLatLng
-      adjacencyList[currBusStopLatLng] = listConnectedBusStops;
+      adjacencyList[currBusStopName] = listConnectedBusStops;
     }
     return adjacencyList;
-  }
-
-  _callAdjListFuture() async {
-    adjacencyList = await adjList(_nusBusStops);
-    /*
-    adjList(_nusBusStops).then((value) {
-      //setState(() {
-      adjacencyList.addAll(value);
-      //});
-    });
-    */
   }
 
   _getWalkingAndBusPath(
@@ -585,16 +572,23 @@ class _MapViewState extends State<MapView> {
     print('Walk to start bus stop');
 
     print(_nusBusStops);
-    _callAdjListFuture();
-    pathFinder = PathFindingAlgo(adjacencyList: adjacencyList);
+    //_callAdjListFuture();
+    adjacencyList = await adjList(_nusBusStops);
+    pathFinder = PathFindingAlgo(
+      adjacencyList: adjacencyList,
+      busStopToPos: _busStopsToPosition,
+    );
     print(adjacencyList);
     print(_busStopsToPosition);
 
     // shortestPath algo which returns shortest bus route to get there
+    String shortestPath =
+        pathFinder.getBusPath(startBusStopName, endBusStopName);
+    print(shortestPath);
 
     // get wayPoints for route
     _wayPoints = await _getBusWayPoints(
-      'D1',
+      shortestPath,
       startBusStopName,
       endBusStopName,
     );
