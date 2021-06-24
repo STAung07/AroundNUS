@@ -93,6 +93,8 @@ class _MapViewState extends State<MapView> {
   //List<CheckPointInfo> _routeCheckPoints = [];
   //List<PolylineWayPoint> _wayPoints = [];
 
+  List travelModes = [];
+
   List<bool> _selections = List.generate(3, (_) => false);
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
@@ -548,6 +550,8 @@ class _MapViewState extends State<MapView> {
       PolylineId('toStartBusStop'),
       hybridPolyline,
     );
+
+    travelModes.add("walk");
 
     print('Walk to start bus stop');
 

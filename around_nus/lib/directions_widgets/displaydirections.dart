@@ -36,21 +36,24 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
           Container(
               padding: EdgeInsets.only(top: 70),
               height: 500,
-              child: ListView.builder(
-                  itemCount: entries.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                        // height depends on how long the instructions are
-                        height: 100,
-                        color: Colors.blueGrey,
-                        child: Row(children: [
-                          Text("{time needed}"),
-                          Column(children: [
-                            Text("{travelMode}", textAlign: TextAlign.center),
-                            Text("{travelDirections}")
-                          ])
-                        ]));
-                  }))
+              // child: ListView.builder(
+              //     itemCount: 3,
+              //     itemBuilder: (context, index) {
+              //       return Container(
+              //           // height depends on how long the instructions are
+              //           height: 100,
+              //           color: Colors.blueGrey,
+              //           child: Row(children: [
+              //             Text("{time needed}"),
+              //             Column(children: [
+              //               Text("{travelMode}", textAlign: TextAlign.center),
+              //               Text("{travelDirections}")
+              //             ])
+              //           ]));
+              //     })
+              child: ListView(
+                children: [],
+              ))
         ]));
   }
 }
