@@ -21,6 +21,7 @@ import 'dart:convert';
 import '../directions_widgets/apikey.dart'; // Stores the Google Maps API Key
 import '../directions_widgets/pathfindingalgo.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import '../directions_widgets/displaydirections.dart';
 
 class FindDirections extends StatelessWidget {
   @override
@@ -1077,6 +1078,16 @@ class _MapViewState extends State<MapView> {
                                 ),
                               ),
                             ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                        builder: (context) =>
+                                            DirectionsDisplay()),
+                                  );
+                                },
+                                child: Text("click here"))
                           ],
                         ),
                       ),
