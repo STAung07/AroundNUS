@@ -24,16 +24,6 @@ class _BusTimingsState extends State<BusTimings> {
   late StreamSubscription busStopSubscription;
   var _textController = TextEditingController();
 
-  /*
-  void _updatePickUpPointsInfo(String _routeName) {
-    fetchPickUpPointInfo(_routeName).then((value) {
-      setState(() {
-        _currPickUpPoints.addAll(value);
-      });
-    });
-  }
-  */
-
   void _updateListofBusRoutes() {
     busService.fetchBusRouteDescriptions().then((value) {
       setState(() {
@@ -49,9 +39,7 @@ class _BusTimingsState extends State<BusTimings> {
     busStopSubscription =
         applicationBloc.selectedLocation.stream.listen((place) {});
     applicationBloc.searchBusStops("");
-    // _updateListofBusStop();
     _updateListofBusRoutes();
-    //_updatePickUpPointsInfo("A2");
     super.initState();
   }
 

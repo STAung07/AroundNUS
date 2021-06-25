@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:typed_data';
 
 import 'package:around_nus/blocs/application_bloc.dart';
-import 'package:around_nus/models/busroutesinfo_model.dart';
 import 'package:around_nus/models/place.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
@@ -13,7 +12,6 @@ import 'package:provider/provider.dart';
 import '../models/busstopsinfo_model.dart';
 import '../models/pickuppointinfo_model.dart';
 import '../models/busserviceinfo_model.dart';
-import '../models/checkpointinfo_model.dart';
 import '../services/nusnextbus_service.dart';
 import 'dart:math'; //show cos, sqrt, asin;
 import '../common_widgets/drawer.dart';
@@ -483,13 +481,11 @@ class _MapViewState extends State<MapView> {
       print(pickUpPoint.busStopCode);
       print('Start Stop');
       print(start);
-      //print(pickUpPoint.pickUpName.toLowerCase() == start.toLowerCase());
       if (pickUpPoint.busStopCode == start) {
         isPath = true;
       }
       print('End Stop');
       print(end);
-      //print(pickUpPoint.pickUpName.toLowerCase() == end.toLowerCase());
       if (pickUpPoint.busStopCode == end) {
         isPath = false;
       }

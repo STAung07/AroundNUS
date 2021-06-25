@@ -3,6 +3,7 @@ import 'dart:ffi';
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
+import 'package:collection/collection.dart';
 import '../models/pickuppointinfo_model.dart';
 import '../models/busstopsinfo_model.dart';
 import '../models/busserviceinfo_model.dart';
@@ -44,6 +45,17 @@ class PathFindingAlgo {
     bool directRoute = false;
     int busStopsVisited = 36;
     for (var connectedBusStop in currConnectedBusStops) {
+      PriorityQueue<ConnectedBusStops> minHeap = PriorityQueue(
+        (ConnectedBusStops first, ConnectedBusStops second) {
+          if (first.stopsAway < second.stopsAway) {
+            return -1;
+          }
+          if (first.stopsAway > second.stopsAway) {
+            return 1;
+          }
+          return 0;
+        },
+      );
       // if endbusstop found; check for shortest number of stops
       if (connectedBusStop.busStopName == endBusStopName) {
         directRoute = true;
@@ -56,7 +68,8 @@ class PathFindingAlgo {
     if (directRoute) {
       return shortestPath;
     }
-    // if no direct route; use BFS
+    // if no direct route; use modified BFS;
+    // maximum 2 hops
     return "";
   }
 }
