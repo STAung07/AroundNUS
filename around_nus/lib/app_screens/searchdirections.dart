@@ -19,6 +19,7 @@ import 'dart:convert';
 import '../directions_widgets/apikey.dart'; // Stores the Google Maps API Key
 import '../directions_widgets/pathfindingalgo.dart';
 import 'package:flutter/services.dart' show rootBundle;
+import '../directions_widgets/displaydirections.dart';
 
 class FindDirections extends StatelessWidget {
   @override
@@ -64,6 +65,10 @@ class _MapViewState extends State<MapView> {
   // Marker endMarker;
   Set<Marker> markers = {};
 
+  late Position startingCoordinates;
+
+  late Position endingCoordinates;
+
   // polyline points contain coordinates of route to draw on map
   PolylinePoints? polylinePoints;
 
@@ -88,6 +93,8 @@ class _MapViewState extends State<MapView> {
   List<BusStop> _nusBusStops = [];
   Map<String, Position> _busStopsToPosition = {};
   List<PolylineWayPoint> _wayPoints = [];
+
+  List travelModes = [];
 
   List<bool> _selections = List.generate(3, (_) => false);
 
@@ -255,6 +262,7 @@ class _MapViewState extends State<MapView> {
                 altitude: 0.0,
                 timestamp: DateTime.now(),
                 accuracy: 0.0);
+        startingCoordinates = startCoordinates;
         Position destinationCoordinates = Position(
             latitude: destinationPlacemark[0].latitude,
             longitude: destinationPlacemark[0].longitude,
@@ -264,6 +272,7 @@ class _MapViewState extends State<MapView> {
             altitude: 0.0,
             timestamp: DateTime.now(),
             accuracy: 0.0);
+        endingCoordinates = destinationCoordinates;
 
         // Start Location Marker
         Marker startMarker = Marker(
@@ -403,7 +412,7 @@ class _MapViewState extends State<MapView> {
         // Calculating the total distance by adding the distance
         // between small segments
         for (int i = 0; i < polylineCoordinates.length - 1; i++) {
-          totalDistance += _coordinateDistance(
+          totalDistance += _coordinatedistance(
             polylineCoordinates[i].latitude,
             polylineCoordinates[i].longitude,
             polylineCoordinates[i + 1].latitude,
@@ -427,7 +436,7 @@ class _MapViewState extends State<MapView> {
 
   // Formula for calculating distance between two coordinates
   // https://stackoverflow.com/a/54138876/11910277
-  double _coordinateDistance(lat1, lon1, lat2, lon2) {
+  double _coordinatedistance(lat1, lon1, lat2, lon2) {
     var p = 0.017453292519943295;
     var c = cos;
     var a = 0.5 -
@@ -437,16 +446,16 @@ class _MapViewState extends State<MapView> {
   }
 
   // adjust to account for travel there or back; get accurate start and end
-  String _nearestBusStop(Position pos) {
+  BusStop _nearestBusStop(Position pos) {
     // distance between pos and first bus stop in list
-    double currMinDist = _coordinateDistance(pos.latitude, pos.longitude,
+    double currMinDist = _coordinatedistance(pos.latitude, pos.longitude,
         _nusBusStops[0].latitude, _nusBusStops[0].longitude);
 
     int currIndex = 0;
 
     // go through all bus stops; find nearest
     for (int i = 1; i < _nusBusStops.length; i++) {
-      double currDist = _coordinateDistance(pos.latitude, pos.longitude,
+      double currDist = _coordinatedistance(pos.latitude, pos.longitude,
           _nusBusStops[i].latitude, _nusBusStops[i].longitude);
       if (currDist < currMinDist) {
         currIndex = i;
@@ -454,7 +463,7 @@ class _MapViewState extends State<MapView> {
       }
     }
 
-    return _nusBusStops[currIndex].name;
+    return _nusBusStops[currIndex];
   }
 
   // Works; BUT need to constrain waypoints being added, from entire bus route to just
@@ -542,13 +551,14 @@ class _MapViewState extends State<MapView> {
     Position destinationCoordinates,
     Map<PolylineId, Polyline> hybridPolyline,
   ) async {
-    String startBusStopName = _nearestBusStop(startCoordinates).toString();
+    String startBusStopName = _nearestBusStop(startCoordinates).name.toString();
     Position startBusStopPos =
         _busStopsToPosition[startBusStopName] as Position;
     print('StartBusStopInfo');
     print(startBusStopName);
     print(startBusStopPos);
-    String endBusStopName = _nearestBusStop(destinationCoordinates).toString();
+    String endBusStopName =
+        _nearestBusStop(destinationCoordinates).name.toString();
     Position endBusStopPos = _busStopsToPosition[endBusStopName] as Position;
     print('EndBusStopInfo');
     print(endBusStopName);
@@ -564,6 +574,8 @@ class _MapViewState extends State<MapView> {
       PolylineId('toStartBusStop'),
       hybridPolyline,
     );
+
+    travelModes.add("walk");
 
     print('Walk to start bus stop');
 
@@ -1030,6 +1042,26 @@ class _MapViewState extends State<MapView> {
                                 ),
                               ),
                             ),
+                            ElevatedButton(
+                                onPressed: () {
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) =>
+                                              DirectionsDisplay(
+                                                  startAddress: _startAddress,
+                                                  destinationAddress:
+                                                      _destinationAddress,
+                                                  startCoordinates:
+                                                      startingCoordinates,
+                                                  destinationCoordinates:
+                                                      endingCoordinates,
+                                                  startBusStop: _nearestBusStop(
+                                                      startingCoordinates),
+                                                  endBusStop: _nearestBusStop(
+                                                      endingCoordinates))));
+                                },
+                                child: Text("click here"))
                           ],
                         ),
                       ),
