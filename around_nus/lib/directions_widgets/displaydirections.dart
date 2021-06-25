@@ -12,6 +12,7 @@ class DirectionsDisplay extends StatefulWidget {
   final BusStop endBusStop;
   final Position startCoordinates;
   final Position destinationCoordinates;
+  final String busTaken;
 
   // final List
   // final String travelMode;
@@ -22,7 +23,8 @@ class DirectionsDisplay extends StatefulWidget {
       required this.startCoordinates,
       required this.destinationCoordinates,
       required this.startBusStop,
-      required this.endBusStop})
+      required this.endBusStop,
+      required this.busTaken})
       : super(key: key);
 
   @override
@@ -44,54 +46,155 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
 
   @override
   Widget build(BuildContext context) {
-    double startWalkDistance = double.parse((_coordinatedistance(
+    int startWalkDistance = _coordinatedistance(
             widget.startCoordinates.latitude,
             widget.startCoordinates.longitude,
             widget.endBusStop.latitude,
-            widget.endBusStop.longitude))
-        .toStringAsFixed(1));
-    double endWalkDistance = _coordinatedistance(
-        widget.endBusStop.latitude,
-        widget.endBusStop.longitude,
-        widget.destinationCoordinates.latitude,
-        widget.destinationCoordinates.longitude);
+            widget.endBusStop.longitude)
+        .round();
+    int endWalkDistance = _coordinatedistance(
+            widget.endBusStop.latitude,
+            widget.endBusStop.longitude,
+            widget.destinationCoordinates.latitude,
+            widget.destinationCoordinates.longitude)
+        .round();
 
     return Scaffold(
-        appBar: AppBar(
-          backgroundColor: Color(0xff7285A5),
-          title: Text("Directions"),
-        ),
-        body: Stack(children: [
-          Container(
-              padding: EdgeInsets.only(top: 70),
+      appBar: AppBar(
+        backgroundColor: Color(0xff7285A5),
+        title: Text("Directions"),
+      ),
+      body: Stack(children: [
+        //background
+        Positioned(
+            top: 125,
+            left: 10,
+            // height: 250,
+            // width: 250,
+            child: Container(
+              width: 390,
               height: 500,
-              // child: ListView.builder(
-              //     itemCount: 3,
-              //     itemBuilder: (context, index) {
-              //       return Container(
-              //           // height depends on how long the instructions are
-              //           height: 100,
-              //           color: Colors.blueGrey,
-              //           child: Row(children: [
-              //             Text("{time needed}"),
-              //             Column(children: [
-              //               Text("{travelMode}", textAlign: TextAlign.center),
-              //               Text("{travelDirections}")
-              //             ])
-              //           ]));
-              //     })
-              child: ListView(
-                children: [
-                  Row(children: [
-                    Text((startWalkDistance / 74).round().toString() + "min"),
-                    Column(children: [
-                      Text("Walk " + startWalkDistance.toString() + "m",
-                          textAlign: TextAlign.center),
-                      Text("Walk to " + widget.startBusStop.caption.toString())
-                    ])
-                  ])
-                ],
-              ))
-        ]));
+              color: Colors.grey[200],
+            )),
+        //first box for walking
+        Positioned(
+            top: 150,
+            left: 20,
+            child: Container(
+              width: 50,
+              height: 25,
+              color: Colors.blue,
+              child: Text((startWalkDistance / 74).round().toString() + " min",
+                  style: TextStyle(
+                    color: Colors.white,
+                  )),
+              alignment: Alignment.center,
+            )),
+        Positioned(
+            top: 140,
+            left: 90,
+            height: 120,
+            width: 300,
+            child: Column(children: [
+              Container(
+                  // color: Colors.red,
+                  child: Text("Walk " + startWalkDistance.toString() + " m",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15)),
+                  alignment: Alignment.bottomLeft),
+              Container(
+                child: Text("Walk to " +
+                    widget.startBusStop.name +
+                    " bus stop at " +
+                    widget.startBusStop.longName.toString() +
+                    "."),
+                alignment: Alignment.centerLeft,
+              )
+            ])),
+
+        // second box for bus path
+        Positioned(
+            top: 270,
+            left: 20,
+            child: Container(
+              width: 50,
+              height: 25,
+              color: Colors.blue,
+              child: Text("X min",
+                  style: TextStyle(
+                    color: Colors.white,
+                  )),
+              alignment: Alignment.center,
+            )),
+        Positioned(
+            top: 260,
+            left: 90,
+            height: 120,
+            width: 300,
+            child: Column(children: [
+              Container(
+                  // color: Colors.red,
+                  child: Text("Bus " + widget.busTaken,
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15)),
+                  alignment: Alignment.bottomLeft),
+              Container(
+                child: Text("Board at " +
+                    widget.startBusStop.name +
+                    ", " +
+                    widget.startBusStop.longName.toString() +
+                    " in about XX min" +
+                    ". Alight at " +
+                    widget.endBusStop.name +
+                    ", " +
+                    widget.endBusStop.longName.toString() +
+                    ", XX stops later."),
+                alignment: Alignment.centerLeft,
+              )
+            ])),
+
+        //third box for walking
+        Positioned(
+            top: 390,
+            left: 20,
+            child: Container(
+              width: 50,
+              height: 25,
+              color: Colors.blue,
+              child: Text((endWalkDistance / 74).round().toString() + " min",
+                  style: TextStyle(
+                    color: Colors.white,
+                  )),
+              alignment: Alignment.center,
+            )),
+        Positioned(
+            top: 380,
+            left: 90,
+            height: 120,
+            width: 300,
+            child: Column(children: [
+              Container(
+                  // color: Colors.red,
+                  child: Text("Walk " + endWalkDistance.toString() + " m",
+                      style: TextStyle(
+                          color: Colors.blue,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 15)),
+                  alignment: Alignment.bottomLeft),
+              Container(
+                child: Text("Walk to " +
+                    widget.endBusStop.name +
+                    " bus stop at " +
+                    widget.endBusStop.longName.toString() +
+                    "."),
+                alignment: Alignment.centerLeft,
+              )
+            ])),
+      ]),
+    );
   }
 }

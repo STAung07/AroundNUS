@@ -1,4 +1,5 @@
 import 'dart:ffi';
+import 'dart:math';
 
 import 'package:flutter/services.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -33,9 +34,33 @@ class PathFindingAlgo {
 
   PathFindingAlgo({required this.adjacencyList, required this.busStopToPos});
 
+  // function checks if two bus stops are connected directly
+  // bool isDirectlyConnected(String startBusStopName, endBusStopName) {
+  //   List<ConnectedBusStops> currConnectedBusStops =
+  //       adjacencyList[startBusStopName] as List<ConnectedBusStops>;
+
+  //   // scan through all the possible direction connections in startBusStopName and
+  //   // check if endBusStopName is in it to see if it is reachable
+  //   for (var connectedBusStop in currConnectedBusStops) {
+  //     if (connectedBusStop.busStopName == endBusStopName) return true;
+  //   }
+  //   return false;
+  // }
+
+  // find the distance between two coordinates in metres
+  double _coordinatedistance(lat1, lon1, lat2, lon2) {
+    var p = 0.017453292519943295;
+    var c = cos;
+    var a = 0.5 -
+        c((lat2 - lat1) * p) / 2 +
+        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
+    return (12742 * 1000 * asin(sqrt(a)));
+  }
+
   // function takes in start and end bus stop names
   // function returns shortest route between start and end bus stop
-  String getBusPath(String startBusStopName, String endBusStopName) {
+  String getBusPath(String startBusStopName, String endBusStopName,
+      Position startingPoint, Position endingPoint, List<BusStop> nusBusStops) {
     // check if direct route
     // check connectedbusstops of startBusStopName
     List<ConnectedBusStops> currConnectedBusStops =
@@ -43,6 +68,7 @@ class PathFindingAlgo {
     String shortestPath = '';
     bool directRoute = false;
     int busStopsVisited = 36;
+    int leastStops = 35;
     for (var connectedBusStop in currConnectedBusStops) {
       // if endbusstop found; check for shortest number of stops
       if (connectedBusStop.busStopName == endBusStopName) {
@@ -57,6 +83,47 @@ class PathFindingAlgo {
       return shortestPath;
     }
     // if no direct route; use BFS
-    return "";
+
+    // get nearby bus stops from starting and ending point and see if they are connected
+    // and also find the shortest path
+    List<BusStop> nearbyStartingBusStops = [];
+    List<BusStop> nearbyEndingBusStops = [];
+    for (BusStop busStop in nusBusStops) {
+      double distance = _coordinatedistance(startingPoint.latitude,
+          startingPoint.longitude, busStop.latitude, busStop.longitude);
+      //within distance of 50 m
+      if (distance < 50) {
+        nearbyStartingBusStops.add(busStop);
+      }
+    }
+    for (BusStop busStop in nusBusStops) {
+      double distance = _coordinatedistance(endingPoint.latitude,
+          endingPoint.longitude, busStop.latitude, busStop.longitude);
+      if (distance < 50) {
+        nearbyEndingBusStops.add(busStop);
+      }
+    }
+    // check if the nearby starting bus stops and the nearby ending bus stops are connect
+    // if they are find the ones with least stops
+    for (BusStop start in nearbyStartingBusStops) {
+      for (BusStop end in nearbyEndingBusStops) {
+        List<ConnectedBusStops> currConnectedBusStops =
+            adjacencyList[start] as List<ConnectedBusStops>;
+
+        // scan through all the possible direction connections in startBusStopName and
+        // check if endBusStopName is in it to see if it is reachable
+        for (var connectedBusStop in currConnectedBusStops) {
+          if (connectedBusStop.busStopName == end.name) {
+            // is connected then take note of how many stops and route
+            if (connectedBusStop.stopsAway < leastStops) {
+              shortestPath = connectedBusStop.routeName;
+              leastStops = connectedBusStop.stopsAway;
+            }
+          }
+        }
+      }
+    }
+
+    return shortestPath;
   }
 }
