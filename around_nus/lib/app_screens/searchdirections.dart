@@ -66,8 +66,8 @@ class _MapViewState extends State<MapView> {
   Set<Marker> markers = {};
 
   late Position startingCoordinates;
-
   late Position endingCoordinates;
+  String busTaken = "";
 
   // polyline points contain coordinates of route to draw on map
   PolylinePoints? polylinePoints;
@@ -94,14 +94,15 @@ class _MapViewState extends State<MapView> {
   Map<String, Position> _busStopsToPosition = {};
   List<PolylineWayPoint> _wayPoints = [];
 
-  List travelModes = [];
-
   List<bool> _selections = List.generate(3, (_) => false);
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _updateMapofBusStop() async {
+    print("fetching");
     _nusBusStops = await busService.fetchBusStopInfo();
+    print("fetching done");
+    print(_nusBusStops);
     for (var busStop in _nusBusStops) {
       String busStopName = busStop.name;
       Position busStopPos = Position(
@@ -180,6 +181,9 @@ class _MapViewState extends State<MapView> {
           altitude: 0.0,
           timestamp: DateTime.now(),
           accuracy: 0.0);
+      startingCoordinates = startCoordinates;
+      print("starting coord");
+      print(startingCoordinates);
       Marker startMarker = Marker(
         markerId: MarkerId('$startCoordinates'),
         position: LatLng(
@@ -213,6 +217,7 @@ class _MapViewState extends State<MapView> {
           altitude: 0.0,
           timestamp: DateTime.now(),
           accuracy: 0.0);
+      endingCoordinates = endCoordinates;
       Marker endMarker = Marker(
         markerId: MarkerId('$endCoordinates'),
         position: LatLng(
@@ -273,6 +278,8 @@ class _MapViewState extends State<MapView> {
             timestamp: DateTime.now(),
             accuracy: 0.0);
         endingCoordinates = destinationCoordinates;
+        print("ending coord:");
+        print(endingCoordinates);
 
         // Start Location Marker
         Marker startMarker = Marker(
@@ -381,8 +388,10 @@ class _MapViewState extends State<MapView> {
         // display diff routes; walking, driving, hybrid
 
         // get walking + bus route; colour coded yellow and blue
+        print('before');
         await _getWalkingAndBusPath(
             startCoordinates, destinationCoordinates, hybridPathPolylines);
+        print("after");
 
         // get walking path; colour coded green
         await _createGoogleMapsPolylines(
@@ -422,7 +431,7 @@ class _MapViewState extends State<MapView> {
           );
         }
         */
-
+        print("dist");
         setState(() {
           _placeDistance = totalDistance.toStringAsFixed(2);
           print('DISTANCE: $_placeDistance km');
@@ -449,10 +458,11 @@ class _MapViewState extends State<MapView> {
 
   // adjust to account for travel there or back; get accurate start and end
   BusStop _nearestBusStop(Position pos) {
+    print(_nusBusStops);
     // distance between pos and first bus stop in list
     double currMinDist = _coordinatedistance(pos.latitude, pos.longitude,
         _nusBusStops[0].latitude, _nusBusStops[0].longitude);
-
+    // print("here");
     int currIndex = 0;
 
     // go through all bus stops; find nearest
@@ -574,6 +584,7 @@ class _MapViewState extends State<MapView> {
     Map<PolylineId, Polyline> hybridPolyline,
   ) async {
     String startBusStopName = _nearestBusStop(startCoordinates).name.toString();
+    print("in");
     Position startBusStopPos =
         _busStopsToPosition[startBusStopName] as Position;
     print('StartBusStopInfo');
@@ -598,8 +609,6 @@ class _MapViewState extends State<MapView> {
       //_displayDirections(),
     );
 
-    travelModes.add("walk");
-
     print('Walk to start bus stop');
 
     print(_nusBusStops);
@@ -613,8 +622,11 @@ class _MapViewState extends State<MapView> {
     print(_busStopsToPosition);
 
     // shortestPath algo which returns shortest bus route to get there
-    String shortestPath =
-        pathFinder.getBusPath(startBusStopName, endBusStopName);
+    String shortestPath = pathFinder.getBusPath(startBusStopName,
+        endBusStopName, startingCoordinates, endingCoordinates, _nusBusStops);
+    busTaken = shortestPath;
+
+    print("shortest path is ");
     print(shortestPath);
 
     // get wayPoints for route
@@ -727,7 +739,10 @@ class _MapViewState extends State<MapView> {
     });
     _getCurrentLocation();
     //_updateListofBusStop();
+    print("update");
     _updateMapofBusStop();
+    print("after update:");
+    print(_nusBusStops);
     //_callAdjListFuture();
     //pathFinder = PathFindingAlgo(adjacencyList: adjacencyList);
     // default show hybrid path
@@ -1086,7 +1101,8 @@ class _MapViewState extends State<MapView> {
                                                   startBusStop: _nearestBusStop(
                                                       startingCoordinates),
                                                   endBusStop: _nearestBusStop(
-                                                      endingCoordinates))));
+                                                      endingCoordinates),
+                                                  busTaken: busTaken)));
                                 },
                                 child: Text("click here"))
                           ],

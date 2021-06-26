@@ -9,6 +9,7 @@ import '../models/checkpointinfo_model.dart';
 class NusNextBus {
 // Request for List of Bus Stop
   Future<List<BusStop>> fetchBusStopInfo() async {
+    print("inside fetchBusStopInfo");
     String username = 'NUSnextbus';
     String password = '13dL?zY,3feWR^"T';
     String basicAuth =
@@ -17,6 +18,7 @@ class NusNextBus {
         Uri.parse('https://nnextbus.nus.edu.sg/BusStops'),
         headers: <String, String>{'authorization': basicAuth});
     // get busStopResults
+
     var busStopsResult;
     List<BusStop> busStopList = <BusStop>[];
 
