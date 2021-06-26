@@ -41,7 +41,7 @@ class MapView extends StatefulWidget {
 
 class _MapViewState extends State<MapView> {
   CameraPosition _initialLocation =
-      CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 14);
+      CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 15);
   // GoogleMapController? mapController;
   Completer<GoogleMapController> mapController = Completer();
   late GoogleMapController newMapController;
@@ -132,7 +132,7 @@ class _MapViewState extends State<MapView> {
           CameraUpdate.newCameraPosition(
             CameraPosition(
               target: LatLng(position.latitude, position.longitude),
-              zoom: 14.0,
+              zoom: 15.0,
             ),
           ),
         );
@@ -797,7 +797,7 @@ class _MapViewState extends State<MapView> {
                 myLocationButtonEnabled: false,
                 mapType: MapType.normal,
                 zoomGesturesEnabled: true,
-                zoomControlsEnabled: false,
+                zoomControlsEnabled: true,
                 // draws all polyline values in polylines map
                 polylines: Set<Polyline>.of(polylines.values),
                 onMapCreated: (GoogleMapController controller) {
@@ -812,43 +812,43 @@ class _MapViewState extends State<MapView> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
-                      ClipOval(
-                        child: Material(
-                          color: Colors.blueGrey[100], // button color
-                          child: InkWell(
-                            splashColor: Colors.white, // inkwell color
-                            child: SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: Icon(Icons.add),
-                            ),
-                            onTap: () {
-                              newMapController.animateCamera(
-                                CameraUpdate.zoomIn(),
-                              );
-                            },
-                          ),
-                        ),
-                      ),
-                      SizedBox(height: 20),
-                      ClipOval(
-                        child: Material(
-                          color: Colors.blueGrey[100], // button color
-                          child: InkWell(
-                            splashColor: Colors.white, // inkwell color
-                            child: SizedBox(
-                              width: 50,
-                              height: 50,
-                              child: Icon(Icons.remove),
-                            ),
-                            onTap: () {
-                              newMapController.animateCamera(
-                                CameraUpdate.zoomOut(),
-                              );
-                            },
-                          ),
-                        ),
-                      )
+                      // ClipOval(
+                      //   child: Material(
+                      //     color: Colors.blueGrey[100], // button color
+                      //     child: InkWell(
+                      //       splashColor: Colors.white, // inkwell color
+                      //       child: SizedBox(
+                      //         width: 50,
+                      //         height: 50,
+                      //         child: Icon(Icons.add),
+                      //       ),
+                      //       onTap: () {
+                      //         newMapController.animateCamera(
+                      //           CameraUpdate.zoomIn(),
+                      //         );
+                      //       },
+                      //     ),
+                      //   ),
+                      // ),
+                      // SizedBox(height: 20),
+                      // ClipOval(
+                      //   child: Material(
+                      //     color: Colors.blueGrey[100], // button color
+                      //     child: InkWell(
+                      //       splashColor: Colors.white, // inkwell color
+                      //       child: SizedBox(
+                      //         width: 50,
+                      //         height: 50,
+                      //         child: Icon(Icons.remove),
+                      //       ),
+                      //       onTap: () {
+                      //         newMapController.animateCamera(
+                      //           CameraUpdate.zoomOut(),
+                      //         );
+                      //       },
+                      //     ),
+                      //   ),
+                      // )
                     ],
                   ),
                 ),
@@ -1037,7 +1037,7 @@ class _MapViewState extends State<MapView> {
                                       startAddressFocusNode.unfocus();
                                       destinationAddressFocusNode.unfocus();
                                       setState(() {
-                                        if (markers.isNotEmpty) markers.clear();
+                                        // if (markers.isNotEmpty) markers.clear();
                                         if (polylines.isNotEmpty)
                                           polylines.clear();
                                         /*
@@ -1089,15 +1089,16 @@ class _MapViewState extends State<MapView> {
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => DirectionsDisplay(
-                                        startAddress: _startAddress,
-                                        destinationAddress: _destinationAddress,
-                                        startCoordinates: startingCoordinates,
-                                        destinationCoordinates:
-                                            endingCoordinates,
-                                        startBusStop: startingBusStop,
-                                        endBusStop: endingBusStop,
-                                        busTaken: busTaken,
-                                      ),
+                                          startAddress: _startAddress,
+                                          destinationAddress:
+                                              _destinationAddress,
+                                          startCoordinates: startingCoordinates,
+                                          destinationCoordinates:
+                                              endingCoordinates,
+                                          startBusStop: startingBusStop,
+                                          endBusStop: endingBusStop,
+                                          busTaken: busTaken,
+                                          stopsAway: pathFinder.getStopsAway()),
                                     ),
                                   );
                                 },
@@ -1117,7 +1118,7 @@ class _MapViewState extends State<MapView> {
                       applicationBloc.searchFromResults!.length != 0) &&
                   startAddressController.text.length != 0)
                 Container(
-                    margin: EdgeInsets.only(top: 100, right: 40, left: 40),
+                    margin: EdgeInsets.only(top: 85, right: 40, left: 40),
                     height: 415.0,
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -1129,7 +1130,7 @@ class _MapViewState extends State<MapView> {
                       applicationBloc.searchFromResults!.length != 0) &&
                   startAddressController.text.length != 0)
                 Container(
-                    padding: EdgeInsets.only(top: 100, right: 35, left: 35),
+                    padding: EdgeInsets.only(top: 85, right: 35, left: 35),
                     height: 415.0,
                     child: ListView.builder(
                         itemCount: (applicationBloc.searchFromResults!.length +
@@ -1225,7 +1226,7 @@ class _MapViewState extends State<MapView> {
                       applicationBloc.searchToResults!.length != 0) &&
                   destinationAddressController.text.length != 0)
                 Container(
-                    margin: EdgeInsets.only(top: 160, right: 40, left: 40),
+                    margin: EdgeInsets.only(top: 145, right: 40, left: 40),
                     height: 415.0,
                     width: double.infinity,
                     decoration: BoxDecoration(
@@ -1237,7 +1238,7 @@ class _MapViewState extends State<MapView> {
                       applicationBloc.searchToResults!.length != 0) &&
                   destinationAddressController.text.length != 0)
                 Container(
-                    padding: EdgeInsets.only(top: 160, right: 35, left: 35),
+                    padding: EdgeInsets.only(top: 145, right: 35, left: 35),
                     height: 415.0,
                     child: ListView.builder(
                         itemCount: (applicationBloc.searchToResults!.length +
@@ -1324,40 +1325,40 @@ class _MapViewState extends State<MapView> {
                           }
                         })),
               // Show current location button
-              SafeArea(
-                child: Align(
-                  alignment: Alignment.bottomRight,
-                  child: Padding(
-                    padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
-                    child: ClipOval(
-                      child: Material(
-                        color: Colors.blueGrey[100], // button color
-                        child: InkWell(
-                          splashColor: Colors.blue, // inkwell color
-                          child: SizedBox(
-                            width: 56,
-                            height: 56,
-                            child: Icon(Icons.my_location),
-                          ),
-                          onTap: () {
-                            newMapController.animateCamera(
-                              CameraUpdate.newCameraPosition(
-                                CameraPosition(
-                                  target: LatLng(
-                                    _currentPosition!.latitude,
-                                    _currentPosition!.longitude,
-                                  ),
-                                  zoom: 14.0,
-                                ),
-                              ),
-                            );
-                          },
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ),
+              // SafeArea(
+              //   child: Align(
+              //     alignment: Alignment.bottomRight,
+              //     child: Padding(
+              //       padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
+              //       child: ClipOval(
+              //         child: Material(
+              //           color: Colors.blueGrey[100], // button color
+              //           child: InkWell(
+              //             splashColor: Colors.blue, // inkwell color
+              //             child: SizedBox(
+              //               width: 56,
+              //               height: 56,
+              //               child: Icon(Icons.my_location),
+              //             ),
+              //             onTap: () {
+              //               newMapController.animateCamera(
+              //                 CameraUpdate.newCameraPosition(
+              //                   CameraPosition(
+              //                     target: LatLng(
+              //                       _currentPosition!.latitude,
+              //                       _currentPosition!.longitude,
+              //                     ),
+              //                     zoom: 15.0,
+              //                   ),
+              //                 ),
+              //               );
+              //             },
+              //           ),
+              //         ),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ],
           ),
         ),
