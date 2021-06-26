@@ -50,8 +50,8 @@ class PathFindingAlgo {
 
   // find the distance between two coordinates in metres
 
-  String startingBusStopName = "";
-  String endingBusStopName = "";
+  late BusStop startingBusStop;
+  late BusStop endingBusStop;
   int leastStops = 35;
 
   double _coordinatedistance(lat1, lon1, lat2, lon2) {
@@ -63,70 +63,44 @@ class PathFindingAlgo {
     return (12742 * 1000 * asin(sqrt(a)));
   }
 
-  // function takes in start and end bus stop names
-  // function returns shortest route between start and end bus stop
-  String getBusPath(String startBusStopName, String endBusStopName,
-      Position startingPoint, Position endingPoint, List<BusStop> nusBusStops) {
-    // check if direct route
-    // check connectedbusstops of startBusStopName
-    List<ConnectedBusStops> currConnectedBusStops =
-        adjacencyList[startBusStopName] as List<ConnectedBusStops>;
-    String shortestPath = '';
-    bool directRoute = false;
-    int busStopsVisited = 36;
-    leastStops = 35;
-
-    for (var connectedBusStop in currConnectedBusStops) {
-      PriorityQueue<ConnectedBusStops> minHeap = PriorityQueue(
-        (ConnectedBusStops first, ConnectedBusStops second) {
-          if (first.stopsAway < second.stopsAway) {
-            return -1;
-          }
-          if (first.stopsAway > second.stopsAway) {
-            return 1;
-          }
-          return 0;
-        },
-      );
-      // if endbusstop found; check for shortest number of stops
-      if (connectedBusStop.busStopName == endBusStopName) {
-        directRoute = true;
-        if (connectedBusStop.stopsAway < busStopsVisited) {
-          shortestPath = connectedBusStop.routeName;
-          busStopsVisited = connectedBusStop.stopsAway;
-        }
-      }
-    }
-    if (directRoute) {
-      return shortestPath;
-    }
-    // if no direct route; use BFS
-
+  // function takes in starting and ending coordinates
+  // finds nearest bus stop with shortest direct path
+  // function returns shortestPath
+  String getBusPath(
+      /*String startBusStopName, String endBusStopName,*/
+      Position startingPoint,
+      Position endingPoint,
+      List<BusStop> nusBusStops) {
     // get nearby bus stops from starting and ending point and see if they are connected
     // and also find the shortest path
     List<BusStop> nearbyStartingBusStops = [];
     List<BusStop> nearbyEndingBusStops = [];
+    String shortestPath = '';
+
+    // get list of nearby bus stops to starting position
     for (BusStop busStop in nusBusStops) {
       double distance = _coordinatedistance(startingPoint.latitude,
           startingPoint.longitude, busStop.latitude, busStop.longitude);
-      //within distance of 50 m
-      if (distance < 100) {
+      //within distance of 100 m
+      if (distance < 200) {
         nearbyStartingBusStops.add(busStop);
         print(busStop.name);
         print("is nearby the start");
       }
     }
 
+    // get list of nearby ending bus stops
     for (BusStop busStop in nusBusStops) {
       double distance = _coordinatedistance(endingPoint.latitude,
           endingPoint.longitude, busStop.latitude, busStop.longitude);
-      if (distance < 100) {
+      if (distance < 200) {
         nearbyEndingBusStops.add(busStop);
         print(busStop.name);
         print("is nearby the end");
       }
     }
-    // check if the nearby starting bus stops and the nearby ending bus stops are connect
+
+    // check if the nearby starting bus stops and the end bus stop are directly connected
     // if they are find the ones with least stops
     for (BusStop start in nearbyStartingBusStops) {
       print("start:");
@@ -145,8 +119,8 @@ class PathFindingAlgo {
             if (connectedBusStop.stopsAway < leastStops) {
               shortestPath = connectedBusStop.routeName;
               leastStops = connectedBusStop.stopsAway;
-              startingBusStopName = start.name;
-              endingBusStopName = end.name;
+              startingBusStop = start;
+              endingBusStop = end;
             }
           }
         }
@@ -155,9 +129,9 @@ class PathFindingAlgo {
     print("the shortest path is ");
     print(shortestPath +
         "," +
-        startingBusStopName +
+        startingBusStop.name +
         "," +
-        endingBusStopName +
+        endingBusStop.name +
         "," +
         leastStops.toString());
     return shortestPath;
@@ -169,12 +143,12 @@ class PathFindingAlgo {
     // leastStops.toString();
   }
 
-  String getStartingBusStop() {
-    return startingBusStopName;
+  BusStop getStartingBusStop() {
+    return startingBusStop;
   }
 
-  String getEndingBusStop() {
-    return endingBusStopName;
+  BusStop getEndingBusStop() {
+    return endingBusStop;
   }
 
   int getStopsAway() {

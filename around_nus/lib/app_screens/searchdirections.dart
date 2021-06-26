@@ -68,6 +68,8 @@ class _MapViewState extends State<MapView> {
   late Position startingCoordinates;
   late Position endingCoordinates;
   String busTaken = "";
+  late BusStop startingBusStop;
+  late BusStop endingBusStop;
 
   // polyline points contain coordinates of route to draw on map
   PolylinePoints? polylinePoints;
@@ -576,26 +578,50 @@ class _MapViewState extends State<MapView> {
   }
   */
 
-  //_donothing() {}
+  void _getAdjList() async {
+    adjacencyList = await adjList(_nusBusStops);
+  }
 
   _getWalkingAndBusPath(
     Position startCoordinates,
     Position destinationCoordinates,
     Map<PolylineId, Polyline> hybridPolyline,
   ) async {
-    String startBusStopName = _nearestBusStop(startCoordinates).name.toString();
-    print("in");
+    // get starting and ending busstop from pathfindingalgo
+    // input only startingCoordinates and endingCoordinates and end busstop
+    print(_nusBusStops);
+    adjacencyList = await adjList(_nusBusStops);
+    pathFinder = PathFindingAlgo(
+      adjacencyList: adjacencyList,
+      busStopToPos: _busStopsToPosition,
+    );
+    print(adjacencyList);
+    print(_busStopsToPosition);
+
+    // shortestPath algo which returns shortest bus route to get there
+    String shortestPath = pathFinder.getBusPath(
+        /*startBusStopName,
+        endBusStopName,*/
+        startingCoordinates,
+        endingCoordinates,
+        _nusBusStops);
+    busTaken = shortestPath;
+    startingBusStop = pathFinder.getStartingBusStop();
+    String startBusStopName = startingBusStop.name;
     Position startBusStopPos =
         _busStopsToPosition[startBusStopName] as Position;
     print('StartBusStopInfo');
     print(startBusStopName);
     print(startBusStopPos);
-    String endBusStopName =
-        _nearestBusStop(destinationCoordinates).name.toString();
+    endingBusStop = pathFinder.getEndingBusStop();
+    String endBusStopName = endingBusStop.name;
     Position endBusStopPos = _busStopsToPosition[endBusStopName] as Position;
     print('EndBusStopInfo');
     print(endBusStopName);
     print(endBusStopPos);
+
+    print("shortest path is ");
+    print(shortestPath);
 
     // walk to nearest start bus stop
     await _createGoogleMapsPolylines(
@@ -611,25 +637,7 @@ class _MapViewState extends State<MapView> {
 
     print('Walk to start bus stop');
 
-    print(_nusBusStops);
-    //_callAdjListFuture();
-    adjacencyList = await adjList(_nusBusStops);
-    pathFinder = PathFindingAlgo(
-      adjacencyList: adjacencyList,
-      busStopToPos: _busStopsToPosition,
-    );
-    print(adjacencyList);
-    print(_busStopsToPosition);
-
-    // shortestPath algo which returns shortest bus route to get there
-    String shortestPath = pathFinder.getBusPath(startBusStopName,
-        endBusStopName, startingCoordinates, endingCoordinates, _nusBusStops);
-    busTaken = shortestPath;
-
-    print("shortest path is ");
-    print(shortestPath);
-
-    // get wayPoints for route
+    // get wayPoints for bus route
     _wayPoints = await _getBusWayPoints(
       shortestPath,
       startBusStopName,
@@ -638,7 +646,6 @@ class _MapViewState extends State<MapView> {
 
     print(_wayPoints);
 
-    ///*
     await _createGoogleMapsPolylines(
       startBusStopPos,
       endBusStopPos,
@@ -649,7 +656,6 @@ class _MapViewState extends State<MapView> {
       hybridPolyline,
       //_displayDirections(),
     );
-    //*/
 
     // walking path from end bus stop to end
     await _createGoogleMapsPolylines(
@@ -743,7 +749,8 @@ class _MapViewState extends State<MapView> {
     _updateMapofBusStop();
     print("after update:");
     print(_nusBusStops);
-    //_callAdjListFuture();
+    //_getAdjList();
+    //print(adjacencyList);
     //pathFinder = PathFindingAlgo(adjacencyList: adjacencyList);
     // default show hybrid path
     polylines = hybridPathPolylines;
@@ -987,17 +994,6 @@ class _MapViewState extends State<MapView> {
                                 ],
                                 onPressed: (int index) {
                                   setState(() {
-                                    /*
-                                    for (int buttonIndex = 0;
-                                        buttonIndex < _selections.length;
-                                        buttonIndex++) {
-                                      if (buttonIndex == index) {
-                                        _selections[buttonIndex] = true;
-                                      } else {
-                                        _selections[buttonIndex] = false;
-                                      }
-                                    }
-                                    */
                                     // if first button pressed; walking path
                                     if (index == 0) {
                                       polylines = walkingPathPolylines;
@@ -1005,18 +1001,18 @@ class _MapViewState extends State<MapView> {
                                       _selections[1] = false;
                                       _selections[2] = false;
                                     } else if (index == 1) {
+                                      // if second button pressed; driving path
                                       polylines = drivingPathPolylines;
                                       _selections[0] = false;
                                       _selections[1] = true;
                                       _selections[2] = false;
                                     } else {
+                                      // if third button pressed; hybrid path
                                       polylines = hybridPathPolylines;
                                       _selections[0] = false;
                                       _selections[1] = false;
                                       _selections[2] = true;
                                     }
-                                    // if second button pressed; driving path
-                                    // if third button pressed;
                                   });
                                 },
                                 isSelected: _selections,
@@ -1087,24 +1083,22 @@ class _MapViewState extends State<MapView> {
                             ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) =>
-                                              DirectionsDisplay(
-                                                  startAddress: _startAddress,
-                                                  destinationAddress:
-                                                      _destinationAddress,
-                                                  startCoordinates:
-                                                      startingCoordinates,
-                                                  destinationCoordinates:
-                                                      endingCoordinates,
-                                                  startBusStop: _nearestBusStop(
-                                                      startingCoordinates),
-                                                  endBusStop: _nearestBusStop(
-                                                      endingCoordinates),
-                                                  busTaken: busTaken)));
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DirectionsDisplay(
+                                        startAddress: _startAddress,
+                                        destinationAddress: _destinationAddress,
+                                        startCoordinates: startingCoordinates,
+                                        destinationCoordinates:
+                                            endingCoordinates,
+                                        startBusStop: startingBusStop,
+                                        endBusStop: endingBusStop,
+                                        busTaken: busTaken,
+                                      ),
+                                    ),
+                                  );
                                 },
-                                child: Text("click here"))
+                                child: Text("Directions"))
                           ],
                         ),
                       ),
