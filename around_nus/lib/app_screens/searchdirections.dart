@@ -393,6 +393,7 @@ class _MapViewState extends State<MapView> {
           [],
           PolylineId('walking'),
           walkingPathPolylines,
+          //_donothing(),
         );
 
         // get driving path; colour coded red
@@ -404,6 +405,7 @@ class _MapViewState extends State<MapView> {
           [],
           PolylineId('driving'),
           drivingPathPolylines,
+          //_donothing(),
         );
 
         double totalDistance = 0.0;
@@ -546,6 +548,26 @@ class _MapViewState extends State<MapView> {
     return adjacencyList;
   }
 
+  /*
+  _displayDirections() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DirectionsDisplay(
+          startAddress: _startAddress,
+          destinationAddress: _destinationAddress,
+          startCoordinates: startingCoordinates,
+          destinationCoordinates: endingCoordinates,
+          startBusStop: _nearestBusStop(startingCoordinates),
+          endBusStop: _nearestBusStop(endingCoordinates),
+        ),
+      ),
+    );
+  }
+  */
+
+  //_donothing() {}
+
   _getWalkingAndBusPath(
     Position startCoordinates,
     Position destinationCoordinates,
@@ -573,6 +595,7 @@ class _MapViewState extends State<MapView> {
       [],
       PolylineId('toStartBusStop'),
       hybridPolyline,
+      //_displayDirections(),
     );
 
     travelModes.add("walk");
@@ -612,6 +635,7 @@ class _MapViewState extends State<MapView> {
       _wayPoints,
       PolylineId('betweenBusStops'),
       hybridPolyline,
+      //_displayDirections(),
     );
     //*/
 
@@ -624,6 +648,7 @@ class _MapViewState extends State<MapView> {
       [],
       PolylineId('fromEndBusStop'),
       hybridPolyline,
+      //_displayDirections(),
     );
 
     print('Walk from end bus stop to destination');
@@ -639,6 +664,7 @@ class _MapViewState extends State<MapView> {
     List<PolylineWayPoint> wayPoints,
     PolylineId id,
     Map<PolylineId, Polyline> currPolyline,
+    //Function onTapExecute(),
   ) async {
     // initializing PolylinePoints
     polylinePoints = PolylinePoints();
@@ -674,6 +700,7 @@ class _MapViewState extends State<MapView> {
       color: colour,
       points: polylineCoordinates,
       width: 3,
+      //onTap: onTapExecute,
     );
     currPolyline[id] = polyline;
   }
