@@ -13,6 +13,7 @@ class DirectionsDisplay extends StatefulWidget {
   final Position startCoordinates;
   final Position destinationCoordinates;
   final String busTaken;
+  final int stopsAway;
 
   // final List
   // final String travelMode;
@@ -24,7 +25,8 @@ class DirectionsDisplay extends StatefulWidget {
       required this.destinationCoordinates,
       required this.startBusStop,
       required this.endBusStop,
-      required this.busTaken})
+      required this.busTaken,
+      required this.stopsAway})
       : super(key: key);
 
   @override
@@ -147,12 +149,14 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
                     widget.startBusStop.name +
                     ", " +
                     widget.startBusStop.longName.toString() +
-                    " in about XX min" +
+                    //" in about XX min" +
                     ". Alight at " +
-                    widget.endBusStop.name +
-                    ", " +
-                    widget.endBusStop.longName.toString() +
-                    ", XX stops later."),
+                    widget.endBusStop.name),
+                // ", " +
+                // widget.endBusStop.longName.toString() +
+                // ", " +
+                // widget.stopsAway.toString() +
+                // " stops later."),
                 alignment: Alignment.centerLeft,
               )
             ])),
