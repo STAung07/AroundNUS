@@ -51,8 +51,8 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
     int startWalkDistance = _coordinatedistance(
             widget.startCoordinates.latitude,
             widget.startCoordinates.longitude,
-            widget.endBusStop.latitude,
-            widget.endBusStop.longitude)
+            widget.startBusStop.latitude,
+            widget.startBusStop.longitude)
         .round();
     int endWalkDistance = _coordinatedistance(
             widget.endBusStop.latitude,
@@ -60,6 +60,9 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
             widget.destinationCoordinates.latitude,
             widget.destinationCoordinates.longitude)
         .round();
+    int startWalkTimeTaken = (startWalkDistance / 74).round();
+    int endWalkTimeTaken = (endWalkDistance / 74).round();
+    int busTimeTaken = (widget.stopsAway * 2);
 
     return Scaffold(
       appBar: AppBar(
@@ -78,6 +81,38 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
               height: 500,
               color: Colors.grey[200],
             )),
+
+        //top box for total time taken
+        Positioned(
+            top: 20,
+            left: 20,
+            child: Column(children: [
+              Container(
+                width: 150,
+                height: 40,
+                color: Colors.grey[200],
+                child: Text("Total Time:",
+                    style: TextStyle(
+                      color: Colors.black,
+                    )),
+                alignment: Alignment.center,
+              ),
+              Container(
+                width: 150,
+                height: 40,
+                color: Colors.blue,
+                child: Text(
+                    (startWalkTimeTaken + endWalkTimeTaken + busTimeTaken)
+                            .toString() +
+                        " min",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    )),
+                alignment: Alignment.center,
+              )
+            ])),
+
         //first box for walking
         Positioned(
             top: 150,
@@ -86,7 +121,7 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
               width: 50,
               height: 25,
               color: Colors.blue,
-              child: Text((startWalkDistance / 74).round().toString() + " min",
+              child: Text(startWalkTimeTaken.toString() + " min",
                   style: TextStyle(
                     color: Colors.white,
                   )),
@@ -124,7 +159,7 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
               width: 50,
               height: 25,
               color: Colors.blue,
-              child: Text("X min",
+              child: Text(busTimeTaken.toString() + " min",
                   style: TextStyle(
                     color: Colors.white,
                   )),
@@ -151,12 +186,12 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
                     widget.startBusStop.longName.toString() +
                     //" in about XX min" +
                     ". Alight at " +
-                    widget.endBusStop.name),
-                // ", " +
-                // widget.endBusStop.longName.toString() +
-                // ", " +
-                // widget.stopsAway.toString() +
-                // " stops later."),
+                    widget.endBusStop.name +
+                    ", " +
+                    widget.endBusStop.longName.toString() +
+                    ", " +
+                    widget.stopsAway.toString() +
+                    " stops later."),
                 alignment: Alignment.centerLeft,
               )
             ])),
@@ -169,7 +204,7 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
               width: 50,
               height: 25,
               color: Colors.blue,
-              child: Text((endWalkDistance / 74).round().toString() + " min",
+              child: Text(endWalkTimeTaken.toString() + " min",
                   style: TextStyle(
                     color: Colors.white,
                   )),
