@@ -537,16 +537,19 @@ class _MapViewState extends State<MapView> {
         // for each pickUpPoint along currRoute;
         // only add BusStops in pickUpPoitnsCurrRoute after currBusStopName
         bool isAfter = false;
+        int counter = 0;
         for (var pickUpPoint in pickUpPointsCurrRoute) {
           String connectedBusStop = pickUpPoint.busStopCode;
           // add as connected BusStop to List<ConnectedBusStop> for currBusStop
-          int counter = 0;
           if (isAfter) {
             counter++;
-            listConnectedBusStops.add(ConnectedBusStops(
+            listConnectedBusStops.add(
+              ConnectedBusStops(
                 routeName: currRoute,
                 busStopName: connectedBusStop,
-                stopsAway: counter));
+                stopsAway: counter,
+              ),
+            );
           }
           // once currBusStopname found; make it true
           if (connectedBusStop == currBusStopName) {
