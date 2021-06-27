@@ -200,15 +200,18 @@ class _MyMainPageState extends State<MyMainPage> {
               },
             ),
           ),
-          Align(
-            // User Location Button
-            alignment: Alignment.bottomCenter,
-            child: InkWell(
-              //onTap: _userLocationButton,
-              onTap: _userLocationButton,
-              child: CircularButton(),
-            ),
-          ),
+          Positioned(
+              top: 640,
+              left: 187,
+              child: Align(
+                // User Location Button
+                alignment: Alignment.bottomCenter,
+                child: InkWell(
+                  //onTap: _userLocationButton,
+                  onTap: _userLocationButton,
+                  child: CircularButton(),
+                ),
+              )),
 
           // darkened container background for the search results
 

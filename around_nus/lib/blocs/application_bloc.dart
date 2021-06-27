@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:around_nus/models/busstopsinfo_model.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:around_nus/models/place.dart';
@@ -19,6 +20,8 @@ class ApplicationBloc with ChangeNotifier {
   List<PlaceSearch>? searchResults;
   List<PlaceSearch>? searchFromResults;
   List<PlaceSearch>? searchToResults;
+  List<BusStop>? searchFromBusStopsResults;
+  List<BusStop>? searchToBusStopsResults;
   List? searchNUSResults;
   List? searchNUSFromResults;
   List? searchNUSToResults;
@@ -41,6 +44,20 @@ class ApplicationBloc with ChangeNotifier {
 
   searchNUSToPlaces(String searchTerm) async {
     searchNUSToResults = await placesService.getNUSAutoComplete(searchTerm);
+    notifyListeners();
+  }
+
+  searchFromBusStops(String searchTerm) async {
+    //searchBusStopsResults = await fetchBusStopInfo(searchTerm);
+    searchFromBusStopsResults = await busService.getBusStops(searchTerm);
+    print("search bus stop: ");
+    print(searchBusStopsResults);
+    notifyListeners();
+  }
+
+  searchToBusStops(String searchTerm) async {
+    //searchBusStopsResults = await fetchBusStopInfo(searchTerm);
+    searchToBusStopsResults = await busService.getBusStops(searchTerm);
     notifyListeners();
   }
 
@@ -67,8 +84,8 @@ class ApplicationBloc with ChangeNotifier {
   searchBusStops(String searchTerm) async {
     //searchBusStopsResults = await fetchBusStopInfo(searchTerm);
     searchBusStopsResults = await busService.autoCompleteBusStops(searchTerm);
-    print(searchBusStopsResults);
-    print("here");
+    // print(searchBusStopsResults);
+    // print("here");
     notifyListeners();
   }
 
@@ -80,6 +97,8 @@ class ApplicationBloc with ChangeNotifier {
     searchNUSResults = null;
     searchNUSFromResults = null;
     searchNUSToResults = null;
+    searchFromBusStopsResults = null;
+    searchToBusStopsResults = null;
     notifyListeners();
   }
 
@@ -90,6 +109,20 @@ class ApplicationBloc with ChangeNotifier {
     searchNUSResults = null;
     searchNUSFromResults = null;
     searchNUSToResults = null;
+    searchFromBusStopsResults = null;
+    searchToBusStopsResults = null;
+    notifyListeners();
+  }
+
+  setBusStopSelectedLocation() async {
+    searchResults = null;
+    searchFromResults = null;
+    searchToResults = null;
+    searchNUSResults = null;
+    searchNUSFromResults = null;
+    searchNUSToResults = null;
+    searchFromBusStopsResults = null;
+    searchToBusStopsResults = null;
     notifyListeners();
   }
 

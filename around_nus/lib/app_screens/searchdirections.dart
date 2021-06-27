@@ -101,10 +101,10 @@ class _MapViewState extends State<MapView> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _updateMapofBusStop() async {
-    print("fetching");
+    // print("fetching");
     _nusBusStops = await busService.fetchBusStopInfo();
-    print("fetching done");
-    print(_nusBusStops);
+    // print("fetching done");
+    // print(_nusBusStops);
     for (var busStop in _nusBusStops) {
       String busStopName = busStop.name;
       Position busStopPos = Position(
@@ -390,10 +390,9 @@ class _MapViewState extends State<MapView> {
         // display diff routes; walking, driving, hybrid
 
         // get walking + bus route; colour coded yellow and blue
-        print('before');
+
         await _getWalkingAndBusPath(
             startCoordinates, destinationCoordinates, hybridPathPolylines);
-        print("after");
 
         // get walking path; colour coded green
         await _createGoogleMapsPolylines(
@@ -433,7 +432,7 @@ class _MapViewState extends State<MapView> {
           );
         }
         */
-        print("dist");
+
         setState(() {
           _placeDistance = totalDistance.toStringAsFixed(2);
           print('DISTANCE: $_placeDistance km');
@@ -500,21 +499,16 @@ class _MapViewState extends State<MapView> {
       if (isPath == true) {
         wayPoints.add(PolylineWayPoint(location: '$lat,$lng', stopOver: true));
       }
-      print('Curr Stop');
-      print(pickUpPoint.busStopCode);
-      print('Start Stop');
-      print(start);
+
       if (pickUpPoint.busStopCode == start) {
         isPath = true;
       }
-      print('End Stop');
-      print(end);
+
       if (pickUpPoint.busStopCode == end) {
         isPath = false;
       }
-      print(isPath);
     }
-    print(wayPoints);
+
     return wayPoints;
   }
 
@@ -592,14 +586,14 @@ class _MapViewState extends State<MapView> {
   ) async {
     // get starting and ending busstop from pathfindingalgo
     // input only startingCoordinates and endingCoordinates and end busstop
-    print(_nusBusStops);
+    // print(_nusBusStops);
     adjacencyList = await adjList(_nusBusStops);
     pathFinder = PathFindingAlgo(
       adjacencyList: adjacencyList,
       busStopToPos: _busStopsToPosition,
     );
-    print(adjacencyList);
-    print(_busStopsToPosition);
+    // print(adjacencyList);
+    // print(_busStopsToPosition);
 
     // shortestPath algo which returns shortest bus route to get there
     String shortestPath = pathFinder.getBusPath(
@@ -638,7 +632,7 @@ class _MapViewState extends State<MapView> {
       //_displayDirections(),
     );
 
-    print('Walk to start bus stop');
+    // print('Walk to start bus stop');
 
     // get wayPoints for bus route
     _wayPoints = await _getBusWayPoints(
@@ -647,7 +641,7 @@ class _MapViewState extends State<MapView> {
       endBusStopName,
     );
 
-    print(_wayPoints);
+    // print(_wayPoints);
 
     await _createGoogleMapsPolylines(
       startBusStopPos,
@@ -672,7 +666,7 @@ class _MapViewState extends State<MapView> {
       //_displayDirections(),
     );
 
-    print('Walk from end bus stop to destination');
+    // print('Walk from end bus stop to destination');
   }
 
   // Create the polylines for showing the route between two places
@@ -748,10 +742,8 @@ class _MapViewState extends State<MapView> {
     });
     _getCurrentLocation();
     //_updateListofBusStop();
-    print("update");
     _updateMapofBusStop();
-    print("after update:");
-    print(_nusBusStops);
+
     //_getAdjList();
     //print(adjacencyList);
     //pathFinder = PathFindingAlgo(adjacencyList: adjacencyList);
@@ -888,6 +880,7 @@ class _MapViewState extends State<MapView> {
                                   // });
                                   applicationBloc.searchFromPlaces(value);
                                   applicationBloc.searchNUSFromPlaces(value);
+                                  applicationBloc.searchFromBusStops(value);
                                 },
                                 controller: startAddressController,
                                 focusNode: startAddressFocusNode,
@@ -930,7 +923,7 @@ class _MapViewState extends State<MapView> {
                                       width: 2,
                                     ),
                                   ),
-                                  contentPadding: EdgeInsets.all(15),
+                                  contentPadding: EdgeInsets.all(0),
                                   hintText: "Choose Starting Point",
                                 ),
                               ),
@@ -980,7 +973,7 @@ class _MapViewState extends State<MapView> {
                                       width: 2,
                                     ),
                                   ),
-                                  contentPadding: EdgeInsets.all(15),
+                                  contentPadding: EdgeInsets.all(0),
                                   hintText: "Choose Destination",
                                 ),
                               ),
@@ -1113,9 +1106,11 @@ class _MapViewState extends State<MapView> {
 
               //SEARCH FROM RESULTS STORED INTO THESE 2 CONTAINERS
               if ((applicationBloc.searchNUSFromResults != null ||
-                      applicationBloc.searchFromResults != null) &&
+                      applicationBloc.searchFromResults != null ||
+                      applicationBloc.searchFromBusStopsResults != null) &&
                   (applicationBloc.searchNUSFromResults!.length != 0 ||
-                      applicationBloc.searchFromResults!.length != 0) &&
+                      applicationBloc.searchFromResults!.length != 0 ||
+                      applicationBloc.searchFromBusStopsResults!.length != 0) &&
                   startAddressController.text.length != 0)
                 Container(
                     margin: EdgeInsets.only(top: 85, right: 40, left: 40),
@@ -1125,16 +1120,19 @@ class _MapViewState extends State<MapView> {
                         backgroundBlendMode: BlendMode.darken,
                         color: Colors.black.withOpacity(0.6))),
               if ((applicationBloc.searchNUSFromResults != null ||
-                      applicationBloc.searchFromResults != null) &&
+                      applicationBloc.searchFromResults != null ||
+                      applicationBloc.searchFromBusStopsResults != null) &&
                   (applicationBloc.searchNUSFromResults!.length != 0 ||
-                      applicationBloc.searchFromResults!.length != 0) &&
+                      applicationBloc.searchFromResults!.length != 0 ||
+                      applicationBloc.searchFromBusStopsResults!.length != 0) &&
                   startAddressController.text.length != 0)
                 Container(
                     padding: EdgeInsets.only(top: 85, right: 35, left: 35),
                     height: 415.0,
                     child: ListView.builder(
                         itemCount: (applicationBloc.searchFromResults!.length +
-                            applicationBloc.searchNUSFromResults!.length),
+                            applicationBloc.searchNUSFromResults!.length +
+                            applicationBloc.searchFromBusStopsResults!.length),
                         itemBuilder: (context, index) {
                           if (index <
                               applicationBloc.searchNUSFromResults!.length)
@@ -1173,7 +1171,9 @@ class _MapViewState extends State<MapView> {
                                 applicationBloc.setNUSSelectedLocation();
                               },
                             );
-                          else {
+                          else if (index <
+                              applicationBloc.searchNUSFromResults!.length +
+                                  applicationBloc.searchFromResults!.length)
                             return ListTile(
                               title: Text(
                                 applicationBloc
@@ -1216,7 +1216,77 @@ class _MapViewState extends State<MapView> {
                                 );
                               },
                             );
-                          }
+                          else
+                            return ListTile(
+                              title: Text(
+                                applicationBloc
+                                        .searchFromBusStopsResults![index -
+                                            applicationBloc
+                                                .searchNUSFromResults!.length -
+                                            applicationBloc
+                                                .searchFromResults!.length]
+                                        .longName +
+                                    " Bus Stop",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                setState(() {
+                                  _startAddress = applicationBloc
+                                          .searchFromBusStopsResults![index -
+                                              applicationBloc
+                                                  .searchNUSFromResults!
+                                                  .length -
+                                              applicationBloc
+                                                  .searchFromResults!.length]
+                                          .longName +
+                                      " Bus Stop";
+                                });
+
+                                _goToBusStop(
+                                    applicationBloc
+                                        .searchFromBusStopsResults![index -
+                                            applicationBloc
+                                                .searchNUSFromResults!.length -
+                                            applicationBloc
+                                                .searchFromResults!.length]
+                                        .latitude,
+                                    applicationBloc
+                                        .searchFromBusStopsResults![index -
+                                            applicationBloc
+                                                .searchNUSFromResults!.length -
+                                            applicationBloc
+                                                .searchFromResults!.length]
+                                        .longitude);
+
+                                startAddressController.value =
+                                    startAddressController.value.copyWith(
+                                  text: applicationBloc
+                                          .searchFromBusStopsResults![index -
+                                              applicationBloc
+                                                  .searchNUSFromResults!
+                                                  .length -
+                                              applicationBloc
+                                                  .searchFromResults!.length]
+                                          .longName +
+                                      " Bus Stop",
+                                  selection: TextSelection.collapsed(
+                                      offset: applicationBloc
+                                              .searchFromBusStopsResults![
+                                                  index -
+                                                      applicationBloc
+                                                          .searchNUSFromResults!
+                                                          .length -
+                                                      applicationBloc
+                                                          .searchFromResults!
+                                                          .length]
+                                              .longName
+                                              .length +
+                                          " Bus Stop".length),
+                                );
+                                applicationBloc.setBusStopSelectedLocation();
+                              },
+                            );
                         })),
 
               //SEARCH TO RESULTS STORED INTO THESE TWO CONTAINERS
@@ -1367,6 +1437,14 @@ class _MapViewState extends State<MapView> {
   }
 
   Future<void> _goToNUSPlace(double lat, double lng) async {
+    final GoogleMapController controller = await mapController.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 15)));
+
+    _setMarkers(LatLng(lat, lng));
+  }
+
+  Future<void> _goToBusStop(double lat, double lng) async {
     final GoogleMapController controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(lat, lng), zoom: 15)));

@@ -187,7 +187,7 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
                     //" in about XX min" +
                     ". Alight at " +
                     widget.endBusStop.name +
-                    ", " +
+                    " Bus Stop, " +
                     widget.endBusStop.longName.toString() +
                     ", " +
                     widget.stopsAway.toString() +
@@ -225,11 +225,7 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
                           fontSize: 15)),
                   alignment: Alignment.bottomLeft),
               Container(
-                child: Text("Walk to " +
-                    widget.endBusStop.name +
-                    " bus stop at " +
-                    widget.endBusStop.longName.toString() +
-                    "."),
+                child: Text("Walk to " + widget.destinationAddress + "."),
                 alignment: Alignment.centerLeft,
               )
             ])),

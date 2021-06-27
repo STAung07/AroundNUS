@@ -43,6 +43,26 @@ class NusNextBus {
     return results;
   }
 
+  Future<List<BusStop>> getBusStops(search) async {
+    List<BusStop> busStopList = await fetchBusStopInfo();
+    print("search is ");
+    print(search);
+    List<BusStop> results = [];
+    for (int i = 0; i < busStopList.length; i++) {
+      if (busStopList[i]
+          .longName
+          .toLowerCase()
+          .startsWith(search.toLowerCase())) {
+        print("contains");
+        print(busStopList[i].longName);
+        results.add(busStopList[i]);
+      }
+    }
+    print("busstoplist results:");
+    print(results);
+    return results;
+  }
+
 // Call in bustimings.dart depending on current bus stop name / caption
 // request for bus timings at each bus stop
   Future<List<ArrivalInformation>> fetchArrivalInfo(String _busStopName) async {
