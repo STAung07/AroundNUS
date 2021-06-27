@@ -70,7 +70,7 @@ class _MapViewState extends State<MapView> {
   String busTaken = "";
   late BusStop startingBusStop;
   late BusStop endingBusStop;
-
+  LatLng prevFrom = LatLng(0, 0);
   // polyline points contain coordinates of route to draw on map
   PolylinePoints? polylinePoints;
 
@@ -168,9 +168,16 @@ class _MapViewState extends State<MapView> {
   Future<void> _setMarkers(LatLng point) async {
     //set starting marker
     markers.clear();
+    bool isBusStop = false;
     if (_startAddress.length != 0) {
       print("start address: ");
       print(_startAddress);
+      for (int i = 0; i < _nusBusStops.length; i++) {
+        if (_startAddress == _nusBusStops[i].longName) {
+          isBusStop = true;
+        }
+      }
+
       List<Location> startPlacemark = await locationFromAddress(_startAddress);
       print("start placemark: ");
       print(startPlacemark[0]);
@@ -183,79 +190,7 @@ class _MapViewState extends State<MapView> {
           altitude: 0.0,
           timestamp: DateTime.now(),
           accuracy: 0.0);
-      startingCoordinates = startCoordinates;
-      print("starting coord");
-      print(startingCoordinates);
-      Marker startMarker = Marker(
-        markerId: MarkerId('$startCoordinates'),
-        position: LatLng(
-          startCoordinates.latitude,
-          startCoordinates.longitude,
-        ),
-        infoWindow: InfoWindow(
-          title: 'Start',
-          snippet: _startAddress,
-        ),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-      );
-      setState(() {
-        markers.add(startMarker);
-      });
-    }
 
-    if (_destinationAddress.length != 0) {
-      print("destination address: ");
-      print(_destinationAddress);
-      List<Location> endPlacemark =
-          await locationFromAddress(_destinationAddress);
-      print("destination placemark: ");
-      print(endPlacemark[0]);
-      Position endCoordinates = Position(
-          latitude: endPlacemark[0].latitude,
-          longitude: endPlacemark[0].longitude,
-          speed: 0.0,
-          speedAccuracy: 0.0,
-          heading: 0.0,
-          altitude: 0.0,
-          timestamp: DateTime.now(),
-          accuracy: 0.0);
-      endingCoordinates = endCoordinates;
-      Marker endMarker = Marker(
-        markerId: MarkerId('$endCoordinates'),
-        position: LatLng(
-          endCoordinates.latitude,
-          endCoordinates.longitude,
-        ),
-        infoWindow: InfoWindow(
-          title: 'Destination',
-          snippet: _destinationAddress,
-        ),
-        icon: BitmapDescriptor.defaultMarker,
-      );
-      setState(() {
-        markers.add(endMarker);
-      });
-    }
-  }
-
-  Future<void> _setBusStopFromMarkers(BusStop busStop) async {
-    //set starting marker
-    markers.clear();
-    if (_startAddress.length != 0) {
-      print("start bus stop address: ");
-      print(_startAddress);
-      // List<Location> startPlacemark = await locationFromAddress(_startAddress);
-      // print("start placemark: ");
-      // print(startPlacemark[0]);
-      Position startCoordinates = Position(
-          latitude: busStop.latitude,
-          longitude: busStop.longitude,
-          speed: 0.0,
-          speedAccuracy: 0.0,
-          heading: 0.0,
-          altitude: 0.0,
-          timestamp: DateTime.now(),
-          accuracy: 0.0);
       startingCoordinates = startCoordinates;
       print("starting coord");
       print(startingCoordinates);
@@ -1307,14 +1242,12 @@ class _MapViewState extends State<MapView> {
                                 FocusScope.of(context).unfocus();
                                 setState(() {
                                   _startAddress = applicationBloc
-                                          .searchFromBusStopsResults![index -
-                                              applicationBloc
-                                                  .searchNUSFromResults!
-                                                  .length -
-                                              applicationBloc
-                                                  .searchFromResults!.length]
-                                          .longName +
-                                      " Bus Stop";
+                                      .searchFromBusStopsResults![index -
+                                          applicationBloc
+                                              .searchNUSFromResults!.length -
+                                          applicationBloc
+                                              .searchFromResults!.length]
+                                      .longName;
                                 });
 
                                 _goToBusStop(
@@ -1490,13 +1423,12 @@ class _MapViewState extends State<MapView> {
                                 FocusScope.of(context).unfocus();
                                 setState(() {
                                   _destinationAddress = applicationBloc
-                                          .searchToBusStopsResults![index -
-                                              applicationBloc
-                                                  .searchNUSToResults!.length -
-                                              applicationBloc
-                                                  .searchToResults!.length]
-                                          .longName +
-                                      " Bus Stop";
+                                      .searchToBusStopsResults![index -
+                                          applicationBloc
+                                              .searchNUSToResults!.length -
+                                          applicationBloc
+                                              .searchToResults!.length]
+                                      .longName;
                                 });
 
                                 _goToBusStop(
