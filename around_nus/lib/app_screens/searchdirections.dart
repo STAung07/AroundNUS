@@ -238,6 +238,26 @@ class _MapViewState extends State<MapView> {
     }
   }
 
+  _displayDirections() {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => DirectionsDisplay(
+          startAddress: _startAddress,
+          destinationAddress: _destinationAddress,
+          startCoordinates: startingCoordinates,
+          destinationCoordinates: endingCoordinates,
+          startBusStop: startingBusStop,
+          endBusStop: endingBusStop,
+          busTaken: busTaken,
+          stopsAway: pathFinder.getStopsAway(),
+        ),
+      ),
+    );
+  }
+
+  _doNothing() {}
+
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
     try {
@@ -404,7 +424,7 @@ class _MapViewState extends State<MapView> {
           [],
           PolylineId('walking'),
           walkingPathPolylines,
-          //_donothing(),
+          //_doNothing(),
         );
 
         // get driving path; colour coded red
@@ -416,7 +436,7 @@ class _MapViewState extends State<MapView> {
           [],
           PolylineId('driving'),
           drivingPathPolylines,
-          //_donothing(),
+          //_doNothing(),
         );
 
         double totalDistance = 0.0;
@@ -563,28 +583,6 @@ class _MapViewState extends State<MapView> {
     return adjacencyList;
   }
 
-  /*
-  _displayDirections() {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => DirectionsDisplay(
-          startAddress: _startAddress,
-          destinationAddress: _destinationAddress,
-          startCoordinates: startingCoordinates,
-          destinationCoordinates: endingCoordinates,
-          startBusStop: _nearestBusStop(startingCoordinates),
-          endBusStop: _nearestBusStop(endingCoordinates),
-        ),
-      ),
-    );
-  }
-  */
-
-  void _getAdjList() async {
-    adjacencyList = await adjList(_nusBusStops);
-  }
-
   _getWalkingAndBusPath(
     Position startCoordinates,
     Position destinationCoordinates,
@@ -685,7 +683,7 @@ class _MapViewState extends State<MapView> {
     List<PolylineWayPoint> wayPoints,
     PolylineId id,
     Map<PolylineId, Polyline> currPolyline,
-    //Function onTapExecute(),
+    //void onTapExecute(),
   ) async {
     // initializing PolylinePoints
     polylinePoints = PolylinePoints();
@@ -1037,7 +1035,7 @@ class _MapViewState extends State<MapView> {
                                       startAddressFocusNode.unfocus();
                                       destinationAddressFocusNode.unfocus();
                                       setState(() {
-                                        // if (markers.isNotEmpty) markers.clear();
+                                        if (markers.isNotEmpty) markers.clear();
                                         if (polylines.isNotEmpty)
                                           polylines.clear();
                                         /*
