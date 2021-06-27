@@ -32,7 +32,7 @@ class _MyMainPageState extends State<MyMainPage> {
   late LatLng currCoordinates =
       LatLng(currentPosition.latitude, currentPosition.longitude);
   late StreamSubscription locationSubscription;
-  var _textController = TextEditingController();
+  var _textController = TextEditingController(text: " ");
   Map nusVenuesData = {};
   // List filteredNames = [];
   // List names = [];

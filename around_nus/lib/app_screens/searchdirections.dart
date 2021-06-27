@@ -52,8 +52,8 @@ class _MapViewState extends State<MapView> {
   Position? _currentPosition;
   String? _currentAddress;
 
-  final startAddressController = TextEditingController();
-  final destinationAddressController = TextEditingController();
+  final startAddressController = TextEditingController(text: "");
+  final destinationAddressController = TextEditingController(text: "");
 
   final startAddressFocusNode = FocusNode();
   final destinationAddressFocusNode = FocusNode();
