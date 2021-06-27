@@ -60,16 +60,29 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
             widget.destinationCoordinates.latitude,
             widget.destinationCoordinates.longitude)
         .round();
+
     int startWalkTimeTaken = (startWalkDistance / 74).round();
     int endWalkTimeTaken = (endWalkDistance / 74).round();
     int busTimeTaken = (widget.stopsAway * 2);
+    int indexCount = 3;
+
+    if (widget.startAddress == widget.startBusStop.longName) {
+      indexCount -= 1;
+    }
+    if (widget.destinationAddress == widget.endBusStop.longName) {
+      indexCount -= 1;
+    }
+    print("the start address is:");
+    print(widget.startAddress);
+    print("the start bus stop long name is: ");
+    print(widget.startBusStop.longName);
 
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Color(0xff7285A5),
         title: Text("Directions"),
       ),
-      body: Stack(children: [
+      body: Stack(children: <Widget>[
         //background
         Positioned(
             top: 125,
@@ -114,42 +127,44 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
             ])),
 
         //first box for walking
-        Positioned(
-            top: 150,
-            left: 20,
-            child: Container(
-              width: 50,
-              height: 25,
-              color: Colors.blue,
-              child: Text(startWalkTimeTaken.toString() + " min",
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
-              alignment: Alignment.center,
-            )),
-        Positioned(
-            top: 140,
-            left: 90,
-            height: 120,
-            width: 300,
-            child: Column(children: [
-              Container(
-                  // color: Colors.red,
-                  child: Text("Walk " + startWalkDistance.toString() + " m",
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15)),
-                  alignment: Alignment.bottomLeft),
-              Container(
-                child: Text("Walk to " +
-                    widget.startBusStop.name +
-                    " bus stop at " +
-                    widget.startBusStop.longName.toString() +
-                    "."),
-                alignment: Alignment.centerLeft,
-              )
-            ])),
+        if (widget.startAddress != widget.startBusStop.longName)
+          Positioned(
+              top: 150,
+              left: 20,
+              child: Container(
+                width: 50,
+                height: 25,
+                color: Colors.blue,
+                child: Text(startWalkTimeTaken.toString() + " min",
+                    style: TextStyle(
+                      color: Colors.white,
+                    )),
+                alignment: Alignment.center,
+              )),
+        if (widget.startAddress != widget.startBusStop.longName)
+          Positioned(
+              top: 140,
+              left: 90,
+              height: 120,
+              width: 300,
+              child: Column(children: [
+                Container(
+                    // color: Colors.red,
+                    child: Text("Walk " + startWalkDistance.toString() + " m",
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15)),
+                    alignment: Alignment.bottomLeft),
+                Container(
+                  child: Text("Walk to " +
+                      widget.startBusStop.name +
+                      " bus stop at " +
+                      widget.startBusStop.longName.toString() +
+                      "."),
+                  alignment: Alignment.centerLeft,
+                )
+              ])),
 
         // second box for bus path
         Positioned(
@@ -197,38 +212,40 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
             ])),
 
         //third box for walking
-        Positioned(
-            top: 390,
-            left: 20,
-            child: Container(
-              width: 50,
-              height: 25,
-              color: Colors.blue,
-              child: Text(endWalkTimeTaken.toString() + " min",
-                  style: TextStyle(
-                    color: Colors.white,
-                  )),
-              alignment: Alignment.center,
-            )),
-        Positioned(
-            top: 380,
-            left: 90,
-            height: 120,
-            width: 300,
-            child: Column(children: [
-              Container(
-                  // color: Colors.red,
-                  child: Text("Walk " + endWalkDistance.toString() + " m",
-                      style: TextStyle(
-                          color: Colors.blue,
-                          fontWeight: FontWeight.bold,
-                          fontSize: 15)),
-                  alignment: Alignment.bottomLeft),
-              Container(
-                child: Text("Walk to " + widget.destinationAddress + "."),
-                alignment: Alignment.centerLeft,
-              )
-            ])),
+        if (widget.destinationAddress != widget.endBusStop.longName)
+          Positioned(
+              top: 390,
+              left: 20,
+              child: Container(
+                width: 50,
+                height: 25,
+                color: Colors.blue,
+                child: Text(endWalkTimeTaken.toString() + " min",
+                    style: TextStyle(
+                      color: Colors.white,
+                    )),
+                alignment: Alignment.center,
+              )),
+        if (widget.destinationAddress != widget.endBusStop.longName)
+          Positioned(
+              top: 380,
+              left: 90,
+              height: 120,
+              width: 300,
+              child: Column(children: [
+                Container(
+                    // color: Colors.red,
+                    child: Text("Walk " + endWalkDistance.toString() + " m",
+                        style: TextStyle(
+                            color: Colors.blue,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 15)),
+                    alignment: Alignment.bottomLeft),
+                Container(
+                  child: Text("Walk to " + widget.destinationAddress + "."),
+                  alignment: Alignment.centerLeft,
+                )
+              ])),
       ]),
     );
   }

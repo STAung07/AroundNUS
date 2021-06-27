@@ -52,8 +52,8 @@ class _MapViewState extends State<MapView> {
   Position? _currentPosition;
   String? _currentAddress;
 
-  final startAddressController = TextEditingController();
-  final destinationAddressController = TextEditingController();
+  final startAddressController = TextEditingController(text: "");
+  final destinationAddressController = TextEditingController(text: "");
 
   final startAddressFocusNode = FocusNode();
   final destinationAddressFocusNode = FocusNode();
@@ -177,6 +177,79 @@ class _MapViewState extends State<MapView> {
       Position startCoordinates = Position(
           latitude: startPlacemark[0].latitude,
           longitude: startPlacemark[0].longitude,
+          speed: 0.0,
+          speedAccuracy: 0.0,
+          heading: 0.0,
+          altitude: 0.0,
+          timestamp: DateTime.now(),
+          accuracy: 0.0);
+      startingCoordinates = startCoordinates;
+      print("starting coord");
+      print(startingCoordinates);
+      Marker startMarker = Marker(
+        markerId: MarkerId('$startCoordinates'),
+        position: LatLng(
+          startCoordinates.latitude,
+          startCoordinates.longitude,
+        ),
+        infoWindow: InfoWindow(
+          title: 'Start',
+          snippet: _startAddress,
+        ),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+      );
+      setState(() {
+        markers.add(startMarker);
+      });
+    }
+
+    if (_destinationAddress.length != 0) {
+      print("destination address: ");
+      print(_destinationAddress);
+      List<Location> endPlacemark =
+          await locationFromAddress(_destinationAddress);
+      print("destination placemark: ");
+      print(endPlacemark[0]);
+      Position endCoordinates = Position(
+          latitude: endPlacemark[0].latitude,
+          longitude: endPlacemark[0].longitude,
+          speed: 0.0,
+          speedAccuracy: 0.0,
+          heading: 0.0,
+          altitude: 0.0,
+          timestamp: DateTime.now(),
+          accuracy: 0.0);
+      endingCoordinates = endCoordinates;
+      Marker endMarker = Marker(
+        markerId: MarkerId('$endCoordinates'),
+        position: LatLng(
+          endCoordinates.latitude,
+          endCoordinates.longitude,
+        ),
+        infoWindow: InfoWindow(
+          title: 'Destination',
+          snippet: _destinationAddress,
+        ),
+        icon: BitmapDescriptor.defaultMarker,
+      );
+      setState(() {
+        markers.add(endMarker);
+      });
+    }
+  }
+
+  Future<void> _setBusStopFromMarkers(BusStop busStop) async {
+    //set starting marker
+    markers.clear();
+    if (_startAddress.length != 0) {
+      print("start bus stop address: ");
+      print(_startAddress);
+      // List<Location> startPlacemark = await locationFromAddress(_startAddress);
+      // print("start placemark: ");
+      // print(startPlacemark[0]);
+      Position startCoordinates = Position(
+          latitude: busStop.latitude,
+          longitude: busStop.longitude,
           speed: 0.0,
           speedAccuracy: 0.0,
           heading: 0.0,
@@ -937,6 +1010,7 @@ class _MapViewState extends State<MapView> {
                                   // setState(() {
                                   //   _destinationAddress = value;
                                   // });
+                                  applicationBloc.searchToBusStops(value);
                                   applicationBloc.searchNUSToPlaces(value);
                                   applicationBloc.searchToPlaces(value);
                                 },
@@ -1291,9 +1365,11 @@ class _MapViewState extends State<MapView> {
 
               //SEARCH TO RESULTS STORED INTO THESE TWO CONTAINERS
               if ((applicationBloc.searchNUSToResults != null ||
-                      applicationBloc.searchToResults != null) &&
+                      applicationBloc.searchToResults != null ||
+                      applicationBloc.searchToBusStopsResults != null) &&
                   (applicationBloc.searchNUSToResults!.length != 0 ||
-                      applicationBloc.searchToResults!.length != 0) &&
+                      applicationBloc.searchToResults!.length != 0 ||
+                      applicationBloc.searchToBusStopsResults!.length != 0) &&
                   destinationAddressController.text.length != 0)
                 Container(
                     margin: EdgeInsets.only(top: 145, right: 40, left: 40),
@@ -1303,16 +1379,19 @@ class _MapViewState extends State<MapView> {
                         backgroundBlendMode: BlendMode.darken,
                         color: Colors.black.withOpacity(0.6))),
               if ((applicationBloc.searchNUSToResults != null ||
-                      applicationBloc.searchToResults != null) &&
+                      applicationBloc.searchToResults != null ||
+                      applicationBloc.searchToBusStopsResults != null) &&
                   (applicationBloc.searchNUSToResults!.length != 0 ||
-                      applicationBloc.searchToResults!.length != 0) &&
+                      applicationBloc.searchToResults!.length != 0 ||
+                      applicationBloc.searchToBusStopsResults!.length != 0) &&
                   destinationAddressController.text.length != 0)
                 Container(
                     padding: EdgeInsets.only(top: 145, right: 35, left: 35),
                     height: 415.0,
                     child: ListView.builder(
                         itemCount: (applicationBloc.searchToResults!.length +
-                            applicationBloc.searchNUSToResults!.length),
+                            applicationBloc.searchNUSToResults!.length +
+                            applicationBloc.searchToBusStopsResults!.length),
                         itemBuilder: (context, index) {
                           if (index <
                               applicationBloc.searchNUSToResults!.length)
@@ -1349,7 +1428,9 @@ class _MapViewState extends State<MapView> {
                                 applicationBloc.setNUSSelectedLocation();
                               },
                             );
-                          else {
+                          else if (index <
+                              applicationBloc.searchNUSToResults!.length +
+                                  applicationBloc.searchToResults!.length)
                             return ListTile(
                               title: Text(
                                 applicationBloc
@@ -1392,8 +1473,75 @@ class _MapViewState extends State<MapView> {
                                 );
                               },
                             );
-                          }
+                          else
+                            return ListTile(
+                              title: Text(
+                                applicationBloc
+                                        .searchToBusStopsResults![index -
+                                            applicationBloc
+                                                .searchNUSToResults!.length -
+                                            applicationBloc
+                                                .searchToResults!.length]
+                                        .longName +
+                                    " Bus Stop",
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              onTap: () {
+                                FocusScope.of(context).unfocus();
+                                setState(() {
+                                  _destinationAddress = applicationBloc
+                                          .searchToBusStopsResults![index -
+                                              applicationBloc
+                                                  .searchNUSToResults!.length -
+                                              applicationBloc
+                                                  .searchToResults!.length]
+                                          .longName +
+                                      " Bus Stop";
+                                });
+
+                                _goToBusStop(
+                                    applicationBloc
+                                        .searchToBusStopsResults![index -
+                                            applicationBloc
+                                                .searchNUSToResults!.length -
+                                            applicationBloc
+                                                .searchToResults!.length]
+                                        .latitude,
+                                    applicationBloc
+                                        .searchToBusStopsResults![index -
+                                            applicationBloc
+                                                .searchNUSToResults!.length -
+                                            applicationBloc
+                                                .searchToResults!.length]
+                                        .longitude);
+
+                                destinationAddressController.value =
+                                    destinationAddressController.value.copyWith(
+                                  text: applicationBloc
+                                          .searchToBusStopsResults![index -
+                                              applicationBloc
+                                                  .searchNUSToResults!.length -
+                                              applicationBloc
+                                                  .searchToResults!.length]
+                                          .longName +
+                                      " Bus Stop",
+                                  selection: TextSelection.collapsed(
+                                      offset: applicationBloc
+                                              .searchToBusStopsResults![index -
+                                                  applicationBloc
+                                                      .searchNUSToResults!
+                                                      .length -
+                                                  applicationBloc
+                                                      .searchToResults!.length]
+                                              .longName
+                                              .length +
+                                          " Bus Stop".length),
+                                );
+                                applicationBloc.setBusStopSelectedLocation();
+                              },
+                            );
                         })),
+
               // Show current location button
               // SafeArea(
               //   child: Align(
