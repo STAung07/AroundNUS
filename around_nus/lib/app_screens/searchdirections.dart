@@ -1059,7 +1059,7 @@ class _MapViewState extends State<MapView> {
                                               .showSnackBar(
                                             SnackBar(
                                               content: Text(
-                                                  'Error Calculating Distance'),
+                                                  'Error Calculating Distance, Choose locations within NUS'),
                                             ),
                                           );
                                         }
@@ -1081,7 +1081,9 @@ class _MapViewState extends State<MapView> {
                                 ),
                               ),
                             ),
-                            ElevatedButton(
+                            Visibility(
+                              visible: _placeDistance == null ? false : true,
+                              child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
                                     context,
@@ -1100,7 +1102,9 @@ class _MapViewState extends State<MapView> {
                                     ),
                                   );
                                 },
-                                child: Text("Directions"))
+                                child: Text("Directions"),
+                              ),
+                            ),
                           ],
                         ),
                       ),

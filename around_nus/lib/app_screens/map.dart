@@ -232,73 +232,72 @@ class _MyMainPageState extends State<MyMainPage> {
                   applicationBloc.searchResults!.length != 0) &&
               _textController.text.length != 0)
             Container(
-                padding: EdgeInsets.only(top: 70),
-                height: 415.0,
-                // child: _buildList()
-                child: ListView.builder(
-                    // itemCount: applicationBloc.searchResults!.length,
-                    itemCount: (applicationBloc.searchNUSResults!.length +
-                        applicationBloc.searchResults!.length),
-                    itemBuilder: (context, index) {
-                      if (index < applicationBloc.searchNUSResults!.length)
-                        return ListTile(
-                          title: Text(
-                            applicationBloc.searchNUSResults![index],
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
+              padding: EdgeInsets.only(top: 70),
+              height: 415.0,
+              // child: _buildList()
+              child: ListView.builder(
+                // itemCount: applicationBloc.searchResults!.length,
+                itemCount: (applicationBloc.searchNUSResults!.length +
+                    applicationBloc.searchResults!.length),
+                itemBuilder: (context, index) {
+                  if (index < applicationBloc.searchNUSResults!.length)
+                    return ListTile(
+                      title: Text(
+                        applicationBloc.searchNUSResults![index],
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        FocusScope.of(context).unfocus();
 
-                            _textController.value =
-                                _textController.value.copyWith(
-                              text: applicationBloc.searchNUSResults![index],
-                              selection: TextSelection.collapsed(
-                                  offset: applicationBloc
-                                      .searchNUSResults![index].length),
-                            );
-                            _goToNUSPlace(
-                                nusVenuesData[applicationBloc
-                                    .searchNUSResults![index]]["latitude"],
-                                nusVenuesData[applicationBloc
-                                    .searchNUSResults![index]]["longitude"]);
-
-                            applicationBloc.setNUSSelectedLocation();
-                          },
+                        _textController.value = _textController.value.copyWith(
+                          text: applicationBloc.searchNUSResults![index],
+                          selection: TextSelection.collapsed(
+                              offset: applicationBloc
+                                  .searchNUSResults![index].length),
                         );
-                      else {
-                        return ListTile(
-                          title: Text(
-                            applicationBloc
-                                .searchResults![index -
-                                    applicationBloc.searchNUSResults!.length]
-                                .description,
-                            style: TextStyle(color: Colors.white),
-                          ),
-                          onTap: () {
-                            FocusScope.of(context).unfocus();
-                            applicationBloc.setSelectedLocation(applicationBloc
-                                .searchResults![index -
-                                    applicationBloc.searchNUSResults!.length]
-                                .placeId);
-                            // //clearing the textfield
-                            _textController.value =
-                                _textController.value.copyWith(
-                              text: applicationBloc
+                        _goToNUSPlace(
+                            nusVenuesData[applicationBloc
+                                .searchNUSResults![index]]["latitude"],
+                            nusVenuesData[applicationBloc
+                                .searchNUSResults![index]]["longitude"]);
+
+                        applicationBloc.setNUSSelectedLocation();
+                      },
+                    );
+                  else {
+                    return ListTile(
+                      title: Text(
+                        applicationBloc
+                            .searchResults![index -
+                                applicationBloc.searchNUSResults!.length]
+                            .description,
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        FocusScope.of(context).unfocus();
+                        applicationBloc.setSelectedLocation(applicationBloc
+                            .searchResults![index -
+                                applicationBloc.searchNUSResults!.length]
+                            .placeId);
+                        // //clearing the textfield
+                        _textController.value = _textController.value.copyWith(
+                          text: applicationBloc
+                              .searchResults![index -
+                                  applicationBloc.searchNUSResults!.length]
+                              .description,
+                          selection: TextSelection.collapsed(
+                              offset: applicationBloc
                                   .searchResults![index -
                                       applicationBloc.searchNUSResults!.length]
-                                  .description,
-                              selection: TextSelection.collapsed(
-                                  offset: applicationBloc
-                                      .searchResults![index -
-                                          applicationBloc
-                                              .searchNUSResults!.length]
-                                      .description
-                                      .length),
-                            );
-                          },
+                                  .description
+                                  .length),
                         );
-                      }
-                    }))
+                      },
+                    );
+                  }
+                },
+              ),
+            ),
         ],
       ),
     );
