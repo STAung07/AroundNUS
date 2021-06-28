@@ -27,7 +27,7 @@ Finally, the most important directions feature which requires the Google Maps Ro
 
 ## App Prototype
 
-# Home Page
+### Home Page
 
 Current Features:
 
@@ -42,7 +42,7 @@ Milestone III Improvements:
 
 Searching for a location in the search bar will display information about that location
 
-# Bus Timings Page
+### Bus Timings Page
 
 Current Features:
 
@@ -56,7 +56,7 @@ Milestone III Improvements:
 
 On top of showing bus timings of all bus routes at all available bus stops, a separate tab will be included to allow users to see all the pick up points of all shuttle routes available in NUS.
 
-# Directions Page
+### Directions Page
 
 Current Features:
 
@@ -82,19 +82,19 @@ Provide second and third alternatives for paths that users can consider. In case
 
 Below are the main problems, technical and non-technical, we faced during the prototyping phase of our app after Milestone I.
 
-# Autocomplete search bar including NUS LTs and Tutorial Rooms (Solved)
+### Autocomplete search bar including NUS LTs and Tutorial Rooms (Solved)
 
 As most places in NUS, especially lecture theatres and tutorial rooms, are not shown on google maps, integrating these places into the search bars in both the Home Page as well as the Directions Page was a challenge. 
 
 For places already available inside Google Maps, the autocomplete feature was slightly more straightforward as the data was being returned from Google in the correct format. However, as the json file of information returned from the NUSMODs http server was not in the correct format, we had to use a script to fetch the relevant information from the server before storing it in a suitable format json file to be parsed by the Google Autocomplete API.
 
-# Importing NUS Next Bus API for bus route information (Solved)
+### Importing NUS Next Bus API for bus route information (Solved)
 
 For our app to function as a navigation app, we had to integrate the bus stops and bus services info into our app as an API. However, we were told that it would be hard to get permission to use the official NUS Buses API. 
 
 Thus, we had to use the unofficial API wrapper online [https://suibianp.github.io/nus-nextbus-new-api/#/] , where we could get the information we needed by fetching a json file from the http server and parsing it.
 
-# Path Finding Algorithm suggesting shortest Bus Route to take (Needs Refinement)
+### Path Finding Algorithm suggesting shortest Bus Route to take (Needs Refinement)
 
 As the NUS Shuttle Busses and Bus Stops are not taken into consideration when calculating the fastest route from one location to another in NUS, we had to come up with our own algorithm to determine what is the quickest way between 2 locations in NUS. This was a challenge as there were many corner cases we had to account for to return an accurate shortest path for the users to take.
 
@@ -108,20 +108,20 @@ On top of carrying out extensive testing on our part, we also distributed the bu
 
 All of these will be taken into account and remedied or added into the app for Milestone III as stated in the App Prototypes Section.
 
-# Bugs
+### Bugs
 
 Slight lag when inputting addresses in Home Page and Directions Page.
 Walking route to CENLIB and Information Technology Bus Stop (COMCEN) from Central Library inaccurate; states that the user should only walk on the road available in Google Maps.
 ‘Search Location’ hint text does not show up initially in the Home Page search bar; shows up after typing and clearing text in the search bar once.
 
-# Additional Features
+### Additional Features
 
 Display all bus routes in NUS plus pick up points of each route.
 Display information of location on search in the Home Page.
 Multiple Path options for Directions Page.
 Sheltered Path option for Directions page.
 
-# Miscellaneous Feedback / Suggestions
+### Miscellaneous Feedback / Suggestions
 
 App does not have its own logo.
 The UI of the app can be polished further.
