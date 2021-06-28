@@ -35,8 +35,8 @@ Users are able to interact with Google Maps interface with standard google maps 
 Users are able to find and set a marker on their current location on the map by tapping the set location button at the bottom of the screen.
 Users are able to use search bar to search locations of places in NUS, both places shown in google maps (eg. Utown, EA, Central Library) as well as specific lecture theatres and tutorial rooms. A marker will automatically appear on the searched location.
 
-<img src="./README_images/Home_Page_Marker.PNG">
-<img src='./README_images/Home_Page_Search_DropDown.PNG">
+<img src="./README_images/Home_Page_Marker.png">
+<img src='./README_images/Home_Page_Search_DropDown.png">
 
 Milestone III Improvements:
 
@@ -49,8 +49,8 @@ Current Features:
 Users are able to get arrival timings of all bus routes that are available at any bus stop around NUS by clicking on it.
 Users are able to search for a bus stop using the search bar.
 
-<img src="./README_images/BusTimings_Page_Default.PNG">
-<img src="./README_images/BusTimings_Page_Search_DropDown.PNG">
+<img src="./README_images/BusTimings_Page_Default.png">
+<img src="./README_images/BusTimings_Page_Search_DropDown.png">
 
 Milestone III Improvements:
 
@@ -66,8 +66,8 @@ After entering both start and destination locations, users can obtain the optima
 Three modes of travel will be charted out for the user; driving, walking and finally via NUS shuttle busses. Users can select each of the 3 routes to be displayed on the map.
 Users can click on the Directions button to get directions for the NUS shuttle bus mode of travel.
 
-<img src="./README_images/Directions_Page_Search.PNG">
-<img src="./README_images/Directions_Page_Directions_Display.PNG">
+<img src="./README_images/Directions_Page_Search.png">
+<img src="./README_images/Directions_Page_Directions_Display.png">
 
 Milestone III Improvements:
 
