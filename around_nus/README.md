@@ -36,7 +36,7 @@ Users are able to find and set a marker on their current location on the map by 
 Users are able to use search bar to search locations of places in NUS, both places shown in google maps (eg. Utown, EA, Central Library) as well as specific lecture theatres and tutorial rooms. A marker will automatically appear on the searched location.
 
 <img src="./README_images/Home_Page_Marker.png">
-<img src='./README_images/Home_Page_Search_DropDown.png">
+<img src="./README_images/Home_Page_Search_DropDown.png">
 
 Milestone III Improvements:
 
