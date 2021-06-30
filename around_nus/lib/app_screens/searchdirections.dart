@@ -65,6 +65,19 @@ class _MapViewState extends State<MapView> {
   // Marker endMarker;
   Set<Marker> markers = {};
 
+  Marker startingMarker = Marker(
+    markerId: MarkerId("test"),
+    position: LatLng(0, 0),
+    infoWindow: InfoWindow(title: "Start", snippet: "test"),
+    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+  );
+  Marker endingMarker = Marker(
+    markerId: MarkerId("test"),
+    position: LatLng(0, 0),
+    infoWindow: InfoWindow(title: "Start", snippet: "test"),
+    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+  );
+
   late Position startingCoordinates;
   late Position endingCoordinates;
   String busTaken = "";
@@ -156,95 +169,135 @@ class _MapViewState extends State<MapView> {
             "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
         startAddressController.text = _currentAddress!;
         _startAddress = _currentAddress!;
-        _setMarkers(
-            LatLng(_currentPosition!.latitude, _currentPosition!.longitude));
+        // _setMarkers(
+        //     LatLng(_currentPosition!.latitude, _currentPosition!.longitude));
       });
     } catch (e) {
       print(e);
     }
   }
 
-  // Google Maps SetMarkers; not applicable in OSMview
-  Future<void> _setMarkers(LatLng point) async {
-    //set starting marker
-    markers.clear();
-    bool isBusStop = false;
-    if (_startAddress.length != 0) {
-      print("start address: ");
-      print(_startAddress);
-      for (int i = 0; i < _nusBusStops.length; i++) {
-        if (_startAddress == _nusBusStops[i].longName) {
-          isBusStop = true;
-        }
-      }
-
-      List<Location> startPlacemark = await locationFromAddress(_startAddress);
-      print("start placemark: ");
-      print(startPlacemark[0]);
-      Position startCoordinates = Position(
-          latitude: startPlacemark[0].latitude,
-          longitude: startPlacemark[0].longitude,
+  Future<void> _setStartingMarker(LatLng point) async {
+    setState(() {
+      startingMarker = Marker(
+        markerId: MarkerId("$point"),
+        position: point,
+        infoWindow: InfoWindow(title: "Start", snippet: _startAddress),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+      );
+      startingCoordinates = Position(
+          latitude: point.latitude,
+          longitude: point.longitude,
           speed: 0.0,
           speedAccuracy: 0.0,
           heading: 0.0,
           altitude: 0.0,
           timestamp: DateTime.now(),
           accuracy: 0.0);
-
-      startingCoordinates = startCoordinates;
-      print("starting coord");
-      print(startingCoordinates);
-      Marker startMarker = Marker(
-        markerId: MarkerId('$startCoordinates'),
-        position: LatLng(
-          startCoordinates.latitude,
-          startCoordinates.longitude,
-        ),
-        infoWindow: InfoWindow(
-          title: 'Start',
-          snippet: _startAddress,
-        ),
-        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-      );
-      setState(() {
-        markers.add(startMarker);
-      });
-    }
-
-    if (_destinationAddress.length != 0) {
-      print("destination address: ");
-      print(_destinationAddress);
-      List<Location> endPlacemark =
-          await locationFromAddress(_destinationAddress);
-      print("destination placemark: ");
-      print(endPlacemark[0]);
-      Position endCoordinates = Position(
-          latitude: endPlacemark[0].latitude,
-          longitude: endPlacemark[0].longitude,
-          speed: 0.0,
-          speedAccuracy: 0.0,
-          heading: 0.0,
-          altitude: 0.0,
-          timestamp: DateTime.now(),
-          accuracy: 0.0);
-      endingCoordinates = endCoordinates;
-      Marker endMarker = Marker(
-        markerId: MarkerId('$endCoordinates'),
-        position: LatLng(
-          endCoordinates.latitude,
-          endCoordinates.longitude,
-        ),
-        infoWindow: InfoWindow(
-          title: 'Destination',
-          snippet: _destinationAddress,
-        ),
-        icon: BitmapDescriptor.defaultMarker,
-      );
-      setState(() {
-        markers.add(endMarker);
-      });
-    }
+    });
   }
+
+  Future<void> _setEndingMarker(LatLng point) async {
+    setState(() {
+      endingMarker = Marker(
+        markerId: MarkerId("$point"),
+        position: point,
+        infoWindow: InfoWindow(title: "End", snippet: _destinationAddress),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
+      );
+      endingCoordinates = Position(
+          latitude: point.latitude,
+          longitude: point.longitude,
+          speed: 0.0,
+          speedAccuracy: 0.0,
+          heading: 0.0,
+          altitude: 0.0,
+          timestamp: DateTime.now(),
+          accuracy: 0.0);
+    });
+  }
+
+  // Google Maps SetMarkers; not applicable in OSMview
+  // Future<void> _setMarkers(LatLng point) async {
+  //   //set starting marker
+  //   markers.clear();
+  //   bool isBusStop = false;
+  //   if (_startAddress.length != 0) {
+  //     print("start address: ");
+  //     print(_startAddress);
+  //     for (int i = 0; i < _nusBusStops.length; i++) {
+  //       if (_startAddress == _nusBusStops[i].longName) {
+  //         isBusStop = true;
+  //       }
+  //     }
+
+  //     List<Location> startPlacemark = await locationFromAddress(_startAddress);
+  //     print("start placemark: ");
+  //     print(startPlacemark[0]);
+  //     Position startCoordinates = Position(
+  //         latitude: startPlacemark[0].latitude,
+  //         longitude: startPlacemark[0].longitude,
+  //         speed: 0.0,
+  //         speedAccuracy: 0.0,
+  //         heading: 0.0,
+  //         altitude: 0.0,
+  //         timestamp: DateTime.now(),
+  //         accuracy: 0.0);
+
+  //     startingCoordinates = startCoordinates;
+  //     print("starting coord");
+  //     print(startingCoordinates);
+  //     Marker startMarker = Marker(
+  //       markerId: MarkerId('$startCoordinates'),
+  //       position: LatLng(
+  //         startCoordinates.latitude,
+  //         startCoordinates.longitude,
+  //       ),
+  //       infoWindow: InfoWindow(
+  //         title: 'Start',
+  //         snippet: _startAddress,
+  //       ),
+  //       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
+  //     );
+  //     setState(() {
+  //       markers.add(startMarker);
+  //     });
+  //   }
+
+  //   if (_destinationAddress.length != 0) {
+  //     print("destination address: ");
+  //     print(_destinationAddress);
+  //     List<Location> endPlacemark =
+  //         await locationFromAddress(_destinationAddress);
+  //     print("destination placemark: ");
+  //     print(endPlacemark[0]);
+  //     Position endCoordinates = Position(
+  //         latitude: endPlacemark[0].latitude,
+  //         longitude: endPlacemark[0].longitude,
+  //         speed: 0.0,
+  //         speedAccuracy: 0.0,
+  //         heading: 0.0,
+  //         altitude: 0.0,
+  //         timestamp: DateTime.now(),
+  //         accuracy: 0.0);
+  //     endingCoordinates = endCoordinates;
+  //     Marker endMarker = Marker(
+  //       markerId: MarkerId('$endCoordinates'),
+  //       position: LatLng(
+  //         endCoordinates.latitude,
+  //         endCoordinates.longitude,
+  //       ),
+  //       infoWindow: InfoWindow(
+  //         title: 'Destination',
+  //         snippet: _destinationAddress,
+  //       ),
+  //       icon: BitmapDescriptor.defaultMarker,
+  //     );
+  //     setState(() {
+  //       markers.add(endMarker);
+  //     });
+  //   }
+  // }
 
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
@@ -740,14 +793,14 @@ class _MapViewState extends State<MapView> {
 
   @override
   void initState() {
-    final applicationBloc =
-        Provider.of<ApplicationBloc>(context, listen: false);
-    locationSubscription =
-        applicationBloc.selectedLocation.stream.listen((place) {
-      if (place != null) {
-        _goToPlace(place);
-      }
-    });
+    // final applicationBloc =
+    //     Provider.of<ApplicationBloc>(context, listen: false);
+    // locationSubscription =
+    //     applicationBloc.selectedLocation.stream.listen((place) {
+    //   // if (place != null) {
+    //   //   _goToPlace(place, "nothing");
+    //   // }
+    // });
     _getCurrentLocation();
     //_updateListofBusStop();
     _updateMapofBusStop();
@@ -778,6 +831,13 @@ class _MapViewState extends State<MapView> {
     var height = MediaQuery.of(context).size.height;
     var width = MediaQuery.of(context).size.width;
     final applicationBloc = Provider.of<ApplicationBloc>(context);
+    markers.clear();
+    if (startingMarker != null) {
+      markers.add(startingMarker);
+    }
+    if (endingMarker != null) {
+      markers.add(endingMarker);
+    }
     return Scaffold(
       appBar: AppBar(title: Text("Directions")),
       drawer: MenuDrawer(),
@@ -1175,7 +1235,8 @@ class _MapViewState extends State<MapView> {
                                         ["latitude"],
                                     nusVenuesData[applicationBloc
                                             .searchNUSFromResults![index]]
-                                        ["longitude"]);
+                                        ["longitude"],
+                                    "start");
 
                                 applicationBloc.setNUSSelectedLocation();
                               },
@@ -1201,6 +1262,13 @@ class _MapViewState extends State<MapView> {
                                               .searchNUSFromResults!.length]
                                       .description;
                                 });
+                                locationSubscription = applicationBloc
+                                    .selectedLocation.stream
+                                    .listen((place) {
+                                  if (place != null) {
+                                    _goToPlace(place, "start");
+                                  }
+                                });
 
                                 applicationBloc.setSelectedLocation(
                                     applicationBloc
@@ -1208,6 +1276,7 @@ class _MapViewState extends State<MapView> {
                                             applicationBloc
                                                 .searchNUSFromResults!.length]
                                         .placeId);
+
                                 startAddressController.value =
                                     startAddressController.value.copyWith(
                                   text: applicationBloc
@@ -1264,7 +1333,8 @@ class _MapViewState extends State<MapView> {
                                                 .searchNUSFromResults!.length -
                                             applicationBloc
                                                 .searchFromResults!.length]
-                                        .longitude);
+                                        .longitude,
+                                    "start");
 
                                 startAddressController.value =
                                     startAddressController.value.copyWith(
@@ -1356,7 +1426,8 @@ class _MapViewState extends State<MapView> {
                                         ["latitude"],
                                     nusVenuesData[applicationBloc
                                             .searchNUSToResults![index]]
-                                        ["longitude"]);
+                                        ["longitude"],
+                                    "end");
 
                                 applicationBloc.setNUSSelectedLocation();
                               },
@@ -1381,6 +1452,13 @@ class _MapViewState extends State<MapView> {
                                           applicationBloc
                                               .searchNUSToResults!.length]
                                       .description;
+                                });
+                                locationSubscription = applicationBloc
+                                    .selectedLocation.stream
+                                    .listen((place) {
+                                  if (place != null) {
+                                    _goToPlace(place, "end");
+                                  }
                                 });
                                 _destinationAddress;
                                 applicationBloc.setSelectedLocation(
@@ -1445,7 +1523,8 @@ class _MapViewState extends State<MapView> {
                                                 .searchNUSToResults!.length -
                                             applicationBloc
                                                 .searchToResults!.length]
-                                        .longitude);
+                                        .longitude,
+                                    "end");
 
                                 destinationAddressController.value =
                                     destinationAddressController.value.copyWith(
@@ -1516,29 +1595,49 @@ class _MapViewState extends State<MapView> {
     );
   }
 
-  Future<void> _goToNUSPlace(double lat, double lng) async {
+  Future<void> _goToNUSPlace(double lat, double lng, String startend) async {
     final GoogleMapController controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(lat, lng), zoom: 15)));
 
-    _setMarkers(LatLng(lat, lng));
+    if (startend == "start") {
+      _setStartingMarker(LatLng(lat, lng));
+    } else if (startend == "end") {
+      _setEndingMarker(LatLng(lat, lng));
+    }
+    // _setMarkers(LatLng(lat, lng));
   }
 
-  Future<void> _goToBusStop(double lat, double lng) async {
+  Future<void> _goToBusStop(double lat, double lng, String startend) async {
     final GoogleMapController controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(lat, lng), zoom: 15)));
 
-    _setMarkers(LatLng(lat, lng));
+    if (startend == "start") {
+      print(lat.toString() + lng.toString());
+      _setStartingMarker(LatLng(lat, lng));
+    } else if (startend == "end") {
+      print(lat.toString() + lng.toString());
+      _setEndingMarker(LatLng(lat, lng));
+    }
+    // _setMarkers(LatLng(lat, lng));
   }
 
-  Future<void> _goToPlace(Place place) async {
+  Future<void> _goToPlace(Place place, String startend) async {
     final GoogleMapController controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target:
             LatLng(place.geometry.location.lat, place.geometry.location.lng),
         zoom: 15)));
-    _setMarkers(
-        LatLng(place.geometry.location.lat, place.geometry.location.lng));
+    if (startend == "start") {
+      _setStartingMarker(
+          LatLng(place.geometry.location.lat, place.geometry.location.lng));
+    } else if (startend == "end") {
+      _setEndingMarker(
+          LatLng(place.geometry.location.lat, place.geometry.location.lng));
+    }
+
+    // _setMarkers(
+    //     LatLng(place.geometry.location.lat, place.geometry.location.lng));
   }
 }
