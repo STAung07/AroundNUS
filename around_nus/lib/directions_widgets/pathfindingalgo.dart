@@ -84,8 +84,7 @@ class PathFindingAlgo {
       //within distance of 100 m
       if (distance < 200) {
         nearbyStartingBusStops.add(busStop);
-        print(busStop.name);
-        print("is nearby the start");
+        print(busStop.name + "is nearby the start");
       }
     }
 
@@ -95,8 +94,7 @@ class PathFindingAlgo {
           endingPoint.longitude, busStop.latitude, busStop.longitude);
       if (distance < 200) {
         nearbyEndingBusStops.add(busStop);
-        print(busStop.name);
-        print("is nearby the end");
+        print(busStop.name + "is nearby the end");
       }
     }
 
