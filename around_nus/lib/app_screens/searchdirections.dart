@@ -302,186 +302,107 @@ class _MapViewState extends State<MapView> {
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
     try {
-      // Retrieving placemarks from addresses
-      List<Location> startPlacemark = await locationFromAddress(_startAddress);
-      List<Location> destinationPlacemark =
-          await locationFromAddress(_destinationAddress);
+      Position _northeastCoordinates;
+      Position _southwestCoordinates;
 
-      if (startPlacemark != null && destinationPlacemark != null) {
-        // Use the retrieved coordinates of the current position,
-        // instead of the address if the start position is user's
-        // current position, as it results in better accuracy.
-        Position startCoordinates = _startAddress == _currentAddress
-            ? Position(
-                latitude: _currentPosition!.latitude,
-                longitude: _currentPosition!.longitude,
-                speed: 0.0,
-                speedAccuracy: 0.0,
-                heading: 0.0,
-                altitude: 0.0,
-                timestamp: DateTime.now(),
-                accuracy: 0.0)
-            : Position(
-                latitude: startPlacemark[0].latitude,
-                longitude: startPlacemark[0].longitude,
-                speed: 0.0,
-                speedAccuracy: 0.0,
-                heading: 0.0,
-                altitude: 0.0,
-                timestamp: DateTime.now(),
-                accuracy: 0.0);
-        startingCoordinates = startCoordinates;
-        Position destinationCoordinates = Position(
-            latitude: destinationPlacemark[0].latitude,
-            longitude: destinationPlacemark[0].longitude,
-            speed: 0.0,
-            speedAccuracy: 0.0,
-            heading: 0.0,
-            altitude: 0.0,
-            timestamp: DateTime.now(),
-            accuracy: 0.0);
-        endingCoordinates = destinationCoordinates;
-        print("ending coord:");
-        print(endingCoordinates);
+      // Calculating to check that the position relative
+      // to the frame, and pan & zoom the camera accordingly.
+      double miny = (startingCoordinates.latitude <= endingCoordinates.latitude)
+          ? startingCoordinates.latitude
+          : endingCoordinates.latitude;
+      double minx =
+          (startingCoordinates.longitude <= endingCoordinates.longitude)
+              ? startingCoordinates.longitude
+              : endingCoordinates.longitude;
+      double maxy = (startingCoordinates.latitude <= endingCoordinates.latitude)
+          ? endingCoordinates.latitude
+          : startingCoordinates.latitude;
+      double maxx =
+          (startingCoordinates.longitude <= endingCoordinates.longitude)
+              ? endingCoordinates.longitude
+              : startingCoordinates.longitude;
 
-        // Start Location Marker
-        Marker startMarker = Marker(
-          markerId: MarkerId('$startCoordinates'),
-          position: LatLng(
-            startCoordinates.latitude,
-            startCoordinates.longitude,
-          ),
-          infoWindow: InfoWindow(
-            title: 'Start',
-            snippet: _startAddress,
-          ),
-          icon: BitmapDescriptor.defaultMarker,
-        );
+      _southwestCoordinates = Position(
+          latitude: miny,
+          longitude: minx,
+          speed: 0.0,
+          speedAccuracy: 0.0,
+          heading: 0.0,
+          altitude: 0.0,
+          timestamp: DateTime.now(),
+          accuracy: 0.0);
+      _northeastCoordinates = Position(
+          latitude: maxy,
+          longitude: maxx,
+          speed: 0.0,
+          speedAccuracy: 0.0,
+          heading: 0.0,
+          altitude: 0.0,
+          timestamp: DateTime.now(),
+          accuracy: 0.0);
 
-        // Destination Location Marker
-        Marker destinationMarker = Marker(
-          markerId: MarkerId('$destinationCoordinates'),
-          position: LatLng(
-            destinationCoordinates.latitude,
-            destinationCoordinates.longitude,
-          ),
-          infoWindow: InfoWindow(
-            title: 'Destination',
-            snippet: _destinationAddress,
-          ),
-          icon: BitmapDescriptor.defaultMarker,
-        );
-
-        // Adding the markers to the list
-        markers.add(startMarker);
-        markers.add(destinationMarker);
-
-        print('START COORDINATES: $startCoordinates');
-        print('DESTINATION COORDINATES: $destinationCoordinates');
-
-        Position _northeastCoordinates;
-        Position _southwestCoordinates;
-
-        // Calculating to check that the position relative
-        // to the frame, and pan & zoom the camera accordingly.
-        double miny =
-            (startCoordinates.latitude <= destinationCoordinates.latitude)
-                ? startCoordinates.latitude
-                : destinationCoordinates.latitude;
-        double minx =
-            (startCoordinates.longitude <= destinationCoordinates.longitude)
-                ? startCoordinates.longitude
-                : destinationCoordinates.longitude;
-        double maxy =
-            (startCoordinates.latitude <= destinationCoordinates.latitude)
-                ? destinationCoordinates.latitude
-                : startCoordinates.latitude;
-        double maxx =
-            (startCoordinates.longitude <= destinationCoordinates.longitude)
-                ? destinationCoordinates.longitude
-                : startCoordinates.longitude;
-
-        _southwestCoordinates = Position(
-            latitude: miny,
-            longitude: minx,
-            speed: 0.0,
-            speedAccuracy: 0.0,
-            heading: 0.0,
-            altitude: 0.0,
-            timestamp: DateTime.now(),
-            accuracy: 0.0);
-        _northeastCoordinates = Position(
-            latitude: maxy,
-            longitude: maxx,
-            speed: 0.0,
-            speedAccuracy: 0.0,
-            heading: 0.0,
-            altitude: 0.0,
-            timestamp: DateTime.now(),
-            accuracy: 0.0);
-
-        // Accommodate the two locations within the
-        // camera view of the map
-        newMapController.animateCamera(
-          CameraUpdate.newLatLngBounds(
-            LatLngBounds(
-              northeast: LatLng(
-                _northeastCoordinates.latitude,
-                _northeastCoordinates.longitude,
-              ),
-              southwest: LatLng(
-                _southwestCoordinates.latitude,
-                _southwestCoordinates.longitude,
-              ),
+      // Accommodate the two locations within the
+      // camera view of the map
+      newMapController.animateCamera(
+        CameraUpdate.newLatLngBounds(
+          LatLngBounds(
+            northeast: LatLng(
+              _northeastCoordinates.latitude,
+              _northeastCoordinates.longitude,
             ),
-            100.0,
+            southwest: LatLng(
+              _southwestCoordinates.latitude,
+              _southwestCoordinates.longitude,
+            ),
           ),
-        );
+          100.0,
+        ),
+      );
 
-        // Calculating the distance between the start and the end positions
-        // with a straight path, without considering any route
-        // double distanceInMeters = await Geolocator().bearingBetween(
-        //   startCoordinates.latitude,
-        //   startCoordinates.longitude,
-        //   destinationCoordinates.latitude,
-        //   destinationCoordinates.longitude,
-        // );
+      // Calculating the distance between the start and the end positions
+      // with a straight path, without considering any route
+      // double distanceInMeters = await Geolocator().bearingBetween(
+      //   startCoordinates.latitude,
+      //   startCoordinates.longitude,
+      //   destinationCoordinates.latitude,
+      //   destinationCoordinates.longitude,
+      // );
 
-        // switch between diff map of polylines based on button pressed to
-        // display diff routes; walking, driving, hybrid
+      // switch between diff map of polylines based on button pressed to
+      // display diff routes; walking, driving, hybrid
 
-        // get walking + bus route; colour coded yellow and blue
+      // get walking + bus route; colour coded yellow and blue
 
-        await _getWalkingAndBusPath(
-            startCoordinates, destinationCoordinates, hybridPathPolylines);
+      await _getWalkingAndBusPath(
+          startingCoordinates, endingCoordinates, hybridPathPolylines);
 
-        // get walking path; colour coded green
-        await _createGoogleMapsPolylines(
-          startCoordinates,
-          destinationCoordinates,
-          Colors.green,
-          TravelMode.walking,
-          [],
-          PolylineId('walking'),
-          walkingPathPolylines,
-          //_donothing(),
-        );
+      // get walking path; colour coded green
+      await _createGoogleMapsPolylines(
+        startingCoordinates,
+        endingCoordinates,
+        Colors.green,
+        TravelMode.walking,
+        [],
+        PolylineId('walking'),
+        walkingPathPolylines,
+        //_donothing(),
+      );
 
-        // get driving path; colour coded red
-        await _createGoogleMapsPolylines(
-          startCoordinates,
-          destinationCoordinates,
-          Colors.red,
-          TravelMode.driving,
-          [],
-          PolylineId('driving'),
-          drivingPathPolylines,
-          //_donothing(),
-        );
+      // get driving path; colour coded red
+      await _createGoogleMapsPolylines(
+        startingCoordinates,
+        endingCoordinates,
+        Colors.red,
+        TravelMode.driving,
+        [],
+        PolylineId('driving'),
+        drivingPathPolylines,
+        //_donothing(),
+      );
 
-        double totalDistance = 0.0;
+      double totalDistance = 0.0;
 
-        /*
+      /*
         // Calculating the total distance by adding the distance
         // between small segments
         for (int i = 0; i < polylineCoordinates.length - 1; i++) {
@@ -494,13 +415,12 @@ class _MapViewState extends State<MapView> {
         }
         */
 
-        setState(() {
-          _placeDistance = totalDistance.toStringAsFixed(2);
-          print('DISTANCE: $_placeDistance km');
-        });
+      setState(() {
+        _placeDistance = totalDistance.toStringAsFixed(2);
+        print('DISTANCE: $_placeDistance km');
+      });
 
-        return true;
-      }
+      return true;
     } catch (e) {
       print(e);
     }

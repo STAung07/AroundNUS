@@ -64,14 +64,16 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
     int startWalkTimeTaken = (startWalkDistance / 74).round();
     int endWalkTimeTaken = (endWalkDistance / 74).round();
     int busTimeTaken = (widget.stopsAway * 2);
-    int indexCount = 3;
+
+    double dy = 0;
 
     if (widget.startAddress == widget.startBusStop.longName) {
-      indexCount -= 1;
+      dy += 120;
     }
-    if (widget.destinationAddress == widget.endBusStop.longName) {
-      indexCount -= 1;
-    }
+    // if (widget.destinationAddress == widget.endBusStop.longName) {
+    //   indexCount -= 1;
+    // }
+
     print("the start address is:");
     print(widget.startAddress);
     print("the start bus stop long name is: ");
@@ -79,7 +81,7 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
 
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Color(0xff7285A5),
+        backgroundColor: Colors.blueGrey,
         title: Text("Directions"),
       ),
       body: Stack(children: <Widget>[
@@ -168,7 +170,7 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
 
         // second box for bus path
         Positioned(
-            top: 270,
+            top: 270 - dy,
             left: 20,
             child: Container(
               width: 50,
@@ -181,7 +183,7 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
               alignment: Alignment.center,
             )),
         Positioned(
-            top: 260,
+            top: 260 - dy,
             left: 90,
             height: 120,
             width: 300,
@@ -214,7 +216,7 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
         //third box for walking
         if (widget.destinationAddress != widget.endBusStop.longName)
           Positioned(
-              top: 390,
+              top: 390 - dy,
               left: 20,
               child: Container(
                 width: 50,
@@ -228,7 +230,7 @@ class _DirectionsDisplayState extends State<DirectionsDisplay> {
               )),
         if (widget.destinationAddress != widget.endBusStop.longName)
           Positioned(
-              top: 380,
+              top: 380 - dy,
               left: 90,
               height: 120,
               width: 300,
