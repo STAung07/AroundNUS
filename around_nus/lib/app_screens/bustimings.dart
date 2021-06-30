@@ -38,7 +38,7 @@ class _BusTimingsState extends State<BusTimings> {
         Provider.of<ApplicationBloc>(context, listen: false);
     busStopSubscription =
         applicationBloc.selectedLocation.stream.listen((place) {});
-    applicationBloc.searchBusStops("");
+    applicationBloc.searchBusStops2("");
     _updateListofBusRoutes();
     super.initState();
   }
@@ -76,22 +76,22 @@ class _BusTimingsState extends State<BusTimings> {
                       onPressed: () {
                         setState(() {
                           _textController.clear();
-                          applicationBloc.searchBusStops("");
+                          applicationBloc.searchBusStops2("");
                         });
                       }),
                   prefixIcon: Icon(Icons.search)),
               onChanged: (value) {
-                applicationBloc.searchBusStops(value);
+                applicationBloc.searchBusStops2(value);
                 // getNUSAutoComplete(value);
               },
             ),
           ),
-          if (applicationBloc.searchBusStopsResults != null)
+          if (applicationBloc.searchBusStopsResults2 != null)
             Container(
               padding: EdgeInsets.only(top: 70),
               height: 800.0,
               child: ListView.builder(
-                itemCount: applicationBloc.searchBusStopsResults!.length,
+                itemCount: applicationBloc.searchBusStopsResults2!.length,
                 itemBuilder: (context, index) {
                   return ElevatedButton(
                     style: ButtonStyle(
@@ -106,7 +106,7 @@ class _BusTimingsState extends State<BusTimings> {
                           // Current Bus Stop
                           Expanded(
                             child: Text(
-                              applicationBloc.searchBusStopsResults![index],
+                              applicationBloc.searchBusStopsResults2![index],
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
@@ -123,7 +123,7 @@ class _BusTimingsState extends State<BusTimings> {
                         MaterialPageRoute(
                           builder: (context) => BusServicesAtStop(
                               busStopName: applicationBloc
-                                  .searchBusStopsResults![index]),
+                                  .searchBusStopsResults2![index]),
                         ),
                       );
                     },

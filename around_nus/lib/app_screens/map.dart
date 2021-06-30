@@ -194,6 +194,7 @@ class _MyMainPageState extends State<MyMainPage> {
                 if (value != null) {
                   applicationBloc.searchNUSPlaces(value);
                   applicationBloc.searchPlaces(value);
+                  applicationBloc.searchBusStops(value);
                 }
 
                 // getNUSAutoComplete(value);
@@ -216,9 +217,11 @@ class _MyMainPageState extends State<MyMainPage> {
           // darkened container background for the search results
 
           if ((applicationBloc.searchNUSResults != null ||
-                  applicationBloc.searchResults != null) &&
+                  applicationBloc.searchResults != null ||
+                  applicationBloc.searchBusStopsResults != null) &&
               (applicationBloc.searchNUSResults!.length != 0 ||
-                  applicationBloc.searchResults!.length != 0) &&
+                  applicationBloc.searchResults!.length != 0 ||
+                  applicationBloc.searchBusStopsResults != null) &&
               _textController.text.length != 0)
             Container(
                 margin: EdgeInsets.only(top: 70),
@@ -230,9 +233,11 @@ class _MyMainPageState extends State<MyMainPage> {
 
           //container to store the search results
           if ((applicationBloc.searchNUSResults != null ||
-                  applicationBloc.searchResults != null) &&
+                  applicationBloc.searchResults != null ||
+                  applicationBloc.searchBusStopsResults != null) &&
               (applicationBloc.searchNUSResults!.length != 0 ||
-                  applicationBloc.searchResults!.length != 0) &&
+                  applicationBloc.searchResults!.length != 0 ||
+                  applicationBloc.searchBusStopsResults != null) &&
               _textController.text.length != 0)
             Container(
               padding: EdgeInsets.only(top: 70),
@@ -241,7 +246,8 @@ class _MyMainPageState extends State<MyMainPage> {
               child: ListView.builder(
                 // itemCount: applicationBloc.searchResults!.length,
                 itemCount: (applicationBloc.searchNUSResults!.length +
-                    applicationBloc.searchResults!.length),
+                    applicationBloc.searchResults!.length +
+                    applicationBloc.searchBusStopsResults!.length),
                 itemBuilder: (context, index) {
                   if (index < applicationBloc.searchNUSResults!.length)
                     return ListTile(
@@ -267,7 +273,9 @@ class _MyMainPageState extends State<MyMainPage> {
                         applicationBloc.setNUSSelectedLocation();
                       },
                     );
-                  else {
+                  else if (index <
+                      applicationBloc.searchNUSResults!.length +
+                          applicationBloc.searchResults!.length)
                     return ListTile(
                       title: Text(
                         applicationBloc
@@ -297,6 +305,52 @@ class _MyMainPageState extends State<MyMainPage> {
                         );
                       },
                     );
+                  else {
+                    return ListTile(
+                      title: Text(
+                        applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .longName +
+                            " Bus Stop",
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        FocusScope.of(context).unfocus();
+
+                        _goToBusStop(
+                            applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .latitude,
+                            applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .longitude);
+
+                        _textController.value = _textController.value.copyWith(
+                          text: applicationBloc
+                                  .searchBusStopsResults![index -
+                                      applicationBloc.searchNUSResults!.length -
+                                      applicationBloc.searchResults!.length]
+                                  .longName +
+                              " Bus Stop",
+                          selection: TextSelection.collapsed(
+                              offset: applicationBloc
+                                      .searchBusStopsResults![index -
+                                          applicationBloc
+                                              .searchNUSResults!.length -
+                                          applicationBloc.searchResults!.length]
+                                      .longName
+                                      .length +
+                                  " Bus Stop".length),
+                        );
+                        applicationBloc.setBusStopSelectedLocation();
+                      },
+                    );
                   }
                 },
               ),
@@ -323,5 +377,13 @@ class _MyMainPageState extends State<MyMainPage> {
 
     _setMarkers(
         LatLng(place.geometry.location.lat, place.geometry.location.lng));
+  }
+
+  Future<void> _goToBusStop(double lat, double lng) async {
+    final GoogleMapController controller = await _controllerGoogleMap.future;
+    controller.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(target: LatLng(lat, lng), zoom: 15)));
+
+    _setMarkers(LatLng(lat, lng));
   }
 }

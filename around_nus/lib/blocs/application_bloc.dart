@@ -22,10 +22,12 @@ class ApplicationBloc with ChangeNotifier {
   List<PlaceSearch>? searchToResults;
   List<BusStop>? searchFromBusStopsResults;
   List<BusStop>? searchToBusStopsResults;
+  List<BusStop>? searchBusStopsResults;
   List? searchNUSResults;
   List? searchNUSFromResults;
   List? searchNUSToResults;
-  List? searchBusStopsResults;
+  List? searchBusStopsResults2;
+
   // StreamController<Place> selectedLocation = StreamController<Place>();
   StreamController<Place> selectedLocation = BehaviorSubject();
 
@@ -61,6 +63,12 @@ class ApplicationBloc with ChangeNotifier {
     notifyListeners();
   }
 
+  searchBusStops(String searchTerm) async {
+    //searchBusStopsResults = await fetchBusStopInfo(searchTerm);
+    searchBusStopsResults = await busService.getBusStops(searchTerm);
+    notifyListeners();
+  }
+
   setCurrentLocation() async {
     currentLocation = await geoLocatorService.getCurrentLocation();
     notifyListeners();
@@ -81,9 +89,9 @@ class ApplicationBloc with ChangeNotifier {
     notifyListeners();
   }
 
-  searchBusStops(String searchTerm) async {
+  searchBusStops2(String searchTerm) async {
     //searchBusStopsResults = await fetchBusStopInfo(searchTerm);
-    searchBusStopsResults = await busService.autoCompleteBusStops(searchTerm);
+    searchBusStopsResults2 = await busService.autoCompleteBusStops(searchTerm);
     // print(searchBusStopsResults);
     // print("here");
     notifyListeners();
@@ -99,6 +107,7 @@ class ApplicationBloc with ChangeNotifier {
     searchNUSToResults = null;
     searchFromBusStopsResults = null;
     searchToBusStopsResults = null;
+    searchBusStopsResults = null;
     notifyListeners();
   }
 
@@ -111,6 +120,8 @@ class ApplicationBloc with ChangeNotifier {
     searchNUSToResults = null;
     searchFromBusStopsResults = null;
     searchToBusStopsResults = null;
+    searchBusStopsResults = null;
+
     notifyListeners();
   }
 
@@ -123,6 +134,8 @@ class ApplicationBloc with ChangeNotifier {
     searchNUSToResults = null;
     searchFromBusStopsResults = null;
     searchToBusStopsResults = null;
+    searchBusStopsResults = null;
+
     notifyListeners();
   }
 

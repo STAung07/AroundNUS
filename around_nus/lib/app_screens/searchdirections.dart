@@ -1085,7 +1085,7 @@ class _MapViewState extends State<MapView> {
                   startAddressController.text.length != 0)
                 Container(
                     margin: EdgeInsets.only(top: 85, right: 40, left: 40),
-                    height: 415.0,
+                    height: 350.0,
                     width: double.infinity,
                     decoration: BoxDecoration(
                         backgroundBlendMode: BlendMode.darken,
@@ -1278,7 +1278,7 @@ class _MapViewState extends State<MapView> {
                   destinationAddressController.text.length != 0)
                 Container(
                     margin: EdgeInsets.only(top: 145, right: 40, left: 40),
-                    height: 415.0,
+                    height: 350.0,
                     width: double.infinity,
                     decoration: BoxDecoration(
                         backgroundBlendMode: BlendMode.darken,
