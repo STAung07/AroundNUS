@@ -177,7 +177,7 @@ class _MyMainPageState extends State<MyMainPage> {
                       bottomRight: Radius.circular(15.0)),
                   color: Colors.white)),
           Container(
-            padding: EdgeInsets.all(20),
+            padding: EdgeInsets.all(0),
             child: TextField(
               controller: _textController,
               decoration: InputDecoration(

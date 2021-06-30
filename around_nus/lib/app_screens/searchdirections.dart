@@ -52,8 +52,8 @@ class _MapViewState extends State<MapView> {
   Position? _currentPosition;
   String? _currentAddress;
 
-  final startAddressController = TextEditingController(text: "");
-  final destinationAddressController = TextEditingController(text: "");
+  final startAddressController = TextEditingController(text: " ");
+  final destinationAddressController = TextEditingController(text: " ");
 
   final startAddressFocusNode = FocusNode();
   final destinationAddressFocusNode = FocusNode();
@@ -928,7 +928,7 @@ class _MapViewState extends State<MapView> {
                                       width: 2,
                                     ),
                                   ),
-                                  contentPadding: EdgeInsets.all(15),
+                                  contentPadding: EdgeInsets.all(0),
                                   hintText: "Choose Starting Point",
                                 ),
                               ),
@@ -978,7 +978,7 @@ class _MapViewState extends State<MapView> {
                                       width: 2,
                                     ),
                                   ),
-                                  contentPadding: EdgeInsets.all(15),
+                                  contentPadding: EdgeInsets.all(0),
                                   hintText: "Choose Destination",
                                 ),
                               ),
