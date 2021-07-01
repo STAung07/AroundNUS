@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:around_nus/blocs/application_bloc.dart';
 import 'package:provider/provider.dart';
 import '../common_widgets/drawer.dart';
-import '../models/busroutesinfo_model.dart';
 import '../bustimings_widgets/services_expansionlist.dart';
 import '../services/nusnextbus_service.dart';
 
@@ -13,24 +12,12 @@ class BusTimings extends StatefulWidget {
 }
 
 class _BusTimingsState extends State<BusTimings> {
-  // List of Bus Stops Info & List of Bus Routes Info;
-  // passed into required widgets to use information inside
-
-  // use Bus Stop Names to display bus services available at that stop
-  // List<BusStop> _nusBusStops = <BusStop>[];
   final busService = NusNextBus();
-  List<RouteDescription> _nusBusRoutes = <RouteDescription>[];
-  //List<PickUpPointInfo> _currPickUpPoints = <PickUpPointInfo>[];
   late StreamSubscription busStopSubscription;
   var _textController = TextEditingController();
 
-  void _updateListofBusRoutes() {
-    busService.fetchBusRouteDescriptions().then((value) {
-      setState(() {
-        _nusBusRoutes.addAll(value);
-      });
-    });
-  }
+  // CHANGE autocomplete bus stops from name to caption: more meaningfull
+  // However need to pass in name to expansionlist
 
   @override
   void initState() {
@@ -39,7 +26,6 @@ class _BusTimingsState extends State<BusTimings> {
     busStopSubscription =
         applicationBloc.selectedLocation.stream.listen((place) {});
     applicationBloc.searchBusStops2("");
-    _updateListofBusRoutes();
     super.initState();
   }
 
@@ -122,8 +108,9 @@ class _BusTimingsState extends State<BusTimings> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => BusServicesAtStop(
-                              busStopName: applicationBloc
-                                  .searchBusStopsResults2![index]),
+                            busStopName:
+                                applicationBloc.searchBusStopsResults2![index],
+                          ),
                         ),
                       );
                     },
@@ -131,54 +118,6 @@ class _BusTimingsState extends State<BusTimings> {
                 },
               ),
             ),
-          /*
-          Expanded(
-            child: ListView.builder(
-              // modify or point _nusBusStops at different list
-              // based on curr Searched BusStop
-              itemCount: _nusBusStops.length,
-              itemBuilder: (_, busIndex) {
-                // inside each card; call updateshuttleservices info with curr
-                // bus stop name from _nusBusStops List
-                print(_nusBusStops[busIndex].name);
-                //_currBusStopServices = _updateShuttleServicesInfo(_nusBusStops[busIndex].name);
-                return ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    onPrimary: Colors.white,
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      //mainAxisSize: MainAxisSize.min,
-                      // Create a tile class
-                      children: [
-                        // Current Bus Stop
-                        Expanded(
-                          child: Text(
-                            _nusBusStops[busIndex].name,
-                            style: TextStyle(
-                                fontSize: 20,
-                                color: Colors.black,
-                                fontWeight: FontWeight.bold),
-                          ),
-                        ),
-                        Icon(Icons.arrow_forward, color: Colors.blue),
-                      ],
-                    ),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => BusServicesAtStop(
-                                busStopName: _nusBusStops[busIndex].name)));
-                  },
-                );
-              },
-            ),
-          ),
-          */
         ],
       ),
     );

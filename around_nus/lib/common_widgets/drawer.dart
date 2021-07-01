@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../app_screens/bustimings.dart';
+import '../app_screens/busroutes.dart';
 import '../app_screens/settings.dart';
 import '../app_screens/searchdirections.dart';
 import '../app_screens/map.dart';
@@ -58,6 +59,34 @@ class _MenuDrawerState extends State<MenuDrawer> {
           ),
           ListTile(
             title: Text(
+              "Bus Stops",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BusTimings()),
+              );
+            },
+          ),
+          ListTile(
+            title: Text(
+              "Bus Routes",
+              style: TextStyle(
+                fontSize: 20,
+              ),
+            ),
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => BusRoutes()),
+              );
+            },
+          ),
+          ListTile(
+            title: Text(
               "Directions",
               style: TextStyle(
                 fontSize: 20,
@@ -67,20 +96,6 @@ class _MenuDrawerState extends State<MenuDrawer> {
               Navigator.push(
                 context,
                 MaterialPageRoute(builder: (context) => FindDirections()),
-              );
-            },
-          ),
-          ListTile(
-            title: Text(
-              "Bus Timings",
-              style: TextStyle(
-                fontSize: 20,
-              ),
-            ),
-            onTap: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => BusTimings()),
               );
             },
           ),
