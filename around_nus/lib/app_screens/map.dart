@@ -15,6 +15,7 @@ import '../common_widgets/drawer.dart';
 import '../map_widgets/circularbutton.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
+import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 
 class MyMainPage extends StatefulWidget {
   MyMainPage({Key? key, required this.title}) : super(key: key);
@@ -51,7 +52,7 @@ class _MyMainPageState extends State<MyMainPage> {
     // this.getNames();
     super.initState();
     // get User Search; same as searchdirections
-    _setMarkers(LatLng(1.2966, 103.7764));
+    // _setMarkers(LatLng(1.2966, 103.7764));
 
     locatePosition();
   }
@@ -113,6 +114,19 @@ class _MyMainPageState extends State<MyMainPage> {
     locatePosition();
     _setMarkers(currCoordinates);
   }
+
+  // void displayBottomSheet(BuildContext context) {
+  //   showModalBottomSheet(
+  //       context: context,
+  //       builder: (context) {
+  //         return Container(
+  //           height: MediaQuery.of(context).size.height * 0.4,
+  //           child: Center(
+  //             child: Text("Welcome to AndroidVille!"),
+  //           ),
+  //         );
+  //       });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -258,6 +272,18 @@ class _MyMainPageState extends State<MyMainPage> {
                       onTap: () {
                         FocusScope.of(context).unfocus();
 
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
+                                child: Center(
+                                  child: Text("Welcome to AndroidVille!"),
+                                ),
+                              );
+                            });
+
                         _textController.value = _textController.value.copyWith(
                           text: applicationBloc.searchNUSResults![index],
                           selection: TextSelection.collapsed(
@@ -286,6 +312,18 @@ class _MyMainPageState extends State<MyMainPage> {
                       ),
                       onTap: () {
                         FocusScope.of(context).unfocus();
+
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
+                                child: Center(
+                                  child: Text("Welcome to AndroidVille!"),
+                                ),
+                              );
+                            });
                         applicationBloc.setSelectedLocation(applicationBloc
                             .searchResults![index -
                                 applicationBloc.searchNUSResults!.length]
@@ -318,6 +356,18 @@ class _MyMainPageState extends State<MyMainPage> {
                       ),
                       onTap: () {
                         FocusScope.of(context).unfocus();
+
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
+                                child: Center(
+                                  child: Text("Welcome to AndroidVille!"),
+                                ),
+                              );
+                            });
 
                         _goToBusStop(
                             applicationBloc
@@ -355,6 +405,23 @@ class _MyMainPageState extends State<MyMainPage> {
                 },
               ),
             ),
+          Positioned(
+              top: 100,
+              left: 100,
+              child: FloatingActionButton(
+                  onPressed: () {
+                    showModalBottomSheet(
+                        context: context,
+                        builder: (context) {
+                          return Container(
+                            height: MediaQuery.of(context).size.height * 0.4,
+                            child: Center(
+                              child: Text("Welcome to AndroidVille!"),
+                            ),
+                          );
+                        });
+                  },
+                  child: Icon(Icons.add))),
         ],
       ),
     );
