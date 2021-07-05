@@ -111,7 +111,7 @@ class _BusTimingsState extends State<BusTimings> {
                         MaterialPageRoute(
                           builder: (context) => BusServicesAtStop(
                             busStopName: applicationBloc
-                                .searchBusStopsResults2![index].longName,
+                                .searchBusStopsResults2![index].name,
                           ),
                         ),
                       );
