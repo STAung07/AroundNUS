@@ -92,13 +92,15 @@ class _BusTimingsState extends State<BusTimings> {
                           // Current Bus Stop
                           Expanded(
                             child: Text(
-                              applicationBloc.searchBusStopsResults2![index],
+                              applicationBloc
+                                  .searchBusStopsResults2![index].longName,
                               style: TextStyle(
                                   fontSize: 20,
                                   color: Colors.black,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
+
                           Icon(Icons.arrow_forward, color: Colors.blue),
                         ],
                       ),
@@ -108,8 +110,8 @@ class _BusTimingsState extends State<BusTimings> {
                         context,
                         MaterialPageRoute(
                           builder: (context) => BusServicesAtStop(
-                            busStopName:
-                                applicationBloc.searchBusStopsResults2![index],
+                            busStopName: applicationBloc
+                                .searchBusStopsResults2![index].longName,
                           ),
                         ),
                       );

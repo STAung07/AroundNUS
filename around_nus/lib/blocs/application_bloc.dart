@@ -28,7 +28,7 @@ class ApplicationBloc with ChangeNotifier {
   List? searchNUSResults;
   List? searchNUSFromResults;
   List? searchNUSToResults;
-  List? searchBusStopsResults2;
+  List<BusStop>? searchBusStopsResults2;
 
   Place? selectedLocationStatic;
   String? placeType;

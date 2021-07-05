@@ -32,12 +32,20 @@ class NusNextBus {
     return busStopList;
   }
 
-  Future<List> autoCompleteBusStops(search) async {
+  Future<List<BusStop>> autoCompleteBusStops(search) async {
     List<BusStop> busStopList = await fetchBusStopInfo();
-    var results = [];
+    List<BusStop> results = [];
     for (int i = 0; i < busStopList.length; i++) {
-      if (busStopList[i].name.toLowerCase().contains(search.toLowerCase())) {
-        results.add(busStopList[i].name);
+      if (busStopList[i]
+              .shortName
+              .toLowerCase()
+              .contains(search.toLowerCase()) ||
+          busStopList[i]
+              .longName
+              .toLowerCase()
+              .contains(search.toLowerCase()) ||
+          busStopList[i].name.toLowerCase().contains(search.toLowerCase())) {
+        results.add(busStopList[i]);
       }
     }
     return results;
