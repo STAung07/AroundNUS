@@ -52,8 +52,8 @@ class _MapViewState extends State<MapView> {
   Position? _currentPosition;
   String? _currentAddress;
 
-  final startAddressController = TextEditingController(text: " ");
-  final destinationAddressController = TextEditingController(text: " ");
+  final startAddressController = TextEditingController(text: "");
+  final destinationAddressController = TextEditingController(text: "");
 
   final startAddressFocusNode = FocusNode();
   final destinationAddressFocusNode = FocusNode();
@@ -1076,8 +1076,8 @@ class _MapViewState extends State<MapView> {
               ),
 
               //SEARCH FROM RESULTS STORED INTO THESE 2 CONTAINERS
-              if ((applicationBloc.searchNUSFromResults != null ||
-                      applicationBloc.searchFromResults != null ||
+              if ((applicationBloc.searchNUSFromResults != null &&
+                      applicationBloc.searchFromResults != null &&
                       applicationBloc.searchFromBusStopsResults != null) &&
                   (applicationBloc.searchNUSFromResults!.length != 0 ||
                       applicationBloc.searchFromResults!.length != 0 ||
@@ -1090,8 +1090,8 @@ class _MapViewState extends State<MapView> {
                     decoration: BoxDecoration(
                         backgroundBlendMode: BlendMode.darken,
                         color: Colors.black.withOpacity(0.6))),
-              if ((applicationBloc.searchNUSFromResults != null ||
-                      applicationBloc.searchFromResults != null ||
+              if ((applicationBloc.searchNUSFromResults != null &&
+                      applicationBloc.searchFromResults != null &&
                       applicationBloc.searchFromBusStopsResults != null) &&
                   (applicationBloc.searchNUSFromResults!.length != 0 ||
                       applicationBloc.searchFromResults!.length != 0 ||
@@ -1269,8 +1269,8 @@ class _MapViewState extends State<MapView> {
                         })),
 
               //SEARCH TO RESULTS STORED INTO THESE TWO CONTAINERS
-              if ((applicationBloc.searchNUSToResults != null ||
-                      applicationBloc.searchToResults != null ||
+              if ((applicationBloc.searchNUSToResults != null &&
+                      applicationBloc.searchToResults != null &&
                       applicationBloc.searchToBusStopsResults != null) &&
                   (applicationBloc.searchNUSToResults!.length != 0 ||
                       applicationBloc.searchToResults!.length != 0 ||
@@ -1283,8 +1283,8 @@ class _MapViewState extends State<MapView> {
                     decoration: BoxDecoration(
                         backgroundBlendMode: BlendMode.darken,
                         color: Colors.black.withOpacity(0.6))),
-              if ((applicationBloc.searchNUSToResults != null ||
-                      applicationBloc.searchToResults != null ||
+              if ((applicationBloc.searchNUSToResults != null &&
+                      applicationBloc.searchToResults != null &&
                       applicationBloc.searchToBusStopsResults != null) &&
                   (applicationBloc.searchNUSToResults!.length != 0 ||
                       applicationBloc.searchToResults!.length != 0 ||

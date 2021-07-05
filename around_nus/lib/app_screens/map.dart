@@ -33,7 +33,7 @@ class _MyMainPageState extends State<MyMainPage> {
   late LatLng currCoordinates =
       LatLng(currentPosition.latitude, currentPosition.longitude);
   late StreamSubscription locationSubscription;
-  var _textController = TextEditingController(text: " ");
+  var _textController = TextEditingController(text: "");
   Map nusVenuesData = {};
   // List filteredNames = [];
   // List names = [];
@@ -183,7 +183,7 @@ class _MyMainPageState extends State<MyMainPage> {
             // camera target bounds ? to limit to NUS
           ),
           Container(
-              height: 75,
+              height: 55,
               decoration: BoxDecoration(
                   shape: BoxShape.rectangle,
                   borderRadius: BorderRadius.only(
@@ -230,31 +230,31 @@ class _MyMainPageState extends State<MyMainPage> {
 
           // darkened container background for the search results
 
-          if ((applicationBloc.searchNUSResults != null ||
-                  applicationBloc.searchResults != null ||
+          if ((applicationBloc.searchNUSResults != null &&
+                  applicationBloc.searchResults != null &&
                   applicationBloc.searchBusStopsResults != null) &&
               (applicationBloc.searchNUSResults!.length != 0 ||
                   applicationBloc.searchResults!.length != 0 ||
-                  applicationBloc.searchBusStopsResults != null) &&
+                  applicationBloc.searchBusStopsResults!.length != 0) &&
               _textController.text.length != 0)
             Container(
-                margin: EdgeInsets.only(top: 70),
-                height: 415.0,
+                margin: EdgeInsets.only(top: 50),
+                height: 365.0,
                 width: double.infinity,
                 decoration: BoxDecoration(
                     backgroundBlendMode: BlendMode.darken,
                     color: Colors.black.withOpacity(0.6))),
 
           //container to store the search results
-          if ((applicationBloc.searchNUSResults != null ||
-                  applicationBloc.searchResults != null ||
+          if ((applicationBloc.searchNUSResults != null &&
+                  applicationBloc.searchResults != null &&
                   applicationBloc.searchBusStopsResults != null) &&
               (applicationBloc.searchNUSResults!.length != 0 ||
                   applicationBloc.searchResults!.length != 0 ||
-                  applicationBloc.searchBusStopsResults != null) &&
+                  applicationBloc.searchBusStopsResults!.length != 0) &&
               _textController.text.length != 0)
             Container(
-              padding: EdgeInsets.only(top: 70),
+              padding: EdgeInsets.only(top: 50),
               height: 415.0,
               // child: _buildList()
               child: ListView.builder(
@@ -263,52 +263,10 @@ class _MyMainPageState extends State<MyMainPage> {
                     applicationBloc.searchResults!.length +
                     applicationBloc.searchBusStopsResults!.length),
                 itemBuilder: (context, index) {
-                  print(index);
-                  if (index < applicationBloc.searchNUSResults!.length)
+                  if (index < applicationBloc.searchResults!.length)
                     return ListTile(
                       title: Text(
-                        applicationBloc.searchNUSResults![index],
-                        style: TextStyle(color: Colors.white),
-                      ),
-                      onTap: () {
-                        FocusScope.of(context).unfocus();
-
-                        showModalBottomSheet(
-                            context: context,
-                            builder: (context) {
-                              return Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: Center(
-                                  child: Text("Welcome to AndroidVille!"),
-                                ),
-                              );
-                            });
-
-                        _textController.value = _textController.value.copyWith(
-                          text: applicationBloc.searchNUSResults![index],
-                          selection: TextSelection.collapsed(
-                              offset: applicationBloc
-                                  .searchNUSResults![index].length),
-                        );
-                        _goToNUSPlace(
-                            nusVenuesData[applicationBloc
-                                .searchNUSResults![index]]["latitude"],
-                            nusVenuesData[applicationBloc
-                                .searchNUSResults![index]]["longitude"]);
-
-                        applicationBloc.setNUSSelectedLocation();
-                      },
-                    );
-                  else if (index <
-                      applicationBloc.searchNUSResults!.length +
-                          applicationBloc.searchResults!.length)
-                    return ListTile(
-                      title: Text(
-                        applicationBloc
-                            .searchResults![index -
-                                applicationBloc.searchNUSResults!.length]
-                            .description,
+                        applicationBloc.searchResults![index].description,
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
@@ -349,23 +307,62 @@ class _MyMainPageState extends State<MyMainPage> {
                                         ],
                                       )));
                             });
-                        applicationBloc.setSelectedLocation(applicationBloc
-                            .searchResults![index -
-                                applicationBloc.searchNUSResults!.length]
-                            .placeId);
+                        applicationBloc.setSelectedLocation(
+                            applicationBloc.searchResults![index].placeId);
                         // //clearing the textfield
                         _textController.value = _textController.value.copyWith(
-                          text: applicationBloc
-                              .searchResults![index -
-                                  applicationBloc.searchNUSResults!.length]
-                              .description,
+                          text:
+                              applicationBloc.searchResults![index].description,
                           selection: TextSelection.collapsed(
                               offset: applicationBloc
-                                  .searchResults![index -
-                                      applicationBloc.searchNUSResults!.length]
-                                  .description
+                                  .searchResults![index].description.length),
+                        );
+                      },
+                    );
+                  else if (index <
+                      applicationBloc.searchNUSResults!.length +
+                          applicationBloc.searchResults!.length)
+                    return ListTile(
+                      title: Text(
+                        applicationBloc.searchNUSResults![
+                            index - applicationBloc.searchResults!.length],
+                        style: TextStyle(color: Colors.white),
+                      ),
+                      onTap: () {
+                        FocusScope.of(context).unfocus();
+
+                        showModalBottomSheet(
+                            context: context,
+                            builder: (context) {
+                              return Container(
+                                height:
+                                    MediaQuery.of(context).size.height * 0.4,
+                                child: Center(
+                                  child: Text("Welcome to AndroidVille!"),
+                                ),
+                              );
+                            });
+
+                        _textController.value = _textController.value.copyWith(
+                          text: applicationBloc.searchNUSResults![
+                              index - applicationBloc.searchResults!.length],
+                          selection: TextSelection.collapsed(
+                              offset: applicationBloc
+                                  .searchNUSResults![index -
+                                      applicationBloc.searchResults!.length]
                                   .length),
                         );
+                        _goToNUSPlace(
+                            nusVenuesData[applicationBloc.searchNUSResults![
+                                    index -
+                                        applicationBloc.searchResults!.length]]
+                                ["latitude"],
+                            nusVenuesData[applicationBloc.searchNUSResults![
+                                    index -
+                                        applicationBloc.searchResults!.length]]
+                                ["longitude"]);
+
+                        applicationBloc.setNUSSelectedLocation();
                       },
                     );
                   else {
