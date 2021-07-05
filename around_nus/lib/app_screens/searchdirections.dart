@@ -67,13 +67,13 @@ class _MapViewState extends State<MapView> {
 
   Marker startingMarker = Marker(
     markerId: MarkerId("test1"),
-    position: LatLng(1.3000, 103.7740),
+    position: LatLng(0, 0),
     infoWindow: InfoWindow(title: "Start", snippet: "test"),
     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
   );
   Marker endingMarker = Marker(
     markerId: MarkerId("test2"),
-    position: LatLng(1.2914, 103.7756),
+    position: LatLng(0, 0),
     infoWindow: InfoWindow(title: "End", snippet: "test"),
     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
   );
