@@ -35,6 +35,8 @@ class ApplicationBloc with ChangeNotifier {
 
   // StreamController<Place> selectedLocation = StreamController<Place>();
   StreamController<Place> selectedLocation = BehaviorSubject();
+  StreamController<Place> selectedFromLocation = BehaviorSubject();
+  StreamController<Place> selectedToLocation = BehaviorSubject();
 
   ApplicationBloc() {
     setCurrentLocation();
@@ -128,7 +130,51 @@ class ApplicationBloc with ChangeNotifier {
   setSelectedLocation(String placeId) async {
     var sLocation = await placesService.getPlace(placeId);
     selectedLocation.add(sLocation);
+    // var fromLocation = await placesService.getPlace(placeId);
+    // selectedFromLocation.add(fromLocation);
+    // var toLocation = await placesService.getPlace(placeId);
+    // selectedToLocation.add(toLocation);
     selectedLocationStatic = sLocation;
+    searchResults = null;
+    searchFromResults = null;
+    searchToResults = null;
+    searchNUSResults = null;
+    searchNUSFromResults = null;
+    searchNUSToResults = null;
+    searchFromBusStopsResults = null;
+    searchToBusStopsResults = null;
+    searchBusStopsResults = null;
+    notifyListeners();
+  }
+
+  setFromSelectedLocation(String placeId) async {
+    // var sLocation = await placesService.getPlace(placeId);
+    // selectedLocation.add(sLocation);
+    var fromLocation = await placesService.getPlace(placeId);
+    selectedFromLocation.add(fromLocation);
+    // var toLocation = await placesService.getPlace(placeId);
+    // selectedToLocation.add(toLocation);
+    // selectedLocationStatic = sLocation;
+    searchResults = null;
+    searchFromResults = null;
+    searchToResults = null;
+    searchNUSResults = null;
+    searchNUSFromResults = null;
+    searchNUSToResults = null;
+    searchFromBusStopsResults = null;
+    searchToBusStopsResults = null;
+    searchBusStopsResults = null;
+    notifyListeners();
+  }
+
+  setToSelectedLocation(String placeId) async {
+    // var sLocation = await placesService.getPlace(placeId);
+    // selectedLocation.add(sLocation);
+    // var fromLocation = await placesService.getPlace(placeId);
+    // selectedFromLocation.add(fromLocation);
+    var toLocation = await placesService.getPlace(placeId);
+    selectedToLocation.add(toLocation);
+    // selectedLocationStatic = sLocation;
     searchResults = null;
     searchFromResults = null;
     searchToResults = null;

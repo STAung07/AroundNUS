@@ -178,6 +178,7 @@ class _MapViewState extends State<MapView> {
   }
 
   Future<void> _setStartingMarker(LatLng point) async {
+    print("starting point is $point");
     setState(() {
       startingMarker = Marker(
         markerId: MarkerId("$point"),
@@ -198,6 +199,7 @@ class _MapViewState extends State<MapView> {
   }
 
   Future<void> _setEndingMarker(LatLng point) async {
+    print("ending point is $point");
     setState(() {
       endingMarker = Marker(
         markerId: MarkerId("$point"),
@@ -686,6 +688,7 @@ class _MapViewState extends State<MapView> {
     applicationBloc.dispose();
     locationSubscription.cancel();
     startAddressController.dispose();
+    destinationAddressController.dispose();
     super.dispose();
   }
 
@@ -1163,21 +1166,22 @@ class _MapViewState extends State<MapView> {
                                               .searchNUSFromResults!.length]
                                       .description;
                                 });
-                                locationSubscription = applicationBloc
-                                    .selectedLocation.stream
-                                    .listen((place) {
-                                  if (place != null) {
-                                    _goToPlace(place, "start");
-                                  }
-                                });
 
-                                applicationBloc.setSelectedLocation(
+                                applicationBloc.setFromSelectedLocation(
                                     applicationBloc
                                         .searchFromResults![index -
                                             applicationBloc
                                                 .searchNUSFromResults!.length]
                                         .placeId);
 
+                                locationSubscription = applicationBloc
+                                    .selectedFromLocation.stream
+                                    .listen((place) {
+                                  if (place != null) {
+                                    _goToPlace(place, "start");
+                                  }
+                                  print(" Go from " + place.name.toString());
+                                });
                                 startAddressController.value =
                                     startAddressController.value.copyWith(
                                   text: applicationBloc
@@ -1354,20 +1358,24 @@ class _MapViewState extends State<MapView> {
                                               .searchNUSToResults!.length]
                                       .description;
                                 });
-                                locationSubscription = applicationBloc
-                                    .selectedLocation.stream
-                                    .listen((place) {
-                                  if (place != null) {
-                                    _goToPlace(place, "end");
-                                  }
-                                });
-                                _destinationAddress;
-                                applicationBloc.setSelectedLocation(
+
+                                // _destinationAddress;
+                                applicationBloc.setToSelectedLocation(
                                     applicationBloc
                                         .searchToResults![index -
                                             applicationBloc
                                                 .searchNUSToResults!.length]
                                         .placeId);
+
+                                locationSubscription = applicationBloc
+                                    .selectedToLocation.stream
+                                    .listen((place) {
+                                  if (place != null) {
+                                    _goToPlace(place, "end");
+                                  }
+                                  print(" Go to" + place.name.toString());
+                                });
+
                                 destinationAddressController.value =
                                     destinationAddressController.value.copyWith(
                                   text: applicationBloc
@@ -1515,10 +1523,8 @@ class _MapViewState extends State<MapView> {
         CameraPosition(target: LatLng(lat, lng), zoom: 15)));
 
     if (startend == "start") {
-      print(lat.toString() + lng.toString());
       _setStartingMarker(LatLng(lat, lng));
     } else if (startend == "end") {
-      print(lat.toString() + lng.toString());
       _setEndingMarker(LatLng(lat, lng));
     }
     // _setMarkers(LatLng(lat, lng));
