@@ -1,5 +1,7 @@
 import 'dart:async';
 import 'package:around_nus/models/busstopsinfo_model.dart';
+import 'package:around_nus/models/geometry.dart';
+import 'package:around_nus/models/location.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:around_nus/models/place.dart';
@@ -27,6 +29,9 @@ class ApplicationBloc with ChangeNotifier {
   List? searchNUSFromResults;
   List? searchNUSToResults;
   List? searchBusStopsResults2;
+
+  Place? selectedLocationStatic;
+  String? placeType;
 
   // StreamController<Place> selectedLocation = StreamController<Place>();
   StreamController<Place> selectedLocation = BehaviorSubject();
@@ -71,6 +76,12 @@ class ApplicationBloc with ChangeNotifier {
 
   setCurrentLocation() async {
     currentLocation = await geoLocatorService.getCurrentLocation();
+    selectedLocationStatic = Place(
+      geometry: Geometry(
+        location: Location(
+            lat: currentLocation!.latitude, lng: currentLocation!.longitude),
+      ),
+    );
     notifyListeners();
   }
 
@@ -97,8 +108,27 @@ class ApplicationBloc with ChangeNotifier {
     notifyListeners();
   }
 
+  togglePlaceType(String value, bool selected) async {
+    if (selected) {
+      placeType = value;
+    } else {
+      placeType = null;
+    }
+
+    if (placeType != null) {
+      var places = await placesService.getPlaces(
+          selectedLocationStatic!.geometry!.location.lat,
+          selectedLocationStatic!.geometry!.location.lng,
+          placeType!);
+    }
+
+    notifyListeners();
+  }
+
   setSelectedLocation(String placeId) async {
-    selectedLocation.add(await placesService.getPlace(placeId));
+    var sLocation = await placesService.getPlace(placeId);
+    selectedLocation.add(sLocation);
+    selectedLocationStatic = sLocation;
     searchResults = null;
     searchFromResults = null;
     searchToResults = null;

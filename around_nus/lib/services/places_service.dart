@@ -41,13 +41,13 @@ class PlacesService {
     return Place.fromJson(jsonResult);
   }
 
-  // Future<String> getNUSPlaceID(double lat, double lng) async {
-  //   LatLng LATLNG = LatLng(lat, lng);
-  //   var url =
-  //       "https://maps.googleapis.com/maps/api/geocode/json?latlng=$LATLNG&key=$key";
-  //   var response = await http.get(Uri.parse(url));
-  //   var json = convert.jsonDecode(response.body);
-  //   var jsonResult = json[]
-
-  // }
+  Future<List<Place>> getPlaces(
+      double lat, double lng, String placeType) async {
+    var url =
+        "https://maps.googleapis.com/maps/api/place/textsearch/json?type=$placeType&location=$lat,$lng&rankby=distance&key=$key";
+    var response = await http.get(Uri.parse(url));
+    var json = convert.jsonDecode(response.body);
+    var jsonResult = json["results"] as List;
+    return jsonResult.map((place) => Place.fromJson(place)).toList();
+  }
 }

@@ -263,6 +263,7 @@ class _MyMainPageState extends State<MyMainPage> {
                     applicationBloc.searchResults!.length +
                     applicationBloc.searchBusStopsResults!.length),
                 itemBuilder: (context, index) {
+                  print(index);
                   if (index < applicationBloc.searchNUSResults!.length)
                     return ListTile(
                       title: Text(
@@ -316,13 +317,37 @@ class _MyMainPageState extends State<MyMainPage> {
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: Center(
-                                  child: Text("Welcome to AndroidVille!"),
-                                ),
-                              );
+                              return Padding(
+                                  padding: const EdgeInsets.all(8.0),
+                                  child: Container(
+                                      height:
+                                          MediaQuery.of(context).size.height *
+                                              0.4,
+                                      child: Wrap(
+                                        spacing: 8.0,
+                                        children: [
+                                          FilterChip(
+                                              label: Text("Gym"),
+                                              onSelected: (val) =>
+                                                  applicationBloc
+                                                      .togglePlaceType(
+                                                          "gym", val),
+                                              selected:
+                                                  applicationBloc.placeType ==
+                                                      "gym",
+                                              selectedColor: Colors.blue),
+                                          FilterChip(
+                                              label: Text("ATM"),
+                                              onSelected: (val) =>
+                                                  applicationBloc
+                                                      .togglePlaceType(
+                                                          "atm", val),
+                                              selected:
+                                                  applicationBloc.placeType ==
+                                                      "atm",
+                                              selectedColor: Colors.blue)
+                                        ],
+                                      )));
                             });
                         applicationBloc.setSelectedLocation(applicationBloc
                             .searchResults![index -
@@ -439,11 +464,11 @@ class _MyMainPageState extends State<MyMainPage> {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target:
-            LatLng(place.geometry.location.lat, place.geometry.location.lng),
+            LatLng(place.geometry!.location.lat, place.geometry!.location.lng),
         zoom: 15)));
 
     _setMarkers(
-        LatLng(place.geometry.location.lat, place.geometry.location.lng));
+        LatLng(place.geometry!.location.lat, place.geometry!.location.lng));
   }
 
   Future<void> _goToBusStop(double lat, double lng) async {

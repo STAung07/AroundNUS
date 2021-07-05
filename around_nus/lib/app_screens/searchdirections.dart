@@ -1529,14 +1529,14 @@ class _MapViewState extends State<MapView> {
     final GoogleMapController controller = await mapController.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target:
-            LatLng(place.geometry.location.lat, place.geometry.location.lng),
+            LatLng(place.geometry!.location.lat, place.geometry!.location.lng),
         zoom: 15)));
     if (startend == "start") {
       _setStartingMarker(
-          LatLng(place.geometry.location.lat, place.geometry.location.lng));
+          LatLng(place.geometry!.location.lat, place.geometry!.location.lng));
     } else if (startend == "end") {
       _setEndingMarker(
-          LatLng(place.geometry.location.lat, place.geometry.location.lng));
+          LatLng(place.geometry!.location.lat, place.geometry!.location.lng));
     }
 
     // _setMarkers(
