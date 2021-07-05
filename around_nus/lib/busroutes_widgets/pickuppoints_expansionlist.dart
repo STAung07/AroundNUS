@@ -94,7 +94,7 @@ class _PickUpPointsOfRouteState extends State<PickUpPointsOfRoute> {
                         Expanded(
                           flex: 8,
                           child: Text(
-                            _currBusRouteStops[stopIndex].busStopCode,
+                            _currBusRouteStops[stopIndex].shortName,
                             style: TextStyle(
                                 fontSize: 16, fontWeight: FontWeight.bold),
                           ),
