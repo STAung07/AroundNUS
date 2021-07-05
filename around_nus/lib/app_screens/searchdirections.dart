@@ -66,16 +66,16 @@ class _MapViewState extends State<MapView> {
   Set<Marker> markers = {};
 
   Marker startingMarker = Marker(
-    markerId: MarkerId("test"),
-    position: LatLng(0, 0),
+    markerId: MarkerId("test1"),
+    position: LatLng(1.3000, 103.7740),
     infoWindow: InfoWindow(title: "Start", snippet: "test"),
     icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
   );
   Marker endingMarker = Marker(
-    markerId: MarkerId("test"),
-    position: LatLng(0, 0),
-    infoWindow: InfoWindow(title: "Start", snippet: "test"),
-    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+    markerId: MarkerId("test2"),
+    position: LatLng(1.2914, 103.7756),
+    infoWindow: InfoWindow(title: "End", snippet: "test"),
+    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
   );
 
   late Position startingCoordinates;
@@ -730,12 +730,11 @@ class _MapViewState extends State<MapView> {
     var width = MediaQuery.of(context).size.width;
     final applicationBloc = Provider.of<ApplicationBloc>(context);
     markers.clear();
-    if (startingMarker != null) {
-      markers.add(startingMarker);
-    }
-    if (endingMarker != null) {
-      markers.add(endingMarker);
-    }
+
+    markers.add(startingMarker);
+
+    markers.add(endingMarker);
+
     return Scaffold(
       appBar: AppBar(title: Text("Directions")),
       drawer: MenuDrawer(),
