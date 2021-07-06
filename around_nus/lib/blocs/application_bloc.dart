@@ -2,6 +2,8 @@ import 'dart:async';
 import 'package:around_nus/models/busstopsinfo_model.dart';
 import 'package:around_nus/models/geometry.dart';
 import 'package:around_nus/models/location.dart';
+import 'package:around_nus/services/marker_service.dart';
+import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:rxdart/rxdart.dart';
 
 import 'package:around_nus/models/place.dart';
@@ -16,6 +18,7 @@ class ApplicationBloc with ChangeNotifier {
   final geoLocatorService = GeolocatorService();
   final placesService = PlacesService();
   final busService = NusNextBus();
+  final markerService = MarkerService();
 
   //Variables
   Position? currentLocation;
@@ -33,10 +36,13 @@ class ApplicationBloc with ChangeNotifier {
   Place? selectedLocationStatic;
   String? placeType;
 
+  List<Marker> markers = [];
+
   // StreamController<Place> selectedLocation = StreamController<Place>();
   StreamController<Place> selectedLocation = BehaviorSubject();
   StreamController<Place> selectedFromLocation = BehaviorSubject();
   StreamController<Place> selectedToLocation = BehaviorSubject();
+  StreamController<LatLngBounds> bounds = BehaviorSubject();
 
   ApplicationBloc() {
     setCurrentLocation();
@@ -59,8 +65,6 @@ class ApplicationBloc with ChangeNotifier {
   searchFromBusStops(String searchTerm) async {
     //searchBusStopsResults = await fetchBusStopInfo(searchTerm);
     searchFromBusStopsResults = await busService.getBusStops(searchTerm);
-    print("search bus stop: ");
-    print(searchBusStopsResults);
     notifyListeners();
   }
 
@@ -105,8 +109,6 @@ class ApplicationBloc with ChangeNotifier {
   searchBusStops2(String searchTerm) async {
     //searchBusStopsResults = await fetchBusStopInfo(searchTerm);
     searchBusStopsResults2 = await busService.autoCompleteBusStops(searchTerm);
-    // print(searchBusStopsResults);
-    // print("here");
     notifyListeners();
   }
 
@@ -122,18 +124,27 @@ class ApplicationBloc with ChangeNotifier {
           selectedLocationStatic!.geometry!.location.lat,
           selectedLocationStatic!.geometry!.location.lng,
           placeType!);
+      markers = [];
+
+      if (places.length > 0) {
+        var newMarker = markerService.createMarkerFromPlace(places[0], false);
+        markers.add(newMarker);
+      }
+      var locationMarker =
+          markerService.createMarkerFromPlace(selectedLocationStatic!, false);
+      markers.add(locationMarker);
+
+      var _bounds = markerService.bounds(Set<Marker>.of(markers));
+      bounds.add(_bounds);
     }
 
     notifyListeners();
   }
 
+  // for the main map.dart page
   setSelectedLocation(String placeId) async {
     var sLocation = await placesService.getPlace(placeId);
     selectedLocation.add(sLocation);
-    // var fromLocation = await placesService.getPlace(placeId);
-    // selectedFromLocation.add(fromLocation);
-    // var toLocation = await placesService.getPlace(placeId);
-    // selectedToLocation.add(toLocation);
     selectedLocationStatic = sLocation;
     searchResults = null;
     searchFromResults = null;
@@ -147,14 +158,10 @@ class ApplicationBloc with ChangeNotifier {
     notifyListeners();
   }
 
+// directions page
   setFromSelectedLocation(String placeId) async {
-    // var sLocation = await placesService.getPlace(placeId);
-    // selectedLocation.add(sLocation);
     var fromLocation = await placesService.getPlace(placeId);
     selectedFromLocation.add(fromLocation);
-    // var toLocation = await placesService.getPlace(placeId);
-    // selectedToLocation.add(toLocation);
-    // selectedLocationStatic = sLocation;
     searchResults = null;
     searchFromResults = null;
     searchToResults = null;
@@ -167,14 +174,10 @@ class ApplicationBloc with ChangeNotifier {
     notifyListeners();
   }
 
+  // directions page
   setToSelectedLocation(String placeId) async {
-    // var sLocation = await placesService.getPlace(placeId);
-    // selectedLocation.add(sLocation);
-    // var fromLocation = await placesService.getPlace(placeId);
-    // selectedFromLocation.add(fromLocation);
     var toLocation = await placesService.getPlace(placeId);
     selectedToLocation.add(toLocation);
-    // selectedLocationStatic = sLocation;
     searchResults = null;
     searchFromResults = null;
     searchToResults = null;

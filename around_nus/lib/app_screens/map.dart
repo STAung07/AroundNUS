@@ -33,6 +33,7 @@ class _MyMainPageState extends State<MyMainPage> {
   late LatLng currCoordinates =
       LatLng(currentPosition.latitude, currentPosition.longitude);
   late StreamSubscription locationSubscription;
+  late StreamSubscription boundsSubscription;
   var _textController = TextEditingController(text: "");
   Map nusVenuesData = {};
   // List filteredNames = [];
@@ -49,6 +50,11 @@ class _MyMainPageState extends State<MyMainPage> {
       }
     });
     this.loadJsonData();
+
+    boundsSubscription = applicationBloc.bounds.stream.listen((bounds) async {
+      final GoogleMapController controller = await _controllerGoogleMap.future;
+      controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50.0));
+    });
     // this.getNames();
     super.initState();
     // get User Search; same as searchdirections
@@ -62,6 +68,7 @@ class _MyMainPageState extends State<MyMainPage> {
     final applicationBloc =
         Provider.of<ApplicationBloc>(context, listen: false);
     applicationBloc.dispose();
+    boundsSubscription.cancel();
     locationSubscription.cancel();
     _textController.dispose();
     super.dispose();
@@ -171,7 +178,8 @@ class _MyMainPageState extends State<MyMainPage> {
             zoomGesturesEnabled: true,
             zoomControlsEnabled: true,
             // markers
-            markers: _markers,
+            // markers: _markers,
+            markers: Set<Marker>.of(applicationBloc.markers),
             onTap: (point) {
               if (_isMarker) {
                 setState(() {
@@ -275,37 +283,54 @@ class _MyMainPageState extends State<MyMainPage> {
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
+                              return ListView(
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Find Nearest",
+                                          style: TextStyle(
+                                              fontSize: 25.0,
+                                              fontWeight: FontWeight.bold))),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
                                               0.4,
-                                      child: Wrap(
-                                        spacing: 8.0,
-                                        children: [
-                                          FilterChip(
-                                              label: Text("Gym"),
-                                              onSelected: (val) =>
-                                                  applicationBloc
-                                                      .togglePlaceType(
-                                                          "gym", val),
-                                              selected:
-                                                  applicationBloc.placeType ==
+                                          child: Wrap(
+                                            spacing: 8.0,
+                                            children: [
+                                              FilterChip(
+                                                  label: Text("Gym"),
+                                                  onSelected: (val) {
+                                                    print("pressed gym");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "gym", val);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
                                                       "gym",
-                                              selectedColor: Colors.blue),
-                                          FilterChip(
-                                              label: Text("ATM"),
-                                              onSelected: (val) =>
-                                                  applicationBloc
-                                                      .togglePlaceType(
-                                                          "atm", val),
-                                              selected:
-                                                  applicationBloc.placeType ==
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("ATM"),
+                                                  onSelected: (val) {
+                                                    print("pressed atm");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "atm", val);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
                                                       "atm",
-                                              selectedColor: Colors.blue)
-                                        ],
-                                      )));
+                                                  selectedColor:
+                                                      Colors.blueGrey)
+                                            ],
+                                          ))),
+                                ],
+                              );
                             });
                         applicationBloc.setSelectedLocation(
                             applicationBloc.searchResults![index].placeId);
