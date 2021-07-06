@@ -28,30 +28,29 @@ class ConnectedBusStops {
   });
 }
 
+class PossibleRoutes {
+  final String routeName;
+  final BusStop startBusStop;
+  final BusStop endBusStop;
+  final int stopsBetween;
+
+  PossibleRoutes({
+    required this.routeName,
+    required this.startBusStop,
+    required this.endBusStop,
+    required this.stopsBetween,
+  });
+}
+
 class PathFindingAlgo {
   final busService = NusNextBus();
   final Map<String, List<ConnectedBusStops>> adjacencyList;
-  final Map<String, Position> busStopToPos;
+  //final Map<String, Position> busStopToPos;
 
-  PathFindingAlgo({required this.adjacencyList, required this.busStopToPos});
+  PathFindingAlgo({required this.adjacencyList});
 
-  // function checks if two bus stops are connected directly
-  // bool isDirectlyConnected(String startBusStopName, endBusStopName) {
-  //   List<ConnectedBusStops> currConnectedBusStops =
-  //       adjacencyList[startBusStopName] as List<ConnectedBusStops>;
-
-  //   // scan through all the possible direction connections in startBusStopName and
-  //   // check if endBusStopName is in it to see if it is reachable
-  //   for (var connectedBusStop in currConnectedBusStops) {
-  //     if (connectedBusStop.busStopName == endBusStopName) return true;
-  //   }
-  //   return false;
-  // }
-
-  // find the distance between two coordinates in metres
-
-  late BusStop startingBusStop;
-  late BusStop endingBusStop;
+  //late BusStop startingBusStop;
+  //late BusStop endingBusStop;
   int leastStops = 35;
 
   double _coordinatedistance(lat1, lon1, lat2, lon2) {
@@ -66,16 +65,13 @@ class PathFindingAlgo {
   // function takes in starting and ending coordinates
   // finds nearest bus stop with shortest direct path
   // function returns shortestPath
-  String getBusPath(
-      /*String startBusStopName, String endBusStopName,*/
-      Position startingPoint,
-      Position endingPoint,
-      List<BusStop> nusBusStops) {
+  List<PossibleRoutes> getBusPaths(
+      Position startingPoint, Position endingPoint, List<BusStop> nusBusStops) {
     // get nearby bus stops from starting and ending point and see if they are connected
     // and also find the shortest path
     List<BusStop> nearbyStartingBusStops = [];
     List<BusStop> nearbyEndingBusStops = [];
-    String shortestPath = '';
+    List<PossibleRoutes> allDirectRoutes = [];
 
     // get list of nearby bus stops to starting position
     for (BusStop busStop in nusBusStops) {
@@ -113,6 +109,7 @@ class PathFindingAlgo {
         // check if endBusStopName is in it to see if it is reachable
         for (var connectedBusStop in currConnectedBusStops) {
           if (connectedBusStop.busStopName == end.name) {
+            /*
             // is connected then take note of how many stops and route
             if (connectedBusStop.stopsAway < leastStops) {
               shortestPath = connectedBusStop.routeName;
@@ -120,10 +117,22 @@ class PathFindingAlgo {
               startingBusStop = start;
               endingBusStop = end;
             }
+            */
+            // as long as connected, add start bus stop, end bus stop
+            // and String of connected route and bus stops in between
+            PossibleRoutes newRoute = PossibleRoutes(
+              routeName: connectedBusStop.routeName,
+              startBusStop: start,
+              endBusStop: end,
+              stopsBetween: connectedBusStop.stopsAway,
+            );
+            allDirectRoutes.add(newRoute);
           }
         }
       }
     }
+
+    /*
     print("the shortest path is ");
     print(shortestPath +
         "," +
@@ -132,15 +141,12 @@ class PathFindingAlgo {
         endingBusStop.name +
         "," +
         leastStops.toString());
-    return shortestPath;
-    // "," +
-    // startingBusStopName +
-    // "," +
-    // endingBusStopName +
-    // "," +
-    // leastStops.toString();
+        */
+    print(allDirectRoutes);
+    return allDirectRoutes;
   }
 
+  /*
   BusStop getStartingBusStop() {
     return startingBusStop;
   }
@@ -152,4 +158,5 @@ class PathFindingAlgo {
   int getStopsAway() {
     return leastStops;
   }
+  */
 }
