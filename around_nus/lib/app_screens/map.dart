@@ -15,7 +15,6 @@ import '../common_widgets/drawer.dart';
 import '../map_widgets/circularbutton.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 
 class MyMainPage extends StatefulWidget {
   MyMainPage({Key? key, required this.title}) : super(key: key);
@@ -359,12 +358,53 @@ class _MyMainPageState extends State<MyMainPage> {
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: Center(
-                                  child: Text("Welcome to AndroidVille!"),
-                                ),
+                              return ListView(
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Find Nearest",
+                                          style: TextStyle(
+                                              fontSize: 25.0,
+                                              fontWeight: FontWeight.bold))),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.4,
+                                          child: Wrap(
+                                            spacing: 8.0,
+                                            children: [
+                                              FilterChip(
+                                                  label: Text("Gym"),
+                                                  onSelected: (val) {
+                                                    print("pressed gym");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "gym", val);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "gym",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("ATM"),
+                                                  onSelected: (val) {
+                                                    print("pressed atm");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "atm", val);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "atm",
+                                                  selectedColor:
+                                                      Colors.blueGrey)
+                                            ],
+                                          ))),
+                                ],
                               );
                             });
 
@@ -387,7 +427,17 @@ class _MyMainPageState extends State<MyMainPage> {
                                         applicationBloc.searchResults!.length]]
                                 ["longitude"]);
 
-                        applicationBloc.setNUSSelectedLocation();
+                        applicationBloc.setNUSSelectedLocation(
+                            nusVenuesData[applicationBloc.searchNUSResults![
+                                    index -
+                                        applicationBloc.searchResults!.length]]
+                                ["latitude"],
+                            nusVenuesData[applicationBloc.searchNUSResults![
+                                    index -
+                                        applicationBloc.searchResults!.length]]
+                                ["longitude"],
+                            applicationBloc.searchNUSResults![
+                                index - applicationBloc.searchResults!.length]);
                       },
                     );
                   else {
@@ -407,12 +457,53 @@ class _MyMainPageState extends State<MyMainPage> {
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: Center(
-                                  child: Text("Welcome to AndroidVille!"),
-                                ),
+                              return ListView(
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Find Nearest",
+                                          style: TextStyle(
+                                              fontSize: 25.0,
+                                              fontWeight: FontWeight.bold))),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.4,
+                                          child: Wrap(
+                                            spacing: 8.0,
+                                            children: [
+                                              FilterChip(
+                                                  label: Text("Gym"),
+                                                  onSelected: (val) {
+                                                    print("pressed gym");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "gym", val);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "gym",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("ATM"),
+                                                  onSelected: (val) {
+                                                    print("pressed atm");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "atm", val);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "atm",
+                                                  selectedColor:
+                                                      Colors.blueGrey)
+                                            ],
+                                          ))),
+                                ],
                               );
                             });
 
@@ -445,7 +536,22 @@ class _MyMainPageState extends State<MyMainPage> {
                                       .length +
                                   " Bus Stop".length),
                         );
-                        applicationBloc.setBusStopSelectedLocation();
+                        applicationBloc.setBusStopSelectedLocation(
+                            applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .latitude,
+                            applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .longitude,
+                            applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .longName);
                       },
                     );
                   }

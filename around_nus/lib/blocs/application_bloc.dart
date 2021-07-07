@@ -120,11 +120,12 @@ class ApplicationBloc with ChangeNotifier {
     }
 
     if (placeType != null) {
+      markers = [];
+
       var places = await placesService.getPlaces(
           selectedLocationStatic!.geometry!.location.lat,
           selectedLocationStatic!.geometry!.location.lng,
           placeType!);
-      markers = [];
 
       if (places.length > 0) {
         var newMarker = markerService.createMarkerFromPlace(places[0], false);
@@ -190,7 +191,15 @@ class ApplicationBloc with ChangeNotifier {
     notifyListeners();
   }
 
-  setNUSSelectedLocation() async {
+  setNUSSelectedLocation(double lat, double lng, String _name) async {
+    selectedLocationStatic = Place(
+      name: _name,
+      geometry: Geometry(
+        location: Location(lat: lat, lng: lng),
+      ),
+    );
+    // selectedLocation.add(selectedLocationStatic!);
+
     searchResults = null;
     searchFromResults = null;
     searchToResults = null;
@@ -204,7 +213,42 @@ class ApplicationBloc with ChangeNotifier {
     notifyListeners();
   }
 
-  setBusStopSelectedLocation() async {
+  setNUSDirectionsSelectedLocation() async {
+    searchResults = null;
+    searchFromResults = null;
+    searchToResults = null;
+    searchNUSResults = null;
+    searchNUSFromResults = null;
+    searchNUSToResults = null;
+    searchFromBusStopsResults = null;
+    searchToBusStopsResults = null;
+    searchBusStopsResults = null;
+
+    notifyListeners();
+  }
+
+  setBusStopSelectedLocation(double lat, double lng, String _name) async {
+    selectedLocationStatic = Place(
+      name: _name,
+      geometry: Geometry(
+        location: Location(lat: lat, lng: lng),
+      ),
+    );
+    // selectedLocation.add(selectedLocationStatic!);
+    searchResults = null;
+    searchFromResults = null;
+    searchToResults = null;
+    searchNUSResults = null;
+    searchNUSFromResults = null;
+    searchNUSToResults = null;
+    searchFromBusStopsResults = null;
+    searchToBusStopsResults = null;
+    searchBusStopsResults = null;
+
+    notifyListeners();
+  }
+
+  setBusStopDirectionsSelectedLocation() async {
     searchResults = null;
     searchFromResults = null;
     searchToResults = null;
