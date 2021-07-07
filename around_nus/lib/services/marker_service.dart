@@ -24,16 +24,16 @@ class MarkerService {
         northeast: LatLng(northeastLat, northeastLon));
   }
 
-  Marker createMarkerFromPlace(Place place, bool center) {
-    var markerId = place.name;
+  Marker createMarkerFromPlace(
+      String name, double lat, double lng, bool center) {
+    var markerId = name;
     if (center) markerId = 'center';
 
     return Marker(
         markerId: MarkerId(markerId!),
         draggable: false,
         visible: (center) ? false : true,
-        infoWindow: InfoWindow(title: place.name, snippet: place.vicinity),
-        position:
-            LatLng(place.geometry!.location.lat, place.geometry!.location.lng));
+        infoWindow: InfoWindow(title: name),
+        position: LatLng(lat, lng));
   }
 }
