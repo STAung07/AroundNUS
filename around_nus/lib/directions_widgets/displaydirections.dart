@@ -3,7 +3,6 @@ import 'dart:math';
 import 'package:around_nus/models/busstopsinfo_model.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
-import '../app_screens/searchdirections.dart';
 
 class DirectionsDisplay extends StatefulWidget {
   final String startAddress;

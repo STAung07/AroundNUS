@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:typed_data';
 
 import 'package:around_nus/blocs/application_bloc.dart';
 import 'package:around_nus/directions_widgets/routeslist.dart';
@@ -20,7 +19,6 @@ import 'dart:convert';
 import '../directions_widgets/apikey.dart'; // Stores the Google Maps API Key
 import '../directions_widgets/pathfindingalgo.dart';
 import 'package:flutter/services.dart' show rootBundle;
-import '../directions_widgets/displaydirections.dart';
 
 class FindDirections extends StatelessWidget {
   @override
@@ -81,10 +79,7 @@ class _MapViewState extends State<MapView> {
 
   late Position startingCoordinates;
   late Position endingCoordinates;
-  String busTaken = "";
-  late BusStop startingBusStop;
-  late BusStop endingBusStop;
-  int stopsAway = 35;
+
   LatLng prevFrom = LatLng(0, 0);
   // polyline points contain coordinates of route to draw on map
   PolylinePoints? polylinePoints;
@@ -116,6 +111,10 @@ class _MapViewState extends State<MapView> {
   List<PolylineWayPoint> _wayPoints = [];
 
   List<bool> _selections = List.generate(3, (_) => false);
+
+  // counter for route visualisation display
+  int displayIndex = 0;
+  String currRouteName = "";
 
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
@@ -224,7 +223,7 @@ class _MapViewState extends State<MapView> {
           accuracy: 0.0);
     });
   }
-
+  /*
   // Google Maps SetMarkers; not applicable in OSMview
   // Future<void> _setMarkers(LatLng point) async {
   //   //set starting marker
@@ -306,6 +305,7 @@ class _MapViewState extends State<MapView> {
   //     });
   //   }
   // }
+  */
 
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
@@ -541,10 +541,10 @@ class _MapViewState extends State<MapView> {
       // WORKS
       Map<PolylineId, Polyline> hybridPolyline = {};
       //PossibleRoutes currRoute = possibleRoutes[0];
-      busTaken = currRoute.routeName;
+      String busTaken = currRoute.routeName;
       print(busTaken);
 
-      startingBusStop = currRoute.startBusStop;
+      BusStop startingBusStop = currRoute.startBusStop;
       String startBusStopName = startingBusStop.name;
       Position startBusStopPos =
           _busStopsToPosition[startBusStopName] as Position;
@@ -552,14 +552,14 @@ class _MapViewState extends State<MapView> {
       print(startBusStopName);
       print(startBusStopPos);
 
-      endingBusStop = currRoute.endBusStop;
+      BusStop endingBusStop = currRoute.endBusStop;
       String endBusStopName = endingBusStop.name;
       Position endBusStopPos = _busStopsToPosition[endBusStopName] as Position;
       print('EndBusStopInfo');
       print(endBusStopName);
       print(endBusStopPos);
 
-      stopsAway = currRoute.stopsBetween;
+      //int stopsAway = currRoute.stopsBetween;
 
       // walk to nearest start bus stop
       await _createGoogleMapsPolylines(
@@ -678,7 +678,8 @@ class _MapViewState extends State<MapView> {
     _getCurrentLocation();
     _updateMapofBusStop();
     allBusPathPolylines = [];
-    //polylines = allBusPathPolylines[0];
+    polylines = walkingPathPolylines;
+    _selections[0] = true;
     this.loadJsonData();
     super.initState();
   }
@@ -730,54 +731,7 @@ class _MapViewState extends State<MapView> {
                   newMapController = controller;
                 },
               ),
-              // Show zoom buttons
-              SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.only(top: 160.0, left: 10.0),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      // ClipOval(
-                      //   child: Material(
-                      //     color: Colors.blueGrey[100], // button color
-                      //     child: InkWell(
-                      //       splashColor: Colors.white, // inkwell color
-                      //       child: SizedBox(
-                      //         width: 50,
-                      //         height: 50,
-                      //         child: Icon(Icons.add),
-                      //       ),
-                      //       onTap: () {
-                      //         newMapController.animateCamera(
-                      //           CameraUpdate.zoomIn(),
-                      //         );
-                      //       },
-                      //     ),
-                      //   ),
-                      // ),
-                      // SizedBox(height: 20),
-                      // ClipOval(
-                      //   child: Material(
-                      //     color: Colors.blueGrey[100], // button color
-                      //     child: InkWell(
-                      //       splashColor: Colors.white, // inkwell color
-                      //       child: SizedBox(
-                      //         width: 50,
-                      //         height: 50,
-                      //         child: Icon(Icons.remove),
-                      //       ),
-                      //       onTap: () {
-                      //         newMapController.animateCamera(
-                      //           CameraUpdate.zoomOut(),
-                      //         );
-                      //       },
-                      //     ),
-                      //   ),
-                      // )
-                    ],
-                  ),
-                ),
-              ),
+
               // Show the place input fields & button for
               // showing the route
               SafeArea(
@@ -939,7 +893,8 @@ class _MapViewState extends State<MapView> {
                                     } else {
                                       // if third button pressed; hybrid path
                                       // show current fastest path
-                                      polylines = allBusPathPolylines[0];
+                                      polylines =
+                                          allBusPathPolylines[displayIndex];
                                       _selections[0] = false;
                                       _selections[1] = false;
                                       _selections[2] = true;
@@ -957,6 +912,81 @@ class _MapViewState extends State<MapView> {
                               //   ),
                               // ),
                             ),
+                            // Path Navigation Buttons
+                            Visibility(
+                              visible: _selections[2] == true,
+                              //child: SafeArea(
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 5),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: <Widget>[
+                                    ClipOval(
+                                      child: Material(
+                                        color: Colors
+                                            .blueGrey[100], // button color
+                                        child: InkWell(
+                                          splashColor:
+                                              Colors.white, // inkwell color
+                                          child: SizedBox(
+                                            width: 25,
+                                            height: 25,
+                                            child: Icon(Icons.arrow_back),
+                                          ),
+                                          onTap: () {
+                                            if (displayIndex != 0) {
+                                              displayIndex--;
+                                              print(displayIndex);
+                                              currRouteName =
+                                                  possibleRoutes[displayIndex]
+                                                      .routeName;
+                                            }
+                                            setState(() {
+                                              polylines = allBusPathPolylines[
+                                                  displayIndex];
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    Text(currRouteName),
+                                    //SizedBox(height: 20),
+                                    ClipOval(
+                                      child: Material(
+                                        color: Colors
+                                            .blueGrey[100], // button color
+                                        child: InkWell(
+                                          splashColor:
+                                              Colors.white, // inkwell color
+                                          child: SizedBox(
+                                            width: 25,
+                                            height: 25,
+                                            child: Icon(Icons.arrow_forward),
+                                          ),
+                                          onTap: () {
+                                            if (displayIndex !=
+                                                allBusPathPolylines.length -
+                                                    1) {
+                                              displayIndex++;
+                                              print(displayIndex);
+                                              currRouteName =
+                                                  possibleRoutes[displayIndex]
+                                                      .routeName;
+                                            }
+                                            setState(() {
+                                              polylines = allBusPathPolylines[
+                                                  displayIndex];
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ),
+                              //),
+                            ),
+
                             SizedBox(height: 5),
                             RaisedButton(
                               onPressed: (_startAddress != '' &&
@@ -978,10 +1008,15 @@ class _MapViewState extends State<MapView> {
                                         _selections[1] = false;
                                         _selections[2] = false;
                                         allBusPathPolylines = [];
+                                        displayIndex = 0;
+                                        currRouteName = "";
                                       });
 
                                       _calculateDistance().then((isCalculated) {
                                         if (isCalculated) {
+                                          currRouteName =
+                                              possibleRoutes[displayIndex]
+                                                  .routeName;
                                           ScaffoldMessenger.of(context)
                                               .showSnackBar(
                                             SnackBar(

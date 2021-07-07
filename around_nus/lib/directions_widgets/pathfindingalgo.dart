@@ -1,13 +1,7 @@
-import 'dart:ffi';
 import 'dart:math';
 
-import 'package:flutter/services.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
-import 'package:collection/collection.dart';
-import '../models/pickuppointinfo_model.dart';
 import '../models/busstopsinfo_model.dart';
-import '../models/busserviceinfo_model.dart';
 import '../services/nusnextbus_service.dart';
 
 // make adjacency list of connected bus stopws
@@ -145,18 +139,4 @@ class PathFindingAlgo {
     print(allDirectRoutes);
     return allDirectRoutes;
   }
-
-  /*
-  BusStop getStartingBusStop() {
-    return startingBusStop;
-  }
-
-  BusStop getEndingBusStop() {
-    return endingBusStop;
-  }
-
-  int getStopsAway() {
-    return leastStops;
-  }
-  */
 }
