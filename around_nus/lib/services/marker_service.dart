@@ -1,4 +1,5 @@
 import 'package:around_nus/models/place.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 class MarkerService {
@@ -24,27 +25,29 @@ class MarkerService {
         northeast: LatLng(northeastLat, northeastLon));
   }
 
-  Marker createMarkerFromLatLng(
-      String name, double lat, double lng, bool center) {
-    var markerId = name;
-    if (center) markerId = 'center';
+  // Marker createMarkerFromLatLng(
+  //     String name, double lat, double lng, bool center) {
+  //   var markerId = name;
+  //   if (center) markerId = 'center';
 
-    return Marker(
-        markerId: MarkerId(markerId),
-        draggable: false,
-        visible: (center) ? false : true,
-        infoWindow: InfoWindow(title: name),
-        position: LatLng(lat, lng));
-  }
+  //   return Marker(
+  //       markerId: MarkerId(markerId),
+  //       draggable: false,
+  //       visible: (center) ? false : true,
+  //       infoWindow: InfoWindow(title: name),
+  //       position: LatLng(lat, lng));
+  // }
 
-  Marker createMarkerFromPlace(Place place, bool center) {
+  Marker createMarkerFromPlace(Place place, bool center, bool searched) {
     var markerId = place.name;
+    var markerColour = BitmapDescriptor.hueRed;
     if (center) markerId = 'center';
-
+    if (!searched) markerColour = BitmapDescriptor.hueGreen;
     return Marker(
         markerId: MarkerId(markerId!),
+        icon: BitmapDescriptor.defaultMarkerWithHue(markerColour),
         draggable: false,
-        visible: (center) ? false : true,
+        visible: true,
         //infoWindow: InfoWindow(title: place.name, snippet: place.vicinity),
         position:
             LatLng(place.geometry!.location.lat, place.geometry!.location.lng));

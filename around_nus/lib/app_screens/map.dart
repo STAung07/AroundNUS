@@ -35,8 +35,6 @@ class _MyMainPageState extends State<MyMainPage> {
   late StreamSubscription boundsSubscription;
   var _textController = TextEditingController(text: "");
   Map nusVenuesData = {};
-  // List filteredNames = [];
-  // List names = [];
 
   @override
   void initState() {
@@ -54,6 +52,7 @@ class _MyMainPageState extends State<MyMainPage> {
       final GoogleMapController controller = await _controllerGoogleMap.future;
       controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50.0));
     });
+
     // this.getNames();
     super.initState();
     // get User Search; same as searchdirections
@@ -97,20 +96,42 @@ class _MyMainPageState extends State<MyMainPage> {
   }
 
   Set<Marker> _markers = <Marker>{};
+  Set<Marker> _markers2 = <Marker>{};
+  Marker mainMarker = Marker(
+    markerId: MarkerId("start"),
+    position: LatLng(0, 0),
+    infoWindow: InfoWindow(title: "Start", snippet: "test"),
+    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+  );
   bool _isMarker = false;
 
   // set marker for one other location
+  // void _setMarkers(LatLng point) {
+  //   _isMarker = true;
+  //   setState(() {
+  //     _markers2.clear();
+  //     // Pass to search info widget
+  //     // add markers subsequently on taps
+  //     _markers2.add(
+  //       Marker(
+  //         markerId: MarkerId('Location'),
+  //         position: point,
+  //       ),
+  //     );
+  //   });
+  // }
   void _setMarkers(LatLng point) {
     _isMarker = true;
     setState(() {
-      _markers.clear();
+      _markers2.clear();
+
       // Pass to search info widget
       // add markers subsequently on taps
-      _markers.add(
-        Marker(
-          markerId: MarkerId('Location'),
-          position: point,
-        ),
+      mainMarker = Marker(
+        markerId: MarkerId("$point"),
+        position: point,
+        infoWindow: InfoWindow(title: "selected", snippet: "test"),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
       );
     });
   }
@@ -139,6 +160,7 @@ class _MyMainPageState extends State<MyMainPage> {
     final applicationBloc = Provider.of<ApplicationBloc>(context);
     CameraPosition _initialCameraPosition;
     // int searchCount = 0;
+    print("inside build");
 
     if (applicationBloc.currentLocation == null) {
       _initialCameraPosition =
@@ -149,6 +171,11 @@ class _MyMainPageState extends State<MyMainPage> {
               applicationBloc.currentLocation!.longitude),
           zoom: 15);
     }
+    _markers2.clear();
+    _markers2.add(mainMarker);
+    _markers2.addAll(applicationBloc.markers);
+    applicationBloc.clearMarkers();
+    print(_markers2);
 
     // This method is rerun every time setState is called
     return Scaffold(
@@ -177,8 +204,8 @@ class _MyMainPageState extends State<MyMainPage> {
             zoomGesturesEnabled: true,
             zoomControlsEnabled: true,
             // markers
-            // markers: _markers,
-            markers: Set<Marker>.of(applicationBloc.markers),
+            markers: _markers2,
+            // markers: Set<Marker>.of(applicationBloc.markers),
             onTap: (point) {
               if (_isMarker) {
                 setState(() {
@@ -301,31 +328,44 @@ class _MyMainPageState extends State<MyMainPage> {
                                             spacing: 8.0,
                                             children: [
                                               FilterChip(
-                                                  label: Text("Gym"),
-                                                  onSelected: (val) {
-                                                    print("pressed gym");
-                                                    applicationBloc
-                                                        .togglePlaceType(
-                                                            "gym", val);
-                                                  },
-                                                  selected: applicationBloc
-                                                          .placeType ==
-                                                      "gym",
-                                                  selectedColor:
-                                                      Colors.blueGrey),
+                                                label: Text("Gym"),
+                                                onSelected: (val) {
+                                                  print("pressed gym");
+                                                  applicationBloc
+                                                      .togglePlaceType(
+                                                          "gym", val);
+
+                                                  _markers.addAll(
+                                                      applicationBloc.markers);
+                                                  print(
+                                                      applicationBloc.markers);
+                                                },
+                                                selected:
+                                                    applicationBloc.placeType ==
+                                                        "gym",
+                                              ),
                                               FilterChip(
-                                                  label: Text("ATM"),
-                                                  onSelected: (val) {
-                                                    print("pressed atm");
-                                                    applicationBloc
-                                                        .togglePlaceType(
-                                                            "atm", val);
-                                                  },
-                                                  selected: applicationBloc
-                                                          .placeType ==
-                                                      "atm",
-                                                  selectedColor:
-                                                      Colors.blueGrey)
+                                                label: Text("ATM"),
+                                                onSelected: (val) {
+                                                  print("pressed atm");
+                                                  applicationBloc
+                                                      .togglePlaceType(
+                                                          "atm", val);
+
+                                                  setState(() {
+                                                    print("inside setstate");
+                                                    _markers.addAll(
+                                                        Set<Marker>.of(
+                                                            applicationBloc
+                                                                .markers));
+                                                    print(applicationBloc
+                                                        .markers);
+                                                  });
+                                                },
+                                                selected:
+                                                    applicationBloc.placeType ==
+                                                        "atm",
+                                              )
                                             ],
                                           ))),
                                 ],
@@ -383,6 +423,9 @@ class _MyMainPageState extends State<MyMainPage> {
                                                     applicationBloc
                                                         .togglePlaceType(
                                                             "gym", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
                                                   },
                                                   selected: applicationBloc
                                                           .placeType ==
@@ -396,6 +439,9 @@ class _MyMainPageState extends State<MyMainPage> {
                                                     applicationBloc
                                                         .togglePlaceType(
                                                             "atm", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
                                                   },
                                                   selected: applicationBloc
                                                           .placeType ==
@@ -482,6 +528,9 @@ class _MyMainPageState extends State<MyMainPage> {
                                                     applicationBloc
                                                         .togglePlaceType(
                                                             "gym", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
                                                   },
                                                   selected: applicationBloc
                                                           .placeType ==
@@ -495,6 +544,9 @@ class _MyMainPageState extends State<MyMainPage> {
                                                     applicationBloc
                                                         .togglePlaceType(
                                                             "atm", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
                                                   },
                                                   selected: applicationBloc
                                                           .placeType ==

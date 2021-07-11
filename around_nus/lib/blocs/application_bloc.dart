@@ -112,6 +112,11 @@ class ApplicationBloc with ChangeNotifier {
     notifyListeners();
   }
 
+  clearMarkers() async {
+    markers = [];
+    notifyListeners();
+  }
+
   togglePlaceType(String value, bool selected) async {
     if (selected) {
       placeType = value;
@@ -120,6 +125,7 @@ class ApplicationBloc with ChangeNotifier {
     }
 
     if (placeType != null) {
+      print("placetype is not null");
       markers = [];
 
       var places = await placesService.getPlaces(
@@ -128,12 +134,15 @@ class ApplicationBloc with ChangeNotifier {
           placeType!);
 
       if (places.length > 0) {
-        var newMarker = markerService.createMarkerFromPlace(places[0], false);
+        var newMarker =
+            markerService.createMarkerFromPlace(places[0], false, false);
         markers.add(newMarker);
+        print(newMarker.markerId);
       }
-      var locationMarker =
-          markerService.createMarkerFromPlace(selectedLocationStatic!, false);
+      var locationMarker = markerService.createMarkerFromPlace(
+          selectedLocationStatic!, true, true);
       markers.add(locationMarker);
+      print(locationMarker.markerId);
 
       var _bounds = markerService.bounds(Set<Marker>.of(markers));
       bounds.add(_bounds);
