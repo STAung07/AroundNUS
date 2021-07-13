@@ -15,7 +15,6 @@ import '../common_widgets/drawer.dart';
 import '../map_widgets/circularbutton.dart';
 import 'dart:convert';
 import 'package:dio/dio.dart';
-import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 
 class MyMainPage extends StatefulWidget {
   MyMainPage({Key? key, required this.title}) : super(key: key);
@@ -33,10 +32,9 @@ class _MyMainPageState extends State<MyMainPage> {
   late LatLng currCoordinates =
       LatLng(currentPosition.latitude, currentPosition.longitude);
   late StreamSubscription locationSubscription;
+  late StreamSubscription boundsSubscription;
   var _textController = TextEditingController(text: "");
   Map nusVenuesData = {};
-  // List filteredNames = [];
-  // List names = [];
 
   @override
   void initState() {
@@ -49,6 +47,12 @@ class _MyMainPageState extends State<MyMainPage> {
       }
     });
     this.loadJsonData();
+
+    boundsSubscription = applicationBloc.bounds.stream.listen((bounds) async {
+      final GoogleMapController controller = await _controllerGoogleMap.future;
+      controller.animateCamera(CameraUpdate.newLatLngBounds(bounds, 50.0));
+    });
+
     // this.getNames();
     super.initState();
     // get User Search; same as searchdirections
@@ -62,6 +66,7 @@ class _MyMainPageState extends State<MyMainPage> {
     final applicationBloc =
         Provider.of<ApplicationBloc>(context, listen: false);
     applicationBloc.dispose();
+    boundsSubscription.cancel();
     locationSubscription.cancel();
     _textController.dispose();
     super.dispose();
@@ -91,20 +96,42 @@ class _MyMainPageState extends State<MyMainPage> {
   }
 
   Set<Marker> _markers = <Marker>{};
+  Set<Marker> _markers2 = <Marker>{};
+  Marker mainMarker = Marker(
+    markerId: MarkerId("start"),
+    position: LatLng(0, 0),
+    infoWindow: InfoWindow(title: "Start", snippet: "test"),
+    icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueGreen),
+  );
   bool _isMarker = false;
 
   // set marker for one other location
+  // void _setMarkers(LatLng point) {
+  //   _isMarker = true;
+  //   setState(() {
+  //     _markers2.clear();
+  //     // Pass to search info widget
+  //     // add markers subsequently on taps
+  //     _markers2.add(
+  //       Marker(
+  //         markerId: MarkerId('Location'),
+  //         position: point,
+  //       ),
+  //     );
+  //   });
+  // }
   void _setMarkers(LatLng point) {
     _isMarker = true;
     setState(() {
-      _markers.clear();
+      _markers2.clear();
+
       // Pass to search info widget
       // add markers subsequently on taps
-      _markers.add(
-        Marker(
-          markerId: MarkerId('Location'),
-          position: point,
-        ),
+      mainMarker = Marker(
+        markerId: MarkerId("$point"),
+        position: point,
+        infoWindow: InfoWindow(title: "selected", snippet: "test"),
+        icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
       );
     });
   }
@@ -133,6 +160,7 @@ class _MyMainPageState extends State<MyMainPage> {
     final applicationBloc = Provider.of<ApplicationBloc>(context);
     CameraPosition _initialCameraPosition;
     // int searchCount = 0;
+    print("inside build");
 
     if (applicationBloc.currentLocation == null) {
       _initialCameraPosition =
@@ -143,6 +171,11 @@ class _MyMainPageState extends State<MyMainPage> {
               applicationBloc.currentLocation!.longitude),
           zoom: 15);
     }
+    _markers2.clear();
+    _markers2.add(mainMarker);
+    _markers2.addAll(applicationBloc.markers);
+    applicationBloc.clearMarkers();
+    print(_markers2);
 
     // This method is rerun every time setState is called
     return Scaffold(
@@ -171,7 +204,8 @@ class _MyMainPageState extends State<MyMainPage> {
             zoomGesturesEnabled: true,
             zoomControlsEnabled: true,
             // markers
-            markers: _markers,
+            markers: _markers2,
+            // markers: Set<Marker>.of(applicationBloc.markers),
             onTap: (point) {
               if (_isMarker) {
                 setState(() {
@@ -275,37 +309,67 @@ class _MyMainPageState extends State<MyMainPage> {
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Container(
-                                      height:
-                                          MediaQuery.of(context).size.height *
+                              return ListView(
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Find Nearest",
+                                          style: TextStyle(
+                                              fontSize: 25.0,
+                                              fontWeight: FontWeight.bold))),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
                                               0.4,
-                                      child: Wrap(
-                                        spacing: 8.0,
-                                        children: [
-                                          FilterChip(
-                                              label: Text("Gym"),
-                                              onSelected: (val) =>
+                                          child: Wrap(
+                                            spacing: 8.0,
+                                            children: [
+                                              FilterChip(
+                                                label: Text("Gym"),
+                                                onSelected: (val) {
+                                                  print("pressed gym");
                                                   applicationBloc
                                                       .togglePlaceType(
-                                                          "gym", val),
-                                              selected:
-                                                  applicationBloc.placeType ==
-                                                      "gym",
-                                              selectedColor: Colors.blue),
-                                          FilterChip(
-                                              label: Text("ATM"),
-                                              onSelected: (val) =>
+                                                          "gym", val);
+
+                                                  _markers.addAll(
+                                                      applicationBloc.markers);
+                                                  print(
+                                                      applicationBloc.markers);
+                                                },
+                                                selected:
+                                                    applicationBloc.placeType ==
+                                                        "gym",
+                                              ),
+                                              FilterChip(
+                                                label: Text("ATM"),
+                                                onSelected: (val) {
+                                                  print("pressed atm");
                                                   applicationBloc
                                                       .togglePlaceType(
-                                                          "atm", val),
-                                              selected:
-                                                  applicationBloc.placeType ==
-                                                      "atm",
-                                              selectedColor: Colors.blue)
-                                        ],
-                                      )));
+                                                          "atm", val);
+
+                                                  setState(() {
+                                                    print("inside setstate");
+                                                    _markers.addAll(
+                                                        Set<Marker>.of(
+                                                            applicationBloc
+                                                                .markers));
+                                                    print(applicationBloc
+                                                        .markers);
+                                                  });
+                                                },
+                                                selected:
+                                                    applicationBloc.placeType ==
+                                                        "atm",
+                                              )
+                                            ],
+                                          ))),
+                                ],
+                              );
                             });
                         applicationBloc.setSelectedLocation(
                             applicationBloc.searchResults![index].placeId);
@@ -334,12 +398,59 @@ class _MyMainPageState extends State<MyMainPage> {
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: Center(
-                                  child: Text("Welcome to AndroidVille!"),
-                                ),
+                              return ListView(
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Find Nearest",
+                                          style: TextStyle(
+                                              fontSize: 25.0,
+                                              fontWeight: FontWeight.bold))),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.4,
+                                          child: Wrap(
+                                            spacing: 8.0,
+                                            children: [
+                                              FilterChip(
+                                                  label: Text("Gym"),
+                                                  onSelected: (val) {
+                                                    print("pressed gym");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "gym", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "gym",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("ATM"),
+                                                  onSelected: (val) {
+                                                    print("pressed atm");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "atm", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "atm",
+                                                  selectedColor:
+                                                      Colors.blueGrey)
+                                            ],
+                                          ))),
+                                ],
                               );
                             });
 
@@ -362,7 +473,17 @@ class _MyMainPageState extends State<MyMainPage> {
                                         applicationBloc.searchResults!.length]]
                                 ["longitude"]);
 
-                        applicationBloc.setNUSSelectedLocation();
+                        applicationBloc.setNUSSelectedLocation(
+                            nusVenuesData[applicationBloc.searchNUSResults![
+                                    index -
+                                        applicationBloc.searchResults!.length]]
+                                ["latitude"],
+                            nusVenuesData[applicationBloc.searchNUSResults![
+                                    index -
+                                        applicationBloc.searchResults!.length]]
+                                ["longitude"],
+                            applicationBloc.searchNUSResults![
+                                index - applicationBloc.searchResults!.length]);
                       },
                     );
                   else {
@@ -382,12 +503,59 @@ class _MyMainPageState extends State<MyMainPage> {
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              return Container(
-                                height:
-                                    MediaQuery.of(context).size.height * 0.4,
-                                child: Center(
-                                  child: Text("Welcome to AndroidVille!"),
-                                ),
+                              return ListView(
+                                children: [
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Text("Find Nearest",
+                                          style: TextStyle(
+                                              fontSize: 25.0,
+                                              fontWeight: FontWeight.bold))),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Container(
+                                          height: MediaQuery.of(context)
+                                                  .size
+                                                  .height *
+                                              0.4,
+                                          child: Wrap(
+                                            spacing: 8.0,
+                                            children: [
+                                              FilterChip(
+                                                  label: Text("Gym"),
+                                                  onSelected: (val) {
+                                                    print("pressed gym");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "gym", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "gym",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("ATM"),
+                                                  onSelected: (val) {
+                                                    print("pressed atm");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "atm", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "atm",
+                                                  selectedColor:
+                                                      Colors.blueGrey)
+                                            ],
+                                          ))),
+                                ],
                               );
                             });
 
@@ -420,7 +588,22 @@ class _MyMainPageState extends State<MyMainPage> {
                                       .length +
                                   " Bus Stop".length),
                         );
-                        applicationBloc.setBusStopSelectedLocation();
+                        applicationBloc.setBusStopSelectedLocation(
+                            applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .latitude,
+                            applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .longitude,
+                            applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .longName);
                       },
                     );
                   }

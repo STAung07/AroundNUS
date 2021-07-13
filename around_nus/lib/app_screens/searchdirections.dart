@@ -1145,7 +1145,8 @@ class _MapViewState extends State<MapView> {
                                         ["longitude"],
                                     "start");
 
-                                applicationBloc.setNUSSelectedLocation();
+                                applicationBloc
+                                    .setNUSDirectionsSelectedLocation();
                               },
                             );
                           else if (index <
@@ -1269,7 +1270,8 @@ class _MapViewState extends State<MapView> {
                                               .length +
                                           " Bus Stop".length),
                                 );
-                                applicationBloc.setBusStopSelectedLocation();
+                                applicationBloc
+                                    .setBusStopDirectionsSelectedLocation();
                               },
                             );
                         })),
@@ -1337,7 +1339,8 @@ class _MapViewState extends State<MapView> {
                                         ["longitude"],
                                     "end");
 
-                                applicationBloc.setNUSSelectedLocation();
+                                applicationBloc
+                                    .setNUSDirectionsSelectedLocation();
                               },
                             );
                           else if (index <
@@ -1460,7 +1463,8 @@ class _MapViewState extends State<MapView> {
                                               .length +
                                           " Bus Stop".length),
                                 );
-                                applicationBloc.setBusStopSelectedLocation();
+                                applicationBloc
+                                    .setBusStopDirectionsSelectedLocation();
                               },
                             );
                         })),

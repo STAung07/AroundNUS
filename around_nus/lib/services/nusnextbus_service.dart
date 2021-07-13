@@ -9,7 +9,6 @@ import '../models/checkpointinfo_model.dart';
 class NusNextBus {
 // Request for List of Bus Stop
   Future<List<BusStop>> fetchBusStopInfo() async {
-    print("inside fetchBusStopInfo");
     String username = 'NUSnextbus';
     String password = '13dL?zY,3feWR^"T';
     String basicAuth =
@@ -53,21 +52,21 @@ class NusNextBus {
 
   Future<List<BusStop>> getBusStops(search) async {
     List<BusStop> busStopList = await fetchBusStopInfo();
-    print("search is ");
-    print(search);
     List<BusStop> results = [];
     for (int i = 0; i < busStopList.length; i++) {
       if (busStopList[i]
-          .longName
-          .toLowerCase()
-          .startsWith(search.toLowerCase())) {
-        print("contains");
-        print(busStopList[i].longName);
+              .longName
+              .toLowerCase()
+              .startsWith(search.toLowerCase()) ||
+          busStopList[i]
+              .shortName
+              .toLowerCase()
+              .startsWith(search.toLowerCase()) ||
+          busStopList[i].name.toLowerCase().startsWith(search.toLowerCase()) ||
+          search.toLowerCase().contains("bus stop")) {
         results.add(busStopList[i]);
       }
     }
-    print("busstoplist results:");
-    print(results);
     return results;
   }
 
