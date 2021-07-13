@@ -328,44 +328,121 @@ class _MyMainPageState extends State<MyMainPage> {
                                             spacing: 8.0,
                                             children: [
                                               FilterChip(
-                                                label: Text("Gym"),
-                                                onSelected: (val) {
-                                                  print("pressed gym");
-                                                  applicationBloc
-                                                      .togglePlaceType(
-                                                          "gym", val);
-
-                                                  _markers.addAll(
-                                                      applicationBloc.markers);
-                                                  print(
-                                                      applicationBloc.markers);
-                                                },
-                                                selected:
-                                                    applicationBloc.placeType ==
-                                                        "gym",
-                                              ),
-                                              FilterChip(
-                                                label: Text("ATM"),
-                                                onSelected: (val) {
-                                                  print("pressed atm");
-                                                  applicationBloc
-                                                      .togglePlaceType(
-                                                          "atm", val);
-
-                                                  setState(() {
-                                                    print("inside setstate");
+                                                  label: Text("Gym"),
+                                                  onSelected: (val) {
+                                                    print("pressed gym");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "gym", val);
                                                     _markers.addAll(
-                                                        Set<Marker>.of(
-                                                            applicationBloc
-                                                                .markers));
-                                                    print(applicationBloc
-                                                        .markers);
-                                                  });
-                                                },
-                                                selected:
-                                                    applicationBloc.placeType ==
-                                                        "atm",
-                                              )
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "gym",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("ATM"),
+                                                  onSelected: (val) {
+                                                    print("pressed atm");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "atm", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "atm",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Cafe"),
+                                                  onSelected: (val) {
+                                                    print("pressed cafe");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "cafe", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "cafe",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Car Park"),
+                                                  onSelected: (val) {
+                                                    print("pressed car park");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "parking", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "parking",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Restaurant"),
+                                                  onSelected: (val) {
+                                                    print("pressed restaurant");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "restaurant", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "restaurant",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label:
+                                                      Text("Convenience Store"),
+                                                  onSelected: (val) {
+                                                    print(
+                                                        "pressed convenience store");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "convenience_store",
+                                                            val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "convenience_store",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Post Office"),
+                                                  onSelected: (val) {
+                                                    print(
+                                                        "pressed post office");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "post_office", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "post_office",
+                                                  selectedColor:
+                                                      Colors.blueGrey)
                                             ],
                                           ))),
                                 ],
@@ -446,6 +523,90 @@ class _MyMainPageState extends State<MyMainPage> {
                                                   selected: applicationBloc
                                                           .placeType ==
                                                       "atm",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Cafe"),
+                                                  onSelected: (val) {
+                                                    print("pressed cafe");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "cafe", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "cafe",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Car Park"),
+                                                  onSelected: (val) {
+                                                    print("pressed car park");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "parking", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "parking",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Restaurant"),
+                                                  onSelected: (val) {
+                                                    print("pressed restaurant");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "restaurant", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "restaurant",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label:
+                                                      Text("Convenience Store"),
+                                                  onSelected: (val) {
+                                                    print(
+                                                        "pressed convenience store");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "convenience_store",
+                                                            val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "convenience_store",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Post Office"),
+                                                  onSelected: (val) {
+                                                    print(
+                                                        "pressed post office");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "post_office", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "post_office",
                                                   selectedColor:
                                                       Colors.blueGrey)
                                             ],
@@ -551,6 +712,90 @@ class _MyMainPageState extends State<MyMainPage> {
                                                   selected: applicationBloc
                                                           .placeType ==
                                                       "atm",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Cafe"),
+                                                  onSelected: (val) {
+                                                    print("pressed cafe");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "cafe", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "cafe",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Car Park"),
+                                                  onSelected: (val) {
+                                                    print("pressed car park");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "parking", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "parking",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Restaurant"),
+                                                  onSelected: (val) {
+                                                    print("pressed restaurant");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "restaurant", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "restaurant",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label:
+                                                      Text("Convenience Store"),
+                                                  onSelected: (val) {
+                                                    print(
+                                                        "pressed convenience store");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "convenience_store",
+                                                            val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "convenience_store",
+                                                  selectedColor:
+                                                      Colors.blueGrey),
+                                              FilterChip(
+                                                  label: Text("Post Office"),
+                                                  onSelected: (val) {
+                                                    print(
+                                                        "pressed post office");
+                                                    applicationBloc
+                                                        .togglePlaceType(
+                                                            "post_office", val);
+                                                    _markers.addAll(
+                                                        applicationBloc
+                                                            .markers);
+                                                  },
+                                                  selected: applicationBloc
+                                                          .placeType ==
+                                                      "post_office",
                                                   selectedColor:
                                                       Colors.blueGrey)
                                             ],
