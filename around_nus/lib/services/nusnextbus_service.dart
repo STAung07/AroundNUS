@@ -54,16 +54,13 @@ class NusNextBus {
     List<BusStop> busStopList = await fetchBusStopInfo();
     List<BusStop> results = [];
     for (int i = 0; i < busStopList.length; i++) {
-      if (busStopList[i]
-              .longName
-              .toLowerCase()
-              .startsWith(search.toLowerCase()) ||
-          busStopList[i]
-              .shortName
-              .toLowerCase()
-              .startsWith(search.toLowerCase()) ||
-          busStopList[i].name.toLowerCase().startsWith(search.toLowerCase()) ||
-          search.toLowerCase().contains("bus stop")) {
+      String busLongName = busStopList[i].longName + " bus stop";
+      String busShortName = busStopList[i].shortName + " bus stop";
+      String busName = busStopList[i].name + " bus stop";
+      if (busLongName.toLowerCase().startsWith(search.toLowerCase()) ||
+          busShortName.toLowerCase().startsWith(search.toLowerCase()) ||
+          busName.toLowerCase().startsWith(search.toLowerCase()) ||
+          search.toLowerCase().startsWith("bus stop")) {
         results.add(busStopList[i]);
       }
     }
