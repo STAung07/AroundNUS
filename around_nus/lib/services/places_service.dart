@@ -26,6 +26,7 @@ class PlacesService {
     for (int i = 0; i < venues.length; i++) {
       if (venues[i].toLowerCase().startsWith(search.toLowerCase())) {
         results.add(venues[i]);
+        // print(venues[i]["description"]);
       }
     }
     return results;

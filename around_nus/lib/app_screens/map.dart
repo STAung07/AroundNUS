@@ -303,17 +303,46 @@ class _MyMainPageState extends State<MyMainPage> {
                   if (index < applicationBloc.searchResults!.length)
                     return ListTile(
                       title: Text(
-                        applicationBloc.searchResults![index].description,
+                        applicationBloc.searchResults![index].name,
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
+                        String mainPlaceName =
+                            applicationBloc.searchResults![index].name;
+                        String mainPlaceLongName =
+                            applicationBloc.searchResults![index].description;
                         FocusScope.of(context).unfocus();
 
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
+                              print("Google location in showModalBottomSheet");
+                              print(mainPlaceName);
+                              print(mainPlaceLongName);
                               return ListView(
                                 children: [
+                                  Stack(children: [
+                                    Container(
+                                      width: 425,
+                                      height: 50,
+                                      color: Colors.blueGrey[500],
+                                      child: Text(mainPlaceName,
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            // fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          )),
+                                      alignment: Alignment.center,
+                                    ),
+                                  ]),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(children: [
+                                        Icon(Icons.location_pin),
+                                        Container(
+                                            width: 350,
+                                            child: Text(mainPlaceLongName)),
+                                      ])),
                                   Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text("Find Nearest",
@@ -447,13 +476,32 @@ class _MyMainPageState extends State<MyMainPage> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
+                        String mainPlaceName =
+                            applicationBloc.searchNUSResults![
+                                index - applicationBloc.searchResults!.length];
                         FocusScope.of(context).unfocus();
 
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
+                              print("inside NUS results");
+                              print(mainPlaceName);
                               return ListView(
                                 children: [
+                                  Stack(children: [
+                                    Container(
+                                      width: 425,
+                                      height: 50,
+                                      color: Colors.blueGrey[500],
+                                      child: Text(mainPlaceName,
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            // fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          )),
+                                      alignment: Alignment.center,
+                                    ),
+                                  ]),
                                   Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text("Find Nearest",
@@ -600,13 +648,35 @@ class _MyMainPageState extends State<MyMainPage> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
+                        String mainPlaceName = applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .shortName +
+                            " Bus Stop";
                         FocusScope.of(context).unfocus();
 
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
+                              print("inside Bus Stops results");
+                              print(mainPlaceName);
                               return ListView(
                                 children: [
+                                  Stack(children: [
+                                    Container(
+                                      width: 425,
+                                      height: 50,
+                                      color: Colors.blueGrey[500],
+                                      child: Text(mainPlaceName,
+                                          style: TextStyle(
+                                            fontSize: 20.0,
+                                            // fontWeight: FontWeight.bold,
+                                            color: Colors.white,
+                                          )),
+                                      alignment: Alignment.center,
+                                    ),
+                                  ]),
                                   Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text("Find Nearest",
@@ -785,7 +855,7 @@ class _MyMainPageState extends State<MyMainPage> {
   Future<void> _goToNUSPlace(double lat, double lng) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat, lng), zoom: 15)));
+        CameraPosition(target: LatLng(lat - 0.005, lng), zoom: 15)));
 
     _setMarkers(LatLng(lat, lng));
   }
@@ -793,8 +863,8 @@ class _MyMainPageState extends State<MyMainPage> {
   Future<void> _goToPlace(Place place) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target:
-            LatLng(place.geometry!.location.lat, place.geometry!.location.lng),
+        target: LatLng(
+            place.geometry!.location.lat - 0.005, place.geometry!.location.lng),
         zoom: 15)));
 
     _setMarkers(
@@ -804,7 +874,7 @@ class _MyMainPageState extends State<MyMainPage> {
   Future<void> _goToBusStop(double lat, double lng) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat, lng), zoom: 15)));
+        CameraPosition(target: LatLng(lat - 0.005, lng), zoom: 15)));
 
     _setMarkers(LatLng(lat, lng));
   }
