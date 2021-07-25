@@ -173,13 +173,8 @@ class _MyMainPageState extends State<MyMainPage> {
     }
     _markers2.clear();
     _markers2.add(mainMarker);
-    print("applicationBLoc markers contains");
-    print(applicationBloc.markers);
     _markers2.addAll(applicationBloc.markers);
     // applicationBloc.clearMarkers();
-    print("markers 2 contains");
-    print(_markers2);
-    print(_markers2.length);
 
     // This method is rerun every time setState is called
     return Scaffold(
