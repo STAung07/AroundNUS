@@ -122,8 +122,10 @@ class _MyMainPageState extends State<MyMainPage> {
   // }
   void _setMarkers(LatLng point) {
     _isMarker = true;
+    // final applicationBloc = Provider.of<ApplicationBloc>(context);
     setState(() {
       _markers2.clear();
+      // applicationBloc.clearMarkers();
 
       // Pass to search info widget
       // add markers subsequently on taps
@@ -171,8 +173,13 @@ class _MyMainPageState extends State<MyMainPage> {
     }
     _markers2.clear();
     _markers2.add(mainMarker);
+    print("applicationBLoc markers contains");
+    print(applicationBloc.markers);
     _markers2.addAll(applicationBloc.markers);
-    applicationBloc.clearMarkers();
+    // applicationBloc.clearMarkers();
+    print("markers 2 contains");
+    print(_markers2);
+    print(_markers2.length);
 
     // This method is rerun every time setState is called
     return Scaffold(
@@ -203,14 +210,14 @@ class _MyMainPageState extends State<MyMainPage> {
             // markers
             markers: _markers2,
             // markers: Set<Marker>.of(applicationBloc.markers),
-            onTap: (point) {
-              if (_isMarker) {
-                setState(() {
-                  // _markers.clear();
-                  _setMarkers(point);
-                });
-              }
-            },
+            // onTap: (point) {
+            //   if (_isMarker) {
+            //     setState(() {
+            //       // _markers.clear();
+            //       _setMarkers(point);
+            //     });
+            //   }
+            // },
             // camera target bounds ? to limit to NUS
           ),
           Container(
@@ -307,6 +314,7 @@ class _MyMainPageState extends State<MyMainPage> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
+                        applicationBloc.clearMarkers();
                         String mainPlaceName =
                             applicationBloc.searchResults![index].name;
                         String mainPlaceLongName =
@@ -478,6 +486,7 @@ class _MyMainPageState extends State<MyMainPage> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
+                        applicationBloc.clearMarkers();
                         String mainPlaceName =
                             applicationBloc.searchNUSResults![
                                 index - applicationBloc.searchResults!.length];
@@ -657,6 +666,7 @@ class _MyMainPageState extends State<MyMainPage> {
                         style: TextStyle(color: Colors.white),
                       ),
                       onTap: () {
+                        applicationBloc.clearMarkers();
                         String mainPlaceName = applicationBloc
                                 .searchBusStopsResults![index -
                                     applicationBloc.searchNUSResults!.length -
