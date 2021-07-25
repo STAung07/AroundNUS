@@ -761,6 +761,15 @@ class _MapViewState extends State<MapView> {
                             Container(
                               width: width * 0.8,
                               child: TextField(
+                                onTap: () {
+                                  print("tapped on text field");
+                                  applicationBloc.searchNUSFromPlaces(
+                                      startAddressController.text);
+                                  applicationBloc.searchFromPlaces(
+                                      startAddressController.text);
+                                  applicationBloc.searchFromBusStops(
+                                      startAddressController.text);
+                                },
                                 onChanged: (value) {
                                   // setState(() {
                                   //   _startAddress = value;
@@ -820,6 +829,15 @@ class _MapViewState extends State<MapView> {
                             Container(
                               width: width * 0.8,
                               child: TextField(
+                                onTap: () {
+                                  print("tapped on text field");
+                                  applicationBloc.searchNUSToPlaces(
+                                      destinationAddressController.text);
+                                  applicationBloc.searchToPlaces(
+                                      destinationAddressController.text);
+                                  applicationBloc.searchToBusStops(
+                                      destinationAddressController.text);
+                                },
                                 onChanged: (value) {
                                   // setState(() {
                                   //   _destinationAddress = value;

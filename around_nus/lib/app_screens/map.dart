@@ -369,12 +369,8 @@ class _MyMainPageState extends State<MyMainPage> {
                                                     _markers.addAll(
                                                         applicationBloc
                                                             .markers);
-                                                  },
-                                                  selected: applicationBloc
-                                                          .placeType ==
-                                                      "gym",
-                                                  selectedColor:
-                                                      Colors.blueGrey),
+                                                    Navigator.pop(context);
+                                                  }),
                                               FilterChip(
                                                 label: Text("ATM"),
                                                 onSelected: (val) {
@@ -384,6 +380,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "atm", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                                 // selected: applicationBloc
                                                 //         .placeType ==
@@ -400,6 +397,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "cafe", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -411,6 +409,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "parking", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -422,6 +421,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "restaurant", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -436,6 +436,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -447,6 +448,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "post_office", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               )
                                             ],
@@ -527,6 +529,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "gym", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -538,6 +541,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "atm", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -549,6 +553,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "cafe", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -560,6 +565,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "parking", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -571,6 +577,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "restaurant", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -585,6 +592,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -596,6 +604,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "post_office", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               )
                                             ],
@@ -702,6 +711,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "gym", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -713,6 +723,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "atm", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -724,6 +735,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "cafe", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -735,6 +747,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "parking", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -746,6 +759,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "restaurant", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -760,6 +774,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               ),
                                               FilterChip(
@@ -771,6 +786,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                                           "post_office", val);
                                                   _markers.addAll(
                                                       applicationBloc.markers);
+                                                  Navigator.pop(context);
                                                 },
                                               )
                                             ],
