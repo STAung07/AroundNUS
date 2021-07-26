@@ -1,5 +1,6 @@
 import 'package:around_nus/models/location.dart';
 import 'package:around_nus/models/place.dart';
+import 'package:around_nus/models/place_info.dart';
 import 'package:around_nus/models/place_search.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
@@ -32,9 +33,18 @@ class PlacesService {
     return results;
   }
 
+  // Future<PlaceInfo> getPlaceInfo(String place_id) async {
+  //   var url =
+  //       "https://maps.googleapis.com/maps/api/place/details/json?place_id=ChIJV3P-dqsb2jERcA1t9E1fPps&fields=name,formatted_phone_number,opening_hours,formatted_address&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M";
+  //   var response = await http.get(Uri.parse(url));
+  //   var json = convert.jsonDecode(response.body);
+  //   var jsonResult = json["result"] as Map<String, dynamic>;
+  //   return PlaceInfo.fromJson(jsonResult);
+  // }
+
   Future<Place> getPlace(String place_id) async {
     var url =
-        "https://maps.googleapis.com/maps/api/place/details/json?key=$key&place_id=$place_id";
+        "https://maps.googleapis.com/maps/api/place/details/json?place_id=$place_id&fields=name,formatted_phone_number,opening_hours,formatted_address&key=$key";
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
     var jsonResult = json["result"] as Map<String, dynamic>;
