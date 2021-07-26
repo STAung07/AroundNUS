@@ -140,47 +140,47 @@ class _MapViewState extends State<MapView> {
   }
 
   // Method for retrieving the current location
-  _getCurrentLocation() async {
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-        .then((Position position) async {
-      setState(() {
-        _currentPosition = position;
-        print('CURRENT POS: $_currentPosition');
-        newMapController.animateCamera(
-          CameraUpdate.newCameraPosition(
-            CameraPosition(
-              target: LatLng(position.latitude, position.longitude),
-              zoom: 15.0,
-            ),
-          ),
-        );
-      });
-      await _getAddress();
-    }).catchError((e) {
-      print(e);
-    });
-  }
+  // _getCurrentLocation() async {
+  //   await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
+  //       .then((Position position) async {
+  //     setState(() {
+  //       _currentPosition = position;
+  //       print('CURRENT POS: $_currentPosition');
+  //       newMapController.animateCamera(
+  //         CameraUpdate.newCameraPosition(
+  //           CameraPosition(
+  //             target: LatLng(position.latitude, position.longitude),
+  //             zoom: 15.0,
+  //           ),
+  //         ),
+  //       );
+  //     });
+  //     await _getAddress();
+  //   }).catchError((e) {
+  //     print(e);
+  //   });
+  // }
 
-  // current version waits for input in search bars of from and to
-  _getAddress() async {
-    try {
-      List<Placemark> p = await placemarkFromCoordinates(
-          _currentPosition!.latitude, _currentPosition!.longitude);
+  // // current version waits for input in search bars of from and to
+  // _getAddress() async {
+  //   try {
+  //     List<Placemark> p = await placemarkFromCoordinates(
+  //         _currentPosition!.latitude, _currentPosition!.longitude);
 
-      Placemark place = p[0];
+  //     Placemark place = p[0];
 
-      setState(() {
-        _currentAddress =
-            "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
-        startAddressController.text = _currentAddress!;
-        _startAddress = _currentAddress!;
-        // _setMarkers(
-        //     LatLng(_currentPosition!.latitude, _currentPosition!.longitude));
-      });
-    } catch (e) {
-      print(e);
-    }
-  }
+  //     setState(() {
+  //       _currentAddress =
+  //           "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
+  //       startAddressController.text = _currentAddress!;
+  //       _startAddress = _currentAddress!;
+  //       // _setMarkers(
+  //       //     LatLng(_currentPosition!.latitude, _currentPosition!.longitude));
+  //     });
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   Future<void> _setStartingMarker(LatLng point) async {
     print("starting point is $point");
@@ -675,7 +675,7 @@ class _MapViewState extends State<MapView> {
     //   //   _goToPlace(place, "nothing");
     //   // }
     // });
-    _getCurrentLocation();
+    // _getCurrentLocation();
     _updateMapofBusStop();
     allBusPathPolylines = [];
     polylines = walkingPathPolylines;
