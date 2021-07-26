@@ -99,6 +99,7 @@ class _MenuDrawerState extends State<MenuDrawer> {
               );
             },
           ),
+          /*
           ListTile(
             title: Text(
               "Settings",
@@ -106,13 +107,14 @@ class _MenuDrawerState extends State<MenuDrawer> {
                 fontSize: 20,
               ),
             ),
-            // onTap: () {
-            //   Navigator.push(
-            //     context,
-            //     MaterialPageRoute(builder: (context) => Settings()),
-            //   );
-            // },
+             onTap: () {
+               Navigator.push(
+                 context,
+                 MaterialPageRoute(builder: (context) => Settings()),
+               );
+             },
           ),
+          */
         ],
       ),
     );
