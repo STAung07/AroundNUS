@@ -1052,7 +1052,8 @@ class _MapViewState extends State<MapView> {
                               ),
                             ),
                             Visibility(
-                              visible: _placeDistance == null ? false : true,
+                              //visible: _placeDistance == null ? false : true,
+                              visible: _selections[2] == true,
                               child: ElevatedButton(
                                 onPressed: () {
                                   Navigator.push(
