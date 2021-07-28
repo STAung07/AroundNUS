@@ -90,7 +90,7 @@ class _MyMainPageState extends State<MyMainPage> {
     //if latlng position out of range of NUS, set latlng position to _defaultCameraPos
     LatLng latlngPosition = LatLng(position.latitude, position.longitude);
     CameraPosition cameraPosition =
-        new CameraPosition(target: latlngPosition, zoom: 15);
+        new CameraPosition(target: latlngPosition, zoom: 16);
     newGoogleMapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
@@ -164,12 +164,12 @@ class _MyMainPageState extends State<MyMainPage> {
 
     if (applicationBloc.currentLocation == null) {
       _initialCameraPosition =
-          CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 15);
+          CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 16);
     } else {
       _initialCameraPosition = CameraPosition(
           target: LatLng(applicationBloc.currentLocation!.latitude,
               applicationBloc.currentLocation!.longitude),
-          zoom: 15);
+          zoom: 16);
     }
     _markers2.clear();
     _markers2.add(mainMarker);
@@ -876,7 +876,7 @@ class _MyMainPageState extends State<MyMainPage> {
   Future<void> _goToNUSPlace(double lat, double lng) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat - 0.005, lng), zoom: 15)));
+        CameraPosition(target: LatLng(lat - 0.005, lng), zoom: 16)));
 
     _setMarkers(LatLng(lat, lng));
   }
@@ -886,7 +886,7 @@ class _MyMainPageState extends State<MyMainPage> {
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(
             place.geometry!.location.lat - 0.005, place.geometry!.location.lng),
-        zoom: 15)));
+        zoom: 16)));
 
     _setMarkers(
         LatLng(place.geometry!.location.lat, place.geometry!.location.lng));
@@ -895,7 +895,7 @@ class _MyMainPageState extends State<MyMainPage> {
   Future<void> _goToBusStop(double lat, double lng) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat - 0.005, lng), zoom: 15)));
+        CameraPosition(target: LatLng(lat - 0.005, lng), zoom: 16)));
 
     _setMarkers(LatLng(lat, lng));
   }
