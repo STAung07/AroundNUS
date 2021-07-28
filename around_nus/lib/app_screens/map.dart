@@ -35,6 +35,10 @@ class _MyMainPageState extends State<MyMainPage> {
   late StreamSubscription boundsSubscription;
   var _textController = TextEditingController(text: "");
   Map nusVenuesData = {};
+  String displayName = "";
+  String displayPhoneNumber = "";
+  String displayOpeningHours = "";
+  String displayFullAddress = "";
 
   @override
   void initState() {
@@ -44,6 +48,9 @@ class _MyMainPageState extends State<MyMainPage> {
         applicationBloc.selectedLocation.stream.listen((place) {
       if (place != null) {
         _goToPlace(place);
+        displayName = place.name!;
+        displayPhoneNumber = place.phoneNumber!;
+        displayFullAddress = place.address!;
       }
     });
     this.loadJsonData();
@@ -310,11 +317,21 @@ class _MyMainPageState extends State<MyMainPage> {
                       ),
                       onTap: () {
                         applicationBloc.clearMarkers();
+
+                        applicationBloc.setSelectedLocation(
+                            applicationBloc.searchResults![index].placeId);
+
+                        print("selectedLocationStatic here is ");
+                        print(applicationBloc.selectedLocationStatic!.name);
+
+                        FocusScope.of(context).unfocus();
+
+                        // String? mainPlaceName =
+                        //     applicationBloc.searchResults![index].name;
                         String mainPlaceName =
                             applicationBloc.searchResults![index].name;
                         String mainPlaceLongName =
                             applicationBloc.searchResults![index].description;
-                        FocusScope.of(context).unfocus();
 
                         showModalBottomSheet(
                             context: context,
@@ -459,8 +476,8 @@ class _MyMainPageState extends State<MyMainPage> {
                                 ],
                               );
                             });
-                        applicationBloc.setSelectedLocation(
-                            applicationBloc.searchResults![index].placeId);
+                        // applicationBloc.setSelectedLocation(
+                        //     applicationBloc.searchResults![index].placeId);
                         // //clearing the textfield
                         _textController.value = _textController.value.copyWith(
                           text:

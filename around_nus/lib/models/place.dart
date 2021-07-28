@@ -5,7 +5,7 @@ class Place {
   final String? name;
   final String? vicinity;
   final String? phoneNumber;
-  final String? openingHours;
+  // final String? openingHours;
   final String? address;
 
   Place(
@@ -13,7 +13,7 @@ class Place {
       this.name,
       this.vicinity,
       this.address,
-      this.openingHours,
+      // this.openingHours,
       this.phoneNumber});
   factory Place.fromJson(Map<String, dynamic> parsedJson) {
     return Place(
@@ -21,7 +21,7 @@ class Place {
         name: parsedJson["formatted_address"],
         vicinity: parsedJson["vicinity"],
         phoneNumber: parsedJson["formatted_phone_number"],
-        openingHours: parsedJson["opening_hours"],
+        // openingHours: parsedJson["opening_hours"],
         address: parsedJson["formatted_address"]);
   }
 }

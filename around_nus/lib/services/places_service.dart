@@ -44,7 +44,7 @@ class PlacesService {
 
   Future<Place> getPlace(String place_id) async {
     var url =
-        "https://maps.googleapis.com/maps/api/place/details/json?place_id=$place_id&fields=name,formatted_phone_number,opening_hours,formatted_address&key=$key";
+        "https://maps.googleapis.com/maps/api/place/details/json?place_id=$place_id&fields=name,formatted_phone_number,formatted_address,geometry,vicinity&key=$key";
     var response = await http.get(Uri.parse(url));
     var json = convert.jsonDecode(response.body);
     var jsonResult = json["result"] as Map<String, dynamic>;
