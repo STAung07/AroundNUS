@@ -80,6 +80,36 @@ class _PickUpPointsOfRouteState extends State<PickUpPointsOfRoute> {
       ),
       body: Column(
         children: <Widget>[
+          /*
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 8,
+                    child: Text(
+                      "Pick Up Point",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      "Arrival Timing",
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          */
           Expanded(
             child: ListView.builder(
               itemCount: _currBusRouteStops.length,
@@ -103,9 +133,15 @@ class _PickUpPointsOfRouteState extends State<PickUpPointsOfRoute> {
                         Expanded(
                           flex: 2,
                           child: Text /*('Null'),*/
-                              (finalMap[
-                                      _currBusRouteStops[stopIndex].busStopCode]
-                                  .toString()),
+                              (
+                            finalMap[_currBusRouteStops[stopIndex]
+                                        .busStopCode] ==
+                                    null
+                                ? "..."
+                                : (finalMap[_currBusRouteStops[stopIndex]
+                                        .busStopCode]
+                                    .toString()),
+                          ),
                         ),
                       ],
                     ),

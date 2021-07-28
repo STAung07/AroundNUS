@@ -223,6 +223,7 @@ class _MapViewState extends State<MapView> {
           accuracy: 0.0);
     });
   }
+
   /*
   // Google Maps SetMarkers; not applicable in OSMview
   // Future<void> _setMarkers(LatLng point) async {
@@ -307,6 +308,24 @@ class _MapViewState extends State<MapView> {
   // }
   */
 
+  showAlertDialog(BuildContext context) {
+    AlertDialog alert = AlertDialog(
+      content: new Row(
+        children: [
+          CircularProgressIndicator(),
+          Container(margin: EdgeInsets.only(left: 5), child: Text("Loading")),
+        ],
+      ),
+    );
+    showDialog(
+      barrierDismissible: false,
+      context: context,
+      builder: (BuildContext context) {
+        return alert;
+      },
+    );
+  }
+
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
     try {
@@ -380,6 +399,8 @@ class _MapViewState extends State<MapView> {
       // display diff routes; walking, driving, hybrid
 
       // get walking + bus route; colour coded yellow and blue
+      //try {
+      //  showAlertDialog(context);
 
       await _getWalkingAndBusPath(startingCoordinates, endingCoordinates);
 
@@ -404,6 +425,11 @@ class _MapViewState extends State<MapView> {
         PolylineId('driving'),
         drivingPathPolylines,
       );
+
+      Navigator.pop(context);
+      //} catch (e) {
+      //  print(e);
+      //}
 
       double totalDistance = 0.0;
 

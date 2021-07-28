@@ -113,6 +113,11 @@ class _BusTimingsState extends State<BusTimings> {
                           builder: (context) => BusServicesAtStop(
                             busStopName: applicationBloc
                                 .searchBusStopsResults2![index].name,
+
+                            /*
+                            displayName: applicationBloc
+                                .searchBusStopsResults2![index].longName,
+                            */
                           ),
                         ),
                       );
