@@ -129,7 +129,7 @@ class _MyMainPageState extends State<MyMainPage> {
   //     );
   //   });
   // }
-  void _setMarkers(LatLng point) {
+  void _setMarkers(LatLng point, String name) {
     _isMarker = true;
     // final applicationBloc = Provider.of<ApplicationBloc>(context);
     setState(() {
@@ -141,7 +141,7 @@ class _MyMainPageState extends State<MyMainPage> {
       mainMarker = Marker(
         markerId: MarkerId("$point"),
         position: point,
-        infoWindow: InfoWindow(title: "selected", snippet: "test"),
+        infoWindow: InfoWindow(title: name),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
       );
     });
@@ -150,7 +150,7 @@ class _MyMainPageState extends State<MyMainPage> {
   // function to call when user presses userLocation button
   void _userLocationButton() {
     locatePosition();
-    _setMarkers(currCoordinates);
+    _setMarkers(currCoordinates, "Current Location");
   }
 
   // void displayBottomSheet(BuildContext context) {
@@ -205,7 +205,7 @@ class _MyMainPageState extends State<MyMainPage> {
               newGoogleMapController = controller;
               // after position located, then setMarker
               //locatePosition();
-              _setMarkers(currCoordinates);
+              // _setMarkers(currCoordinates);
             },
             // enable location layer
             myLocationEnabled: true,
@@ -364,6 +364,8 @@ class _MyMainPageState extends State<MyMainPage> {
                                       alignment: Alignment.center,
                                     ),
                                   ]),
+
+                                  // ELABORATED ADDRESS
                                   Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(children: [
@@ -373,6 +375,8 @@ class _MyMainPageState extends State<MyMainPage> {
                                             child: Text(
                                                 selectedLocation.address!)),
                                       ])),
+
+                                  //FORMATTED PHONE NUMBER
                                   if (selectedLocation.phoneNumber != null)
                                     Padding(
                                         padding: const EdgeInsets.all(8.0),
@@ -383,24 +387,45 @@ class _MyMainPageState extends State<MyMainPage> {
                                               child: Text(selectedLocation
                                                   .phoneNumber!)),
                                         ])),
+
+                                  // OPEN
                                   if (selectedLocation.isOpen != null &&
-                                      selectedLocation == true)
+                                      selectedLocation.isOpen == true)
                                     Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(children: [
-                                          Icon(Icons.lock_clock),
+                                          Icon(Icons.alarm),
                                           Container(
                                               width: 350,
                                               child: Text("Open",
                                                   style: TextStyle(
                                                       color: Colors.green))),
                                         ])),
+
+                                  // OPENING HOURS FOR THE WEEK
+                                  for (int i = 0; i < 7; i++)
+                                    if (selectedLocation.isOpen != null &&
+                                        selectedLocation.isOpen == true &&
+                                        selectedLocation.openingHours != null)
+                                      Padding(
+                                          padding: const EdgeInsets.all(1.0),
+                                          child: Row(children: [
+                                            Icon(Icons.arrow_right),
+                                            Container(
+                                                width: 350,
+                                                child: Text(
+                                                  selectedLocation
+                                                      .openingHours![i],
+                                                )),
+                                          ])),
+
+                                  // CLOSED
                                   if (selectedLocation.isOpen != null &&
-                                      selectedLocation == false)
+                                      selectedLocation.isOpen == false)
                                     Padding(
                                         padding: const EdgeInsets.all(8.0),
                                         child: Row(children: [
-                                          Icon(Icons.lock_clock),
+                                          Icon(Icons.alarm),
                                           Container(
                                               width: 350,
                                               child: Text("Closed",
@@ -694,13 +719,16 @@ class _MyMainPageState extends State<MyMainPage> {
                         );
                         _goToNUSPlace(
                             nusVenuesData[applicationBloc.searchNUSResults![
-                                    index -
-                                        applicationBloc.searchResults!.length]]
+                                    index - applicationBloc.searchResults!.length]]
                                 ["latitude"],
                             nusVenuesData[applicationBloc.searchNUSResults![
                                     index -
                                         applicationBloc.searchResults!.length]]
-                                ["longitude"]);
+                                ["longitude"],
+                            nusVenuesData[applicationBloc.searchNUSResults![
+                                    index -
+                                        applicationBloc.searchResults!.length]]
+                                ["name"]);
 
                         applicationBloc.setNUSSelectedLocation(
                             nusVenuesData[applicationBloc.searchNUSResults![
@@ -876,7 +904,12 @@ class _MyMainPageState extends State<MyMainPage> {
                                 .searchBusStopsResults![index -
                                     applicationBloc.searchNUSResults!.length -
                                     applicationBloc.searchResults!.length]
-                                .longitude);
+                                .longitude,
+                            applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .name);
 
                         _textController.value = _textController.value.copyWith(
                           text: applicationBloc
@@ -939,12 +972,12 @@ class _MyMainPageState extends State<MyMainPage> {
     );
   }
 
-  Future<void> _goToNUSPlace(double lat, double lng) async {
+  Future<void> _goToNUSPlace(double lat, double lng, String name) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(lat - 0.0025, lng), zoom: 16)));
 
-    _setMarkers(LatLng(lat, lng));
+    _setMarkers(LatLng(lat, lng), name);
   }
 
   Future<void> _goToPlace(Place place) async {
@@ -956,14 +989,15 @@ class _MyMainPageState extends State<MyMainPage> {
         zoom: 16)));
 
     _setMarkers(
-        LatLng(place.geometry!.location.lat, place.geometry!.location.lng));
+        LatLng(place.geometry!.location.lat, place.geometry!.location.lng),
+        place.name!);
   }
 
-  Future<void> _goToBusStop(double lat, double lng) async {
+  Future<void> _goToBusStop(double lat, double lng, String name) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
         CameraPosition(target: LatLng(lat - 0.0025, lng), zoom: 16)));
 
-    _setMarkers(LatLng(lat, lng));
+    _setMarkers(LatLng(lat, lng), name + " Bus Stop");
   }
 }

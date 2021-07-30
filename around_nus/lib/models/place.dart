@@ -1,5 +1,4 @@
 import 'package:around_nus/models/geometry.dart';
-import 'package:around_nus/models/opening_hours.dart';
 
 class Place {
   final Geometry? geometry;
@@ -8,7 +7,8 @@ class Place {
   final String? phoneNumber;
   // final String? openingHours;
   final String? address;
-  final OpeningHours? isOpen;
+  final bool? isOpen;
+  final List<dynamic>? openingHours;
 
   Place(
       {this.geometry,
@@ -17,7 +17,8 @@ class Place {
       this.address,
       // this.openingHours,
       this.phoneNumber,
-      this.isOpen});
+      this.isOpen,
+      this.openingHours});
   factory Place.fromJson(Map<String, dynamic> parsedJson) {
     return Place(
         geometry: Geometry.fromJson(parsedJson["geometry"]),
@@ -26,6 +27,12 @@ class Place {
         phoneNumber: parsedJson["formatted_phone_number"],
         // openingHours: parsedJson["opening_hours"],
         address: parsedJson["formatted_address"],
-        isOpen: OpeningHours.fromJson(parsedJson['opening_hours']));
+        // isOpen: OpeningHours.fromJson(parsedJson['opening_hours'])
+        isOpen: parsedJson['opening_hours'] == null
+            ? null
+            : parsedJson['opening_hours']['open_now'],
+        openingHours: parsedJson['opening_hours'] == null
+            ? null
+            : parsedJson['opening_hours']['weekday_text']);
   }
 }

@@ -1,3 +1,5 @@
+// NOT USING ANYMORE FOR NOW
+
 class OpeningHours {
   final bool isOpen;
   // final
