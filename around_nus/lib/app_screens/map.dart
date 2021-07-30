@@ -142,6 +142,9 @@ class _MyMainPageState extends State<MyMainPage> {
   Widget build(BuildContext context) {
     final applicationBloc = Provider.of<ApplicationBloc>(context);
     CameraPosition _initialCameraPosition;
+    int phoneHeight = MediaQuery.of(context).size.height.round();
+    int phoneWidth = MediaQuery.of(context).size.width.round();
+    print(phoneHeight);
 
     if (applicationBloc.currentLocation == null) {
       _initialCameraPosition =
@@ -236,8 +239,9 @@ class _MyMainPageState extends State<MyMainPage> {
             ),
           ),
           Positioned(
-              top: 640,
-              left: 187,
+              // top: 640,
+              top: phoneHeight * 0.8,
+              left: phoneWidth * 0.5 - 20,
               child: Align(
                 // User Location Button
                 alignment: Alignment.bottomCenter,
@@ -343,7 +347,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                     Padding(
                                         padding: const EdgeInsets.all(1.5),
                                         child: Image.network(
-                                            'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${selectedLocation.photoReference![0]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M')),
+                                            'https://maps.googleapis.com/maps/api/place/photo?maxwidth=${phoneWidth - 10}&photoreference=${selectedLocation.photoReference![0]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M')),
 
                                   //second pic at the bottom left
                                   if (selectedLocation.photoReference != null &&
@@ -356,9 +360,9 @@ class _MyMainPageState extends State<MyMainPage> {
                                                 MainAxisAlignment.spaceEvenly,
                                             children: [
                                               Image.network(
-                                                  'https://maps.googleapis.com/maps/api/place/photo?maxwidth=240&maxheight=170&photoreference=${selectedLocation.photoReference![1]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M'),
+                                                  'https://maps.googleapis.com/maps/api/place/photo?maxwidth=${(phoneWidth * 0.5 - 10).round()}&maxheight=${(phoneHeight * 0.25).round()}&photoreference=${selectedLocation.photoReference![1]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M'),
                                               Image.network(
-                                                  'https://maps.googleapis.com/maps/api/place/photo?maxwidth=240&maxheight=170&photoreference=${selectedLocation.photoReference![2]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M')
+                                                  'https://maps.googleapis.com/maps/api/place/photo?maxwidth=${(phoneWidth * 0.5 - 10).round()}&maxheight=${(phoneHeight * 0.25).round()}&photoreference=${selectedLocation.photoReference![2]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M')
                                             ])),
 
                                   // ELABORATED ADDRESS
