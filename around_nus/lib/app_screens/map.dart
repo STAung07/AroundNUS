@@ -338,11 +338,28 @@ class _MyMainPageState extends State<MyMainPage> {
                                   ]),
 
                                   // PICTURES
+                                  // first pic at the top
                                   if (selectedLocation.photoReference != null)
                                     Padding(
-                                        padding: const EdgeInsets.all(8.0),
+                                        padding: const EdgeInsets.all(1.5),
                                         child: Image.network(
-                                            'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${selectedLocation.photoReference}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M')),
+                                            'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${selectedLocation.photoReference![0]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M')),
+
+                                  //second pic at the bottom left
+                                  if (selectedLocation.photoReference != null &&
+                                      selectedLocation.photoReference!.length >=
+                                          3)
+                                    Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Image.network(
+                                                  'https://maps.googleapis.com/maps/api/place/photo?maxwidth=240&maxheight=170&photoreference=${selectedLocation.photoReference![1]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M'),
+                                              Image.network(
+                                                  'https://maps.googleapis.com/maps/api/place/photo?maxwidth=240&maxheight=170&photoreference=${selectedLocation.photoReference![2]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M')
+                                            ])),
 
                                   // ELABORATED ADDRESS
                                   Padding(
@@ -381,23 +398,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                                       color: Colors.green))),
                                         ])),
 
-                                  // OPENING HOURS FOR THE WEEK
-                                  for (int i = 0; i < 7; i++)
-                                    if (selectedLocation.isOpen != null &&
-                                        selectedLocation.isOpen == true &&
-                                        selectedLocation.openingHours != null)
-                                      Padding(
-                                          padding: const EdgeInsets.all(1.0),
-                                          child: Row(children: [
-                                            Icon(Icons.arrow_right),
-                                            Container(
-                                                width: 350,
-                                                child: Text(
-                                                  selectedLocation
-                                                      .openingHours![i],
-                                                )),
-                                          ])),
-
                                   // CLOSED
                                   if (selectedLocation.isOpen != null &&
                                       selectedLocation.isOpen == false)
@@ -411,6 +411,24 @@ class _MyMainPageState extends State<MyMainPage> {
                                                   style: TextStyle(
                                                       color: Colors.red))),
                                         ])),
+
+                                  // OPENING HOURS FOR THE WEEK
+                                  for (int i = 0; i < 7; i++)
+                                    if (selectedLocation.isOpen != null &&
+                                        selectedLocation.openingHours != null)
+                                      Padding(
+                                          padding: const EdgeInsets.all(1.0),
+                                          child: Row(children: [
+                                            Icon(Icons.arrow_right),
+                                            Container(
+                                                width: 350,
+                                                child: Text(
+                                                  selectedLocation
+                                                      .openingHours![i],
+                                                )),
+                                          ])),
+
+                                  // FIND NEAREST AMENITIES
                                   Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text("Find Nearest",

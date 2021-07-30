@@ -9,7 +9,7 @@ class Place {
   final String? address;
   final bool? isOpen;
   final List<dynamic>? openingHours;
-  final String? photoReference;
+  final List<String>? photoReference;
 
   Place(
       {this.geometry,
@@ -22,6 +22,14 @@ class Place {
       this.openingHours,
       this.photoReference});
   factory Place.fromJson(Map<String, dynamic> parsedJson) {
+    List<String> photoReferenceList = [];
+    if (parsedJson["photos"] != null) {
+      int photoLen = parsedJson["photos"].length;
+      for (int i = 0; i < photoLen; i++) {
+        photoReferenceList.add(parsedJson["photos"][i]["photo_reference"]);
+      }
+    }
+
     return Place(
         geometry: Geometry.fromJson(parsedJson["geometry"]),
         name: parsedJson["name"],
@@ -36,8 +44,10 @@ class Place {
         openingHours: parsedJson['opening_hours'] == null
             ? null
             : parsedJson['opening_hours']['weekday_text'],
-        photoReference: parsedJson["photos"] == null
-            ? null
-            : parsedJson["photos"][0]["photo_reference"]);
+        // photoReference: parsedJson["photos"] == null
+        //     ? null
+        //     : parsedJson["photos"][0]["photo_reference"]
+        photoReference:
+            parsedJson["photos"] == null ? null : photoReferenceList);
   }
 }
