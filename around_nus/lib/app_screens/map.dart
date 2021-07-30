@@ -2,6 +2,8 @@
 
 import 'package:around_nus/blocs/application_bloc.dart';
 import 'package:around_nus/models/place.dart';
+import 'package:around_nus/services/places_service.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -37,7 +39,6 @@ class _MyMainPageState extends State<MyMainPage> {
   Map nusVenuesData = {};
   String displayName = "";
   String displayPhoneNumber = "";
-  String displayOpeningHours = "";
   String displayFullAddress = "";
 
   @override
@@ -47,10 +48,11 @@ class _MyMainPageState extends State<MyMainPage> {
     locationSubscription =
         applicationBloc.selectedLocation.stream.listen((place) {
       if (place != null) {
+        if (place.name != null) displayName = place.name!;
+        if (place.phoneNumber != null) displayPhoneNumber = place.phoneNumber!;
+        if (place.address != null) displayFullAddress = place.address!;
+
         _goToPlace(place);
-        displayName = place.name!;
-        displayPhoneNumber = place.phoneNumber!;
-        displayFullAddress = place.address!;
       }
     });
     this.loadJsonData();
@@ -315,30 +317,37 @@ class _MyMainPageState extends State<MyMainPage> {
                         applicationBloc.searchResults![index].name,
                         style: TextStyle(color: Colors.white),
                       ),
-                      onTap: () {
+                      onTap: () async {
                         applicationBloc.clearMarkers();
+
+                        //not using these for now
+                        // String mainPlaceName =
+                        //     applicationBloc.searchResults![index].name;
+                        // String mainPlaceLongName =
+                        //     applicationBloc.searchResults![index].description;
+
+                        FocusScope.of(context).unfocus();
 
                         applicationBloc.setSelectedLocation(
                             applicationBloc.searchResults![index].placeId);
 
-                        print("selectedLocationStatic here is ");
-                        print(applicationBloc.selectedLocationStatic!.name);
+                        _textController.value = _textController.value.copyWith(
+                          text:
+                              applicationBloc.searchResults![index].description,
+                          selection: TextSelection.collapsed(
+                              offset: applicationBloc
+                                  .searchResults![index].description.length),
+                        );
 
-                        FocusScope.of(context).unfocus();
-
-                        // String? mainPlaceName =
-                        //     applicationBloc.searchResults![index].name;
-                        String mainPlaceName =
-                            applicationBloc.searchResults![index].name;
-                        String mainPlaceLongName =
-                            applicationBloc.searchResults![index].description;
+                        //retrieving extra info on the selected location
+                        var selectedLocation = await PlacesService().getPlace(
+                            applicationBloc.searchResults![index].placeId);
+                        print(selectedLocation.name);
+                        print("in map.dart");
 
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              print("Google location in showModalBottomSheet");
-                              print(mainPlaceName);
-                              print(mainPlaceLongName);
                               return ListView(
                                 children: [
                                   Stack(children: [
@@ -346,7 +355,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                       width: 425,
                                       height: 50,
                                       color: Colors.blueGrey[500],
-                                      child: Text(mainPlaceName,
+                                      child: Text(selectedLocation.name!,
                                           style: TextStyle(
                                             fontSize: 20.0,
                                             // fontWeight: FontWeight.bold,
@@ -361,8 +370,43 @@ class _MyMainPageState extends State<MyMainPage> {
                                         Icon(Icons.location_pin),
                                         Container(
                                             width: 350,
-                                            child: Text(mainPlaceLongName)),
+                                            child: Text(
+                                                selectedLocation.address!)),
                                       ])),
+                                  if (selectedLocation.phoneNumber != null)
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(children: [
+                                          Icon(Icons.phone),
+                                          Container(
+                                              width: 350,
+                                              child: Text(selectedLocation
+                                                  .phoneNumber!)),
+                                        ])),
+                                  if (selectedLocation.isOpen != null &&
+                                      selectedLocation == true)
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(children: [
+                                          Icon(Icons.lock_clock),
+                                          Container(
+                                              width: 350,
+                                              child: Text("Open",
+                                                  style: TextStyle(
+                                                      color: Colors.green))),
+                                        ])),
+                                  if (selectedLocation.isOpen != null &&
+                                      selectedLocation == false)
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(children: [
+                                          Icon(Icons.lock_clock),
+                                          Container(
+                                              width: 350,
+                                              child: Text("Closed",
+                                                  style: TextStyle(
+                                                      color: Colors.red))),
+                                        ])),
                                   Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text("Find Nearest",
@@ -479,13 +523,6 @@ class _MyMainPageState extends State<MyMainPage> {
                         // applicationBloc.setSelectedLocation(
                         //     applicationBloc.searchResults![index].placeId);
                         // //clearing the textfield
-                        _textController.value = _textController.value.copyWith(
-                          text:
-                              applicationBloc.searchResults![index].description,
-                          selection: TextSelection.collapsed(
-                              offset: applicationBloc
-                                  .searchResults![index].description.length),
-                        );
                       },
                     );
                   else if (index <
@@ -502,6 +539,10 @@ class _MyMainPageState extends State<MyMainPage> {
                         String mainPlaceName =
                             applicationBloc.searchNUSResults![
                                 index - applicationBloc.searchResults!.length];
+                        String longMainPlaceName = nusVenuesData[applicationBloc
+                                    .searchNUSResults![
+                                index - applicationBloc.searchResults!.length]]
+                            ["description"];
                         FocusScope.of(context).unfocus();
 
                         showModalBottomSheet(
@@ -525,6 +566,14 @@ class _MyMainPageState extends State<MyMainPage> {
                                       alignment: Alignment.center,
                                     ),
                                   ]),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
+                                      child: Row(children: [
+                                        Icon(Icons.location_pin),
+                                        Container(
+                                            width: 350,
+                                            child: Text(longMainPlaceName)),
+                                      ])),
                                   Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text("Find Nearest",
@@ -899,6 +948,7 @@ class _MyMainPageState extends State<MyMainPage> {
   }
 
   Future<void> _goToPlace(Place place) async {
+    print("in go to place");
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
         target: LatLng(place.geometry!.location.lat - 0.0025,
