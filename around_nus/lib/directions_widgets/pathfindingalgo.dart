@@ -66,6 +66,7 @@ class PathFindingAlgo {
     List<BusStop> nearbyStartingBusStops = [];
     List<BusStop> nearbyEndingBusStops = [];
     List<PossibleRoutes> allDirectRoutes = [];
+    Map<String, bool> addedRoute = {};
 
     // get list of nearby bus stops to starting position
     for (BusStop busStop in nusBusStops) {
@@ -103,15 +104,6 @@ class PathFindingAlgo {
         // check if endBusStopName is in it to see if it is reachable
         for (var connectedBusStop in currConnectedBusStops) {
           if (connectedBusStop.busStopName == end.name) {
-            /*
-            // is connected then take note of how many stops and route
-            if (connectedBusStop.stopsAway < leastStops) {
-              shortestPath = connectedBusStop.routeName;
-              leastStops = connectedBusStop.stopsAway;
-              startingBusStop = start;
-              endingBusStop = end;
-            }
-            */
             // as long as connected, add start bus stop, end bus stop
             // and String of connected route and bus stops in between
             PossibleRoutes newRoute = PossibleRoutes(
@@ -120,22 +112,15 @@ class PathFindingAlgo {
               endBusStop: end,
               stopsBetween: connectedBusStop.stopsAway,
             );
-            allDirectRoutes.add(newRoute);
+            // only add in if no such route inside map
+            if (addedRoute[connectedBusStop.routeName] == null) {
+              allDirectRoutes.add(newRoute);
+              addedRoute[connectedBusStop.routeName] = true;
+            }
           }
         }
       }
     }
-
-    /*
-    print("the shortest path is ");
-    print(shortestPath +
-        "," +
-        startingBusStop.name +
-        "," +
-        endingBusStop.name +
-        "," +
-        leastStops.toString());
-        */
     print(allDirectRoutes);
     return allDirectRoutes;
   }

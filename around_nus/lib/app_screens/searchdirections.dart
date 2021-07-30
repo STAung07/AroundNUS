@@ -399,8 +399,10 @@ class _MapViewState extends State<MapView> {
       // display diff routes; walking, driving, hybrid
 
       // get walking + bus route; colour coded yellow and blue
-      //try {
-      //  showAlertDialog(context);
+      /*
+      try {
+        showAlertDialog(context);
+        */
 
       await _getWalkingAndBusPath(startingCoordinates, endingCoordinates);
 
@@ -425,11 +427,12 @@ class _MapViewState extends State<MapView> {
         PolylineId('driving'),
         drivingPathPolylines,
       );
-
-      Navigator.pop(context);
-      //} catch (e) {
-      //  print(e);
-      //}
+      /*
+        Navigator.pop(context);
+      } catch (e) {
+        print(e);
+      }
+      */
 
       double totalDistance = 0.0;
 
@@ -591,7 +594,7 @@ class _MapViewState extends State<MapView> {
       await _createGoogleMapsPolylines(
         startCoordinates,
         startBusStopPos,
-        Colors.yellow,
+        Colors.green,
         TravelMode.walking,
         [],
         PolylineId('toStartBusStop: $startBusStopName'),
@@ -619,7 +622,7 @@ class _MapViewState extends State<MapView> {
       await _createGoogleMapsPolylines(
         endBusStopPos,
         destinationCoordinates,
-        Colors.yellow,
+        Colors.green,
         TravelMode.walking,
         [],
         PolylineId('fromEndBusStop: $endBusStopName'),
@@ -1037,7 +1040,7 @@ class _MapViewState extends State<MapView> {
                                         displayIndex = 0;
                                         currRouteName = "";
                                       });
-
+                                      //showAlertDialog(context);
                                       _calculateDistance().then((isCalculated) {
                                         if (isCalculated) {
                                           currRouteName =
@@ -1059,6 +1062,7 @@ class _MapViewState extends State<MapView> {
                                             ),
                                           );
                                         }
+                                        //Navigator.of(context).pop();
                                       });
                                     }
                                   : null,
