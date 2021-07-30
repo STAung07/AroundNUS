@@ -114,21 +114,6 @@ class _MyMainPageState extends State<MyMainPage> {
   );
   bool _isMarker = false;
 
-  // set marker for one other location
-  // void _setMarkers(LatLng point) {
-  //   _isMarker = true;
-  //   setState(() {
-  //     _markers2.clear();
-  //     // Pass to search info widget
-  //     // add markers subsequently on taps
-  //     _markers2.add(
-  //       Marker(
-  //         markerId: MarkerId('Location'),
-  //         position: point,
-  //       ),
-  //     );
-  //   });
-  // }
   void _setMarkers(LatLng point, String name) {
     _isMarker = true;
     // final applicationBloc = Provider.of<ApplicationBloc>(context);
@@ -152,19 +137,6 @@ class _MyMainPageState extends State<MyMainPage> {
     locatePosition();
     _setMarkers(currCoordinates, "Current Location");
   }
-
-  // void displayBottomSheet(BuildContext context) {
-  //   showModalBottomSheet(
-  //       context: context,
-  //       builder: (context) {
-  //         return Container(
-  //           height: MediaQuery.of(context).size.height * 0.4,
-  //           child: Center(
-  //             child: Text("Welcome to AndroidVille!"),
-  //           ),
-  //         );
-  //       });
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -364,6 +336,13 @@ class _MyMainPageState extends State<MyMainPage> {
                                       alignment: Alignment.center,
                                     ),
                                   ]),
+
+                                  // PICTURES
+                                  if (selectedLocation.photoReference != null)
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Image.network(
+                                            'https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photoreference=${selectedLocation.photoReference}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M')),
 
                                   // ELABORATED ADDRESS
                                   Padding(
@@ -975,7 +954,7 @@ class _MyMainPageState extends State<MyMainPage> {
   Future<void> _goToNUSPlace(double lat, double lng, String name) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat - 0.0025, lng), zoom: 16)));
+        CameraPosition(target: LatLng(lat - 0.00075, lng), zoom: 18)));
 
     _setMarkers(LatLng(lat, lng), name);
   }
@@ -984,9 +963,9 @@ class _MyMainPageState extends State<MyMainPage> {
     print("in go to place");
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(place.geometry!.location.lat - 0.0025,
+        target: LatLng(place.geometry!.location.lat - 0.00075,
             place.geometry!.location.lng),
-        zoom: 16)));
+        zoom: 18)));
 
     _setMarkers(
         LatLng(place.geometry!.location.lat, place.geometry!.location.lng),
@@ -996,7 +975,7 @@ class _MyMainPageState extends State<MyMainPage> {
   Future<void> _goToBusStop(double lat, double lng, String name) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat - 0.0025, lng), zoom: 16)));
+        CameraPosition(target: LatLng(lat - 0.00075, lng), zoom: 18)));
 
     _setMarkers(LatLng(lat, lng), name + " Bus Stop");
   }

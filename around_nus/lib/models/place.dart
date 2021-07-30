@@ -9,6 +9,7 @@ class Place {
   final String? address;
   final bool? isOpen;
   final List<dynamic>? openingHours;
+  final String? photoReference;
 
   Place(
       {this.geometry,
@@ -18,7 +19,8 @@ class Place {
       // this.openingHours,
       this.phoneNumber,
       this.isOpen,
-      this.openingHours});
+      this.openingHours,
+      this.photoReference});
   factory Place.fromJson(Map<String, dynamic> parsedJson) {
     return Place(
         geometry: Geometry.fromJson(parsedJson["geometry"]),
@@ -33,6 +35,9 @@ class Place {
             : parsedJson['opening_hours']['open_now'],
         openingHours: parsedJson['opening_hours'] == null
             ? null
-            : parsedJson['opening_hours']['weekday_text']);
+            : parsedJson['opening_hours']['weekday_text'],
+        photoReference: parsedJson["photos"] == null
+            ? null
+            : parsedJson["photos"][0]["photo_reference"]);
   }
 }
