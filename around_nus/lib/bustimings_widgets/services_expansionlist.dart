@@ -43,6 +43,43 @@ class _BusServicesAtStopState extends State<BusServicesAtStop> {
       ),
       body: Column(
         children: <Widget>[
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(10.0),
+              child: Row(
+                children: [
+                  Expanded(
+                    flex: 2,
+                    child: Text(
+                      "Route",
+                      style: TextStyle(
+                        fontSize: 14,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                      "Arrival Timing",
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                      "Next Arrival Timing",
+                      style: TextStyle(
+                        fontSize: 14,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
           Expanded(
             child: ListView.builder(
               itemCount: _currBusStopServices.length,
@@ -58,7 +95,9 @@ class _BusServicesAtStopState extends State<BusServicesAtStop> {
                           child: Text(
                             _currBusStopServices[busServicesIndex].name,
                             style: TextStyle(
-                                fontSize: 12, fontWeight: FontWeight.bold),
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         Expanded(
