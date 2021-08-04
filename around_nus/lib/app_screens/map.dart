@@ -144,7 +144,6 @@ class _MyMainPageState extends State<MyMainPage> {
     CameraPosition _initialCameraPosition;
     int phoneHeight = MediaQuery.of(context).size.height.round();
     int phoneWidth = MediaQuery.of(context).size.width.round();
-    print(phoneHeight);
 
     if (applicationBloc.currentLocation == null) {
       _initialCameraPosition =
@@ -318,8 +317,6 @@ class _MyMainPageState extends State<MyMainPage> {
                         //retrieving extra info on the selected location
                         var selectedLocation = await PlacesService().getPlace(
                             applicationBloc.searchResults![index].placeId);
-                        print(selectedLocation.name);
-                        print("in map.dart");
 
                         showModalBottomSheet(
                             context: context,
@@ -452,7 +449,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                   label: Text("Gym"),
                                                   onSelected: (val) {
-                                                    print("pressed gym");
                                                     applicationBloc
                                                         .togglePlaceType(
                                                             "gym", val);
@@ -464,7 +460,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("ATM"),
                                                 onSelected: (val) {
-                                                  print("pressed atm");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "atm", val);
@@ -481,7 +476,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Cafe"),
                                                 onSelected: (val) {
-                                                  print("pressed cafe");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "cafe", val);
@@ -493,7 +487,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Car Park"),
                                                 onSelected: (val) {
-                                                  print("pressed car park");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "parking", val);
@@ -505,7 +498,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Restaurant"),
                                                 onSelected: (val) {
-                                                  print("pressed restaurant");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "restaurant", val);
@@ -518,8 +510,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                                 label:
                                                     Text("Convenience Store"),
                                                 onSelected: (val) {
-                                                  print(
-                                                      "pressed convenience store");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "convenience_store",
@@ -532,7 +522,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Post Office"),
                                                 onSelected: (val) {
-                                                  print("pressed post office");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "post_office", val);
@@ -619,7 +608,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Gym"),
                                                 onSelected: (val) {
-                                                  print("pressed gym");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "gym", val);
@@ -631,7 +619,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("ATM"),
                                                 onSelected: (val) {
-                                                  print("pressed atm");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "atm", val);
@@ -643,7 +630,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Cafe"),
                                                 onSelected: (val) {
-                                                  print("pressed cafe");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "cafe", val);
@@ -655,7 +641,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Car Park"),
                                                 onSelected: (val) {
-                                                  print("pressed car park");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "parking", val);
@@ -667,7 +652,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Restaurant"),
                                                 onSelected: (val) {
-                                                  print("pressed restaurant");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "restaurant", val);
@@ -680,8 +664,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                                 label:
                                                     Text("Convenience Store"),
                                                 onSelected: (val) {
-                                                  print(
-                                                      "pressed convenience store");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "convenience_store",
@@ -694,7 +676,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Post Office"),
                                                 onSelected: (val) {
-                                                  print("pressed post office");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "post_office", val);
@@ -805,7 +786,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Gym"),
                                                 onSelected: (val) {
-                                                  print("pressed gym");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "gym", val);
@@ -817,7 +797,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("ATM"),
                                                 onSelected: (val) {
-                                                  print("pressed atm");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "atm", val);
@@ -829,7 +808,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Cafe"),
                                                 onSelected: (val) {
-                                                  print("pressed cafe");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "cafe", val);
@@ -841,7 +819,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Car Park"),
                                                 onSelected: (val) {
-                                                  print("pressed car park");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "parking", val);
@@ -853,7 +830,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Restaurant"),
                                                 onSelected: (val) {
-                                                  print("pressed restaurant");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "restaurant", val);
@@ -866,8 +842,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                                 label:
                                                     Text("Convenience Store"),
                                                 onSelected: (val) {
-                                                  print(
-                                                      "pressed convenience store");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "convenience_store",
@@ -880,7 +854,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Post Office"),
                                                 onSelected: (val) {
-                                                  print("pressed post office");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "post_office", val);
