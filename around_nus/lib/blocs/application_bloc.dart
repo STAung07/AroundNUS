@@ -153,9 +153,12 @@ class ApplicationBloc with ChangeNotifier {
 
   // for the main map.dart page
   setSelectedLocation(String placeId) async {
+    print("inside setselectedlocation");
     var sLocation = await placesService.getPlace(placeId);
     selectedLocation.add(sLocation);
     selectedLocationStatic = sLocation;
+    print("slocation in setSelectedLocation is ");
+    print(selectedLocationStatic!.name);
     searchResults = null;
     searchFromResults = null;
     searchToResults = null;
