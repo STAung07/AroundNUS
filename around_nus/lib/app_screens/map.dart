@@ -2,6 +2,8 @@
 
 import 'package:around_nus/blocs/application_bloc.dart';
 import 'package:around_nus/models/place.dart';
+import 'package:around_nus/services/places_service.dart';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
@@ -35,6 +37,9 @@ class _MyMainPageState extends State<MyMainPage> {
   late StreamSubscription boundsSubscription;
   var _textController = TextEditingController(text: "");
   Map nusVenuesData = {};
+  String displayName = "";
+  String displayPhoneNumber = "";
+  String displayFullAddress = "";
 
   @override
   void initState() {
@@ -43,6 +48,10 @@ class _MyMainPageState extends State<MyMainPage> {
     locationSubscription =
         applicationBloc.selectedLocation.stream.listen((place) {
       if (place != null) {
+        if (place.name != null) displayName = place.name!;
+        if (place.phoneNumber != null) displayPhoneNumber = place.phoneNumber!;
+        if (place.address != null) displayFullAddress = place.address!;
+
         _goToPlace(place);
       }
     });
@@ -130,7 +139,7 @@ class _MyMainPageState extends State<MyMainPage> {
     //if latlng position out of range of NUS, set latlng position to _defaultCameraPos
     LatLng latlngPosition = LatLng(position.latitude, position.longitude);
     CameraPosition cameraPosition =
-        new CameraPosition(target: latlngPosition, zoom: 15);
+        new CameraPosition(target: latlngPosition, zoom: 16);
     newGoogleMapController
         .animateCamera(CameraUpdate.newCameraPosition(cameraPosition));
   }
@@ -145,22 +154,7 @@ class _MyMainPageState extends State<MyMainPage> {
   );
   bool _isMarker = false;
 
-  // set marker for one other location
-  // void _setMarkers(LatLng point) {
-  //   _isMarker = true;
-  //   setState(() {
-  //     _markers2.clear();
-  //     // Pass to search info widget
-  //     // add markers subsequently on taps
-  //     _markers2.add(
-  //       Marker(
-  //         markerId: MarkerId('Location'),
-  //         position: point,
-  //       ),
-  //     );
-  //   });
-  // }
-  void _setMarkers(LatLng point) {
+  void _setMarkers(LatLng point, String name) {
     _isMarker = true;
     // final applicationBloc = Provider.of<ApplicationBloc>(context);
     setState(() {
@@ -172,7 +166,7 @@ class _MyMainPageState extends State<MyMainPage> {
       mainMarker = Marker(
         markerId: MarkerId("$point"),
         position: point,
-        infoWindow: InfoWindow(title: "selected", snippet: "test"),
+        infoWindow: InfoWindow(title: name),
         icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueRed),
       );
     });
@@ -181,35 +175,24 @@ class _MyMainPageState extends State<MyMainPage> {
   // function to call when user presses userLocation button
   void _userLocationButton() {
     locatePosition();
-    _setMarkers(currCoordinates);
+    _setMarkers(currCoordinates, "Current Location");
   }
-
-  // void displayBottomSheet(BuildContext context) {
-  //   showModalBottomSheet(
-  //       context: context,
-  //       builder: (context) {
-  //         return Container(
-  //           height: MediaQuery.of(context).size.height * 0.4,
-  //           child: Center(
-  //             child: Text("Welcome to AndroidVille!"),
-  //           ),
-  //         );
-  //       });
-  // }
 
   @override
   Widget build(BuildContext context) {
     final applicationBloc = Provider.of<ApplicationBloc>(context);
     CameraPosition _initialCameraPosition;
+    int phoneHeight = MediaQuery.of(context).size.height.round();
+    int phoneWidth = MediaQuery.of(context).size.width.round();
 
     if (applicationBloc.currentLocation == null) {
       _initialCameraPosition =
-          CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 15);
+          CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 16);
     } else {
       _initialCameraPosition = CameraPosition(
           target: LatLng(applicationBloc.currentLocation!.latitude,
               applicationBloc.currentLocation!.longitude),
-          zoom: 15);
+          zoom: 16);
     }
     _markers2.clear();
     _markers2.add(mainMarker);
@@ -236,7 +219,7 @@ class _MyMainPageState extends State<MyMainPage> {
               newGoogleMapController = controller;
               // after position located, then setMarker
               //locatePosition();
-              _setMarkers(currCoordinates);
+              // _setMarkers(currCoordinates);
             },
             // enable location layer
             myLocationEnabled: true,
@@ -295,18 +278,18 @@ class _MyMainPageState extends State<MyMainPage> {
             ),
           ),
           Positioned(
-            top: 640,
-            left: 187,
-            child: Align(
-              // User Location Button
-              alignment: Alignment.bottomCenter,
-              child: InkWell(
-                //onTap: _userLocationButton,
-                onTap: _userLocationButton,
-                child: CircularButton(),
-              ),
-            ),
-          ),
+              // top: 640,
+              top: phoneHeight * 0.8,
+              left: phoneWidth * 0.5 - 20,
+              child: Align(
+                // User Location Button
+                alignment: Alignment.bottomCenter,
+                child: InkWell(
+                  //onTap: _userLocationButton,
+                  onTap: _userLocationButton,
+                  child: CircularButton(),
+                ),
+              )),
 
           // darkened container background for the search results
 
@@ -349,20 +332,35 @@ class _MyMainPageState extends State<MyMainPage> {
                         applicationBloc.searchResults![index].name,
                         style: TextStyle(color: Colors.white),
                       ),
-                      onTap: () {
+                      onTap: () async {
                         applicationBloc.clearMarkers();
-                        String mainPlaceName =
-                            applicationBloc.searchResults![index].name;
-                        String mainPlaceLongName =
-                            applicationBloc.searchResults![index].description;
+
+                        //not using these for now
+                        // String mainPlaceName =
+                        //     applicationBloc.searchResults![index].name;
+                        // String mainPlaceLongName =
+                        //     applicationBloc.searchResults![index].description;
+
                         FocusScope.of(context).unfocus();
+
+                        applicationBloc.setSelectedLocation(
+                            applicationBloc.searchResults![index].placeId);
+
+                        _textController.value = _textController.value.copyWith(
+                          text:
+                              applicationBloc.searchResults![index].description,
+                          selection: TextSelection.collapsed(
+                              offset: applicationBloc
+                                  .searchResults![index].description.length),
+                        );
+
+                        //retrieving extra info on the selected location
+                        var selectedLocation = await PlacesService().getPlace(
+                            applicationBloc.searchResults![index].placeId);
 
                         showModalBottomSheet(
                             context: context,
                             builder: (context) {
-                              print("Google location in showModalBottomSheet");
-                              print(mainPlaceName);
-                              print(mainPlaceLongName);
                               return ListView(
                                 children: [
                                   Stack(children: [
@@ -370,7 +368,7 @@ class _MyMainPageState extends State<MyMainPage> {
                                       width: 425,
                                       height: 50,
                                       color: Colors.blueGrey[500],
-                                      child: Text(mainPlaceName,
+                                      child: Text(selectedLocation.name!,
                                           style: TextStyle(
                                             fontSize: 20.0,
                                             // fontWeight: FontWeight.bold,
@@ -379,14 +377,99 @@ class _MyMainPageState extends State<MyMainPage> {
                                       alignment: Alignment.center,
                                     ),
                                   ]),
+
+                                  // PICTURES
+                                  // first pic at the top
+                                  if (selectedLocation.photoReference != null)
+                                    Padding(
+                                        padding: const EdgeInsets.all(1.5),
+                                        child: Image.network(
+                                            'https://maps.googleapis.com/maps/api/place/photo?maxwidth=${phoneWidth - 10}&photoreference=${selectedLocation.photoReference![0]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M')),
+
+                                  //second pic at the bottom left
+                                  if (selectedLocation.photoReference != null &&
+                                      selectedLocation.photoReference!.length >=
+                                          3)
+                                    Padding(
+                                        padding: const EdgeInsets.all(3.0),
+                                        child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceEvenly,
+                                            children: [
+                                              Image.network(
+                                                  'https://maps.googleapis.com/maps/api/place/photo?maxwidth=${(phoneWidth * 0.5 - 10).round()}&maxheight=${(phoneHeight * 0.25).round()}&photoreference=${selectedLocation.photoReference![1]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M'),
+                                              Image.network(
+                                                  'https://maps.googleapis.com/maps/api/place/photo?maxwidth=${(phoneWidth * 0.5 - 10).round()}&maxheight=${(phoneHeight * 0.25).round()}&photoreference=${selectedLocation.photoReference![2]}&key=AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M')
+                                            ])),
+
+                                  // ELABORATED ADDRESS
                                   Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Row(children: [
                                         Icon(Icons.location_pin),
                                         Container(
                                             width: 350,
-                                            child: Text(mainPlaceLongName)),
+                                            child: Text(
+                                                selectedLocation.address!)),
                                       ])),
+
+                                  //FORMATTED PHONE NUMBER
+                                  if (selectedLocation.phoneNumber != null)
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(children: [
+                                          Icon(Icons.phone),
+                                          Container(
+                                              width: 350,
+                                              child: Text(selectedLocation
+                                                  .phoneNumber!)),
+                                        ])),
+
+                                  // OPEN
+                                  if (selectedLocation.isOpen != null &&
+                                      selectedLocation.isOpen == true)
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(children: [
+                                          Icon(Icons.alarm),
+                                          Container(
+                                              width: 350,
+                                              child: Text("Open",
+                                                  style: TextStyle(
+                                                      color: Colors.green))),
+                                        ])),
+
+                                  // CLOSED
+                                  if (selectedLocation.isOpen != null &&
+                                      selectedLocation.isOpen == false)
+                                    Padding(
+                                        padding: const EdgeInsets.all(8.0),
+                                        child: Row(children: [
+                                          Icon(Icons.alarm),
+                                          Container(
+                                              width: 350,
+                                              child: Text("Closed",
+                                                  style: TextStyle(
+                                                      color: Colors.red))),
+                                        ])),
+
+                                  // OPENING HOURS FOR THE WEEK
+                                  for (int i = 0; i < 7; i++)
+                                    if (selectedLocation.isOpen != null &&
+                                        selectedLocation.openingHours != null)
+                                      Padding(
+                                          padding: const EdgeInsets.all(1.0),
+                                          child: Row(children: [
+                                            Icon(Icons.arrow_right),
+                                            Container(
+                                                width: 350,
+                                                child: Text(
+                                                  selectedLocation
+                                                      .openingHours![i],
+                                                )),
+                                          ])),
+
+                                  // FIND NEAREST AMENITIES
                                   Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: Text("Find Nearest",
@@ -406,7 +489,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                   label: Text("Gym"),
                                                   onSelected: (val) {
-                                                    print("pressed gym");
                                                     applicationBloc
                                                         .togglePlaceType(
                                                             "gym", val);
@@ -418,7 +500,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("ATM"),
                                                 onSelected: (val) {
-                                                  print("pressed atm");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "atm", val);
@@ -435,7 +516,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Cafe"),
                                                 onSelected: (val) {
-                                                  print("pressed cafe");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "cafe", val);
@@ -447,7 +527,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Car Park"),
                                                 onSelected: (val) {
-                                                  print("pressed car park");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "parking", val);
@@ -459,7 +538,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Restaurant"),
                                                 onSelected: (val) {
-                                                  print("pressed restaurant");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "restaurant", val);
@@ -472,8 +550,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                                 label:
                                                     Text("Convenience Store"),
                                                 onSelected: (val) {
-                                                  print(
-                                                      "pressed convenience store");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "convenience_store",
@@ -486,7 +562,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Post Office"),
                                                 onSelected: (val) {
-                                                  print("pressed post office");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "post_office", val);
@@ -500,16 +575,9 @@ class _MyMainPageState extends State<MyMainPage> {
                                 ],
                               );
                             });
-                        applicationBloc.setSelectedLocation(
-                            applicationBloc.searchResults![index].placeId);
+                        // applicationBloc.setSelectedLocation(
+                        //     applicationBloc.searchResults![index].placeId);
                         // //clearing the textfield
-                        _textController.value = _textController.value.copyWith(
-                          text:
-                              applicationBloc.searchResults![index].description,
-                          selection: TextSelection.collapsed(
-                              offset: applicationBloc
-                                  .searchResults![index].description.length),
-                        );
                       },
                     );
                   else if (index <
@@ -526,6 +594,10 @@ class _MyMainPageState extends State<MyMainPage> {
                         String mainPlaceName =
                             applicationBloc.searchNUSResults![
                                 index - applicationBloc.searchResults!.length];
+                        String longMainPlaceName = nusVenuesData[applicationBloc
+                                    .searchNUSResults![
+                                index - applicationBloc.searchResults!.length]]
+                            ["description"];
                         FocusScope.of(context).unfocus();
 
                         showModalBottomSheet(
@@ -551,6 +623,14 @@ class _MyMainPageState extends State<MyMainPage> {
                                   ]),
                                   Padding(
                                       padding: const EdgeInsets.all(8.0),
+                                      child: Row(children: [
+                                        Icon(Icons.location_pin),
+                                        Container(
+                                            width: 350,
+                                            child: Text(longMainPlaceName)),
+                                      ])),
+                                  Padding(
+                                      padding: const EdgeInsets.all(8.0),
                                       child: Text("Find Nearest",
                                           style: TextStyle(
                                               fontSize: 25.0,
@@ -568,7 +648,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Gym"),
                                                 onSelected: (val) {
-                                                  print("pressed gym");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "gym", val);
@@ -580,7 +659,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("ATM"),
                                                 onSelected: (val) {
-                                                  print("pressed atm");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "atm", val);
@@ -592,7 +670,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Cafe"),
                                                 onSelected: (val) {
-                                                  print("pressed cafe");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "cafe", val);
@@ -604,7 +681,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Car Park"),
                                                 onSelected: (val) {
-                                                  print("pressed car park");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "parking", val);
@@ -616,7 +692,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Restaurant"),
                                                 onSelected: (val) {
-                                                  print("pressed restaurant");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "restaurant", val);
@@ -629,8 +704,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                                 label:
                                                     Text("Convenience Store"),
                                                 onSelected: (val) {
-                                                  print(
-                                                      "pressed convenience store");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "convenience_store",
@@ -643,7 +716,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Post Office"),
                                                 onSelected: (val) {
-                                                  print("pressed post office");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "post_office", val);
@@ -669,13 +741,16 @@ class _MyMainPageState extends State<MyMainPage> {
                         );
                         _goToNUSPlace(
                             nusVenuesData[applicationBloc.searchNUSResults![
-                                    index -
-                                        applicationBloc.searchResults!.length]]
+                                    index - applicationBloc.searchResults!.length]]
                                 ["latitude"],
                             nusVenuesData[applicationBloc.searchNUSResults![
                                     index -
                                         applicationBloc.searchResults!.length]]
-                                ["longitude"]);
+                                ["longitude"],
+                            nusVenuesData[applicationBloc.searchNUSResults![
+                                    index -
+                                        applicationBloc.searchResults!.length]]
+                                ["name"]);
 
                         applicationBloc.setNUSSelectedLocation(
                             nusVenuesData[applicationBloc.searchNUSResults![
@@ -751,7 +826,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Gym"),
                                                 onSelected: (val) {
-                                                  print("pressed gym");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "gym", val);
@@ -763,7 +837,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("ATM"),
                                                 onSelected: (val) {
-                                                  print("pressed atm");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "atm", val);
@@ -775,7 +848,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Cafe"),
                                                 onSelected: (val) {
-                                                  print("pressed cafe");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "cafe", val);
@@ -787,7 +859,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Car Park"),
                                                 onSelected: (val) {
-                                                  print("pressed car park");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "parking", val);
@@ -799,7 +870,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Restaurant"),
                                                 onSelected: (val) {
-                                                  print("pressed restaurant");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "restaurant", val);
@@ -812,8 +882,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                                 label:
                                                     Text("Convenience Store"),
                                                 onSelected: (val) {
-                                                  print(
-                                                      "pressed convenience store");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "convenience_store",
@@ -826,7 +894,6 @@ class _MyMainPageState extends State<MyMainPage> {
                                               FilterChip(
                                                 label: Text("Post Office"),
                                                 onSelected: (val) {
-                                                  print("pressed post office");
                                                   applicationBloc
                                                       .togglePlaceType(
                                                           "post_office", val);
@@ -851,7 +918,12 @@ class _MyMainPageState extends State<MyMainPage> {
                                 .searchBusStopsResults![index -
                                     applicationBloc.searchNUSResults!.length -
                                     applicationBloc.searchResults!.length]
-                                .longitude);
+                                .longitude,
+                            applicationBloc
+                                .searchBusStopsResults![index -
+                                    applicationBloc.searchNUSResults!.length -
+                                    applicationBloc.searchResults!.length]
+                                .name);
 
                         _textController.value = _textController.value.copyWith(
                           text: applicationBloc
@@ -914,30 +986,32 @@ class _MyMainPageState extends State<MyMainPage> {
     );
   }
 
-  Future<void> _goToNUSPlace(double lat, double lng) async {
+  Future<void> _goToNUSPlace(double lat, double lng, String name) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat - 0.005, lng), zoom: 15)));
+        CameraPosition(target: LatLng(lat - 0.00075, lng), zoom: 18)));
 
-    _setMarkers(LatLng(lat, lng));
+    _setMarkers(LatLng(lat, lng), name);
   }
 
   Future<void> _goToPlace(Place place) async {
+    print("in go to place");
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(
-        target: LatLng(
-            place.geometry!.location.lat - 0.005, place.geometry!.location.lng),
-        zoom: 15)));
+        target: LatLng(place.geometry!.location.lat - 0.00075,
+            place.geometry!.location.lng),
+        zoom: 18)));
 
     _setMarkers(
-        LatLng(place.geometry!.location.lat, place.geometry!.location.lng));
+        LatLng(place.geometry!.location.lat, place.geometry!.location.lng),
+        place.name!);
   }
 
-  Future<void> _goToBusStop(double lat, double lng) async {
+  Future<void> _goToBusStop(double lat, double lng, String name) async {
     final GoogleMapController controller = await _controllerGoogleMap.future;
     controller.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(target: LatLng(lat - 0.005, lng), zoom: 15)));
+        CameraPosition(target: LatLng(lat - 0.00075, lng), zoom: 18)));
 
-    _setMarkers(LatLng(lat, lng));
+    _setMarkers(LatLng(lat, lng), name + " Bus Stop");
   }
 }
