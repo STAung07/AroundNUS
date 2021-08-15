@@ -4,311 +4,2973 @@
         "description": "none",
         "latitude": "none",
         "longitude": "none"
-    },
-    "BIZ1-0301": {
-        "name": "BIZ1-0301",
-        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
-        "latitude": 1.292415,
-        "longitude": 103.77405
-    },
+    }
+,
+    "LT8": {
+        "name": "LT8",
+        "description": "7 Arts Link, Singapore 117570",
+        "latitude": 1.294129,
+        "longitude": 103.771991
+    }
+,
+    "LT11": {
+        "name": "LT11",
+        "description": "5 Arts Link, Shaw Foundation Building, Singapore 117570",
+        "latitude": 1.295457,
+        "longitude": 103.771399
+    }
+,
+    "LT9": {
+        "name": "LT9",
+        "description": "5 Arts Link, Singapore 117570",
+        "latitude": 1.294969,
+        "longitude": 103.772251
+    }
+,
+    "LT14": {
+        "name": "LT14",
+        "description": "11 Computing Drive, 117416",
+        "latitude": 1.295711,
+        "longitude": 103.773358
+    }
+,
+    "LT13": {
+        "name": "LT13",
+        "description": "Kent Ridge Drive, 119246",
+        "latitude": 1.295069,
+        "longitude": 103.770906
+    }
+,
+    "AS7-0102": {
+        "name": "AS7-0102",
+        "description": "3 Arts Link, Level 4 AS3, Singapore 117569",
+        "latitude": 1.29463,
+        "longitude": 103.771038
+    }
+,
+    "LT10": {
+        "name": "LT10",
+        "description": "11 Computing Drive AS6-04-27, 117416",
+        "latitude": 1.294916,
+        "longitude": 103.77206
+    }
+,
+    "AS1-0205": {
+        "name": "AS1-0205",
+        "description": "11 Arts Link, #03-06 AS1, Singapore 117573",
+        "latitude": 1.295128,
+        "longitude": 103.772121
+    }
+,
+    "AS5-0202": {
+        "name": "AS5-0202",
+        "description": "7 Arts Link, Singapore 117570",
+        "latitude": 1.29396,
+        "longitude": 103.771713
+    }
+,
+    "UTSRC-DS": {
+        "name": "UTSRC-DS",
+        "description": "2 College Ave West, Stephen Riady Centre",
+        "latitude": 1.304504,
+        "longitude": 103.772316
+    }
+,
+    "AS5-0205": {
+        "name": "AS5-0205",
+        "description": "7 Arts Link, Singapore 117570",
+        "latitude": 1.294147,
+        "longitude": 103.771778
+    }
+,
+    "AS1-0201": {
+        "name": "AS1-0201",
+        "description": "11 Arts Link, #03-06 AS1, Singapore 117573",
+        "latitude": 1.295145,
+        "longitude": 103.772134
+    }
+,
+    "LT12": {
+        "name": "LT12",
+        "description": "Kent Ridge Drive, 119246",
+        "latitude": 1.29498,
+        "longitude": 103.771149
+    }
+,
+    "AS4-0206": {
+        "name": "AS4-0206",
+        "description": "Department of Psychology, 9 Arts Link, Block AS4, 117572",
+        "latitude": 1.294628,
+        "longitude": 103.77198
+    }
+,
+    "AS2-0302": {
+        "name": "AS2-0302",
+        "description": "5 Arts Link, Shaw Foundation Building, Singapore 117570",
+        "latitude": 1.295317,
+        "longitude": 103.771824
+    }
+,
+    "AS4-0118": {
+        "name": "AS4-0118",
+        "description": "No. 9 Arts Link, The Deck, National University of Singapore, 117572",
+        "latitude": 1.294428,
+        "longitude": 103.771513
+    }
+,
+    "AS6-0212": {
+        "name": "AS6-0212",
+        "description": "11 Computing Dr, Singapore 117416",
+        "latitude": 1.295567,
+        "longitude": 103.773163
+    }
+,
+    "AS1-0203": {
+        "name": "AS1-0203",
+        "description": "National University of Singapore, 11 Arts Link, #04-10 Faculty of Arts & Social Sciences Department of Political Science AS1, 117570",
+        "latitude": 1.295488,
+        "longitude": 103.772395
+    }
+,
+    "AS4-0119": {
+        "name": "AS4-0119",
+        "description": "Singapore",
+        "latitude": 1.2944,
+        "longitude": 103.771453
+    }
+,
+    "AS4-0604": {
+        "name": "AS4-0604",
+        "description": "5 Arts Link, Singapore 117570",
+        "latitude": 1.294692,
+        "longitude": 103.77214
+    }
+,
+    "AS7-0106": {
+        "name": "AS7-0106",
+        "description": "5 Arts Link, Singapore 117570",
+        "latitude": 1.294562,
+        "longitude": 103.771157
+    }
+,
+    "AS6-0214": {
+        "name": "AS6-0214",
+        "description": "13 Computing Drive, 117417",
+        "latitude": 1.295662,
+        "longitude": 103.773099
+    }
+,
+    "AS1-0212": {
+        "name": "AS1-0212",
+        "description": "11 Arts Link, #03-06 AS1, Singapore 117573",
+        "latitude": 1.295124,
+        "longitude": 103.771963
+    }
+,
+    "AS8-0405": {
+        "name": "AS8-0405",
+        "description": "Block ADM",
+        "latitude": 1.295925,
+        "longitude": 103.772326
+    }
+,
+    "AS1-0301": {
+        "name": "AS1-0301",
+        "description": "National University of Singapore, 11 Arts Link, #04-10 Faculty of Arts & Social Sciences Department of Political Science AS1, 117570",
+        "latitude": 1.295546,
+        "longitude": 103.772425
+    }
+,
     "E-Hybrid_C": {
         "name": "E-Hybrid_C",
         "description": "none",
         "latitude": "none",
         "longitude": "none"
-    },
-    "BIZ1-0504": {
-        "name": "BIZ1-0504",
-        "description": "11 Kent Ridge Dr, Singapore 119244",
-        "latitude": 1.293326,
-        "longitude": 103.773658
-    },
-    "BIZ2-0509": {
-        "name": "BIZ2-0509",
-        "description": "1 Business Link, Singapore 117592",
-        "latitude": 1.293257,
-        "longitude": 103.775344
-    },
-    "BIZ1-0303": {
-        "name": "BIZ1-0303",
-        "description": "Hon Sui Sen Dr",
-        "latitude": 1.29264,
-        "longitude": 103.773814
-    },
-    "BIZ1-0201": {
-        "name": "BIZ1-0201",
-        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
-        "latitude": 1.29242,
-        "longitude": 103.774051
-    },
+    }
+,
     "BIZ1-0302": {
         "name": "BIZ1-0302",
         "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
         "latitude": 1.292476,
         "longitude": 103.773923
-    },
+    }
+,
+    "BIZ1-0304": {
+        "name": "BIZ1-0304",
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.292703,
+        "longitude": 103.773912
+    }
+,
+    "BIZ1-0301": {
+        "name": "BIZ1-0301",
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.292415,
+        "longitude": 103.77405
+    }
+,
+    "BIZ1-0203": {
+        "name": "BIZ1-0203",
+        "description": "Hon Sui Sen Dr",
+        "latitude": 1.292649,
+        "longitude": 103.773809
+    }
+,
+    "BIZ1-0201": {
+        "name": "BIZ1-0201",
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.29242,
+        "longitude": 103.774051
+    }
+,
+    "BIZ2-0227": {
+        "name": "BIZ2-0227",
+        "description": "1 Business Link",
+        "latitude": 1.293314,
+        "longitude": 103.775157
+    }
+,
     "BIZ1-0307": {
         "name": "BIZ1-0307",
         "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
         "latitude": 1.292528,
         "longitude": 103.774369
-    },
-    "COM1-B110": {
-        "name": "COM1-B110",
-        "description": "15 Computing Dr, Singapore 117418",
-        "latitude": 1.294806,
-        "longitude": 103.773899
-    },
-    "COM1-B111": {
-        "name": "COM1-B111",
-        "description": "15 Computing Dr, Singapore 117418",
-        "latitude": 1.294932,
-        "longitude": 103.773907
-    },
-    "COM1-B112": {
-        "name": "COM1-B112",
-        "description": "15 Computing Dr, Singapore 117418",
-        "latitude": 1.294958,
-        "longitude": 103.773849
-    },
-    "COM1-0120": {
-        "name": "COM1-0120",
-        "description": "15 Computing Dr, Singapore 117418",
-        "latitude": 1.29469,
-        "longitude": 103.773937
-    },
-    "COM1-B109": {
-        "name": "COM1-B109",
-        "description": "15 Computing Dr, Singapore 117418",
-        "latitude": 1.294842,
-        "longitude": 103.77395
-    },
-    "COM1-B108": {
-        "name": "COM1-B108",
-        "description": "15 Computing Dr, Singapore 117418",
-        "latitude": 1.29488,
-        "longitude": 103.773995
-    },
-    "E5-03-19": {
-        "name": "E5-03-19",
-        "description": "4 Engineering Drive 4, #02-09 Blk E5, Singapore 117585",
-        "latitude": 1.298178,
-        "longitude": 103.772033
-    },
-    "E1-06-07": {
-        "name": "E1-06-07",
-        "description": "3 Engineering Drive 2, Singapore 117578",
-        "latitude": 1.298887,
-        "longitude": 103.771036
-    },
-    "E5-03-20": {
-        "name": "E5-03-20",
-        "description": "4 Engineering Drive 4, #02-09 Blk E5, Singapore 117585",
-        "latitude": 1.298137,
-        "longitude": 103.772146
-    },
-    "E4A-06-07": {
-        "name": "E4A-06-07",
-        "description": "10 Kent Ridge Cres, Singapore 119260",
-        "latitude": 1.298821,
-        "longitude": 103.771802
-    },
-    "LT2": {
-        "name": "LT2",
-        "description": "Engineering Block 2 1 Engineering Drive 2 #E2-03-02/03, Singapore 117579",
-        "latitude": 1.299312,
-        "longitude": 103.771405
-    },
-    "LT1": {
-        "name": "LT1",
-        "description": "5 Engineering Drive 2, Singapore 117579",
-        "latitude": 1.299513,
-        "longitude": 103.771293
-    },
-    "E4-04-03": {
-        "name": "E4-04-03",
-        "description": "5 Engineering Drive 1, Singapore 117608",
-        "latitude": 1.298852,
-        "longitude": 103.771701
-    },
-    "E4-04-02": {
-        "name": "E4-04-02",
-        "description": "10 Kent Ridge Cres, Singapore 119260",
-        "latitude": 1.298714,
-        "longitude": 103.771816
-    },
-    "E3-06-08": {
-        "name": "E3-06-08",
-        "description": "Engineering Drive 2, Singapore 117579",
-        "latitude": 1.299832,
-        "longitude": 103.771445
-    },
-    "E4-04-04": {
-        "name": "E4-04-04",
-        "description": "3 Engineering Drive 2, Singapore 117579",
-        "latitude": 1.298798,
-        "longitude": 103.771717
-    },
-    "LT28": {
-        "name": "LT28",
-        "description": "Yong Loo Lin School of Medicine",
-        "latitude": 1.2972,
-        "longitude": 103.78115
-    },
-    "S5-0410": {
-        "name": "S5-0410",
-        "description": "18 Science Drive 4, Singapore 117559",
-        "latitude": 1.295504,
-        "longitude": 103.779715
-    },
-    "E-Learn_B": {
-        "name": "E-Learn_B",
+    }
+,
+    "BIZ1-0202": {
+        "name": "BIZ1-0202",
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.29248,
+        "longitude": 103.773925
+    }
+,
+    "BIZ2-0510": {
+        "name": "BIZ2-0510",
+        "description": "1 Business Link, Singapore 117592",
+        "latitude": 1.2933,
+        "longitude": 103.775221
+    }
+,
+    "BIZ2-0509": {
+        "name": "BIZ2-0509",
+        "description": "1 Business Link, Singapore 117592",
+        "latitude": 1.293257,
+        "longitude": 103.775344
+    }
+,
+    "BIZ2-B104": {
+        "name": "BIZ2-B104",
+        "description": "1 Business Link, Singapore 117592",
+        "latitude": 1.293298,
+        "longitude": 103.775295
+    }
+,
+    "BIZ2-0229": {
+        "name": "BIZ2-0229",
+        "description": "1 Business Link, Singapore 117592",
+        "latitude": 1.293366,
+        "longitude": 103.775011
+    }
+,
+    "BIZ1-0305": {
+        "name": "BIZ1-0305",
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.292655,
+        "longitude": 103.774022
+    }
+,
+    "LT18": {
+        "name": "LT18",
+        "description": "Hon Sui Sen Auditorium",
+        "latitude": 1.293305,
+        "longitude": 103.774605
+    }
+,
+    "BIZ1-0204": {
+        "name": "BIZ1-0204",
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.292703,
+        "longitude": 103.773912
+    }
+,
+    "I3-02": {
+        "name": "I3-02",
         "description": "none",
         "latitude": "none",
         "longitude": "none"
-    },
-    "S4A-0308": {
-        "name": "S4A-0308",
-        "description": "18 Science Drive 4, Singapore 117559",
-        "latitude": 1.295772,
-        "longitude": 103.779261
-    },
-    "E-Learn_D": {
-        "name": "E-Learn_D",
+    }
+,
+    "BIZ1-0205": {
+        "name": "BIZ1-0205",
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.292655,
+        "longitude": 103.774022
+    }
+,
+    "BIZ2-HSSAU": {
+        "name": "BIZ2-HSSAU",
+        "description": "Hon Sui Sen Auditorium",
+        "latitude": 1.293301,
+        "longitude": 103.774625
+    }
+,
+    "BIZ2-0413B": {
+        "name": "BIZ2-0413B",
+        "description": "1 Business Link, Singapore 117592",
+        "latitude": 1.293319,
+        "longitude": 103.775049
+    }
+,
+    "BIZ1-0206": {
+        "name": "BIZ1-0206",
+        "description": "15 Kent Ridge Dr, Mocthar Riady Building, Singapore 119245",
+        "latitude": 1.292624,
+        "longitude": 103.774147
+    }
+,
+    "BIZ2-0228": {
+        "name": "BIZ2-0228",
+        "description": "1 Business Link, Singapore 117592",
+        "latitude": 1.293336,
+        "longitude": 103.775095
+    }
+,
+    "BIZ1-SR6-4": {
+        "name": "BIZ1-SR6-4",
         "description": "none",
         "latitude": "none",
         "longitude": "none"
-    },
-    "E-Hybrid_A": {
-        "name": "E-Hybrid_A",
+    }
+,
+    "LT16": {
+        "name": "LT16",
+        "description": "NUS LT16",
+        "latitude": 1.293917,
+        "longitude": 103.773864
+    }
+,
+    "SFAH-BEACON": {
+        "name": "SFAH-BEACON",
         "description": "none",
         "latitude": "none",
         "longitude": "none"
-    },
-    "RC4-SR1-2": {
-        "name": "RC4-SR1-2",
-        "description": "2 College Ave E, Singapore 138612",
-        "latitude": 1.308243,
-        "longitude": 103.772883
-    },
-    "E5-03-23": {
-        "name": "E5-03-23",
-        "description": "E5",
-        "latitude": 1.29806,
-        "longitude": 103.772357
-    },
-    "LT3": {
-        "name": "LT3",
-        "description": "10 Kent Ridge Cres, Singapore 119260",
-        "latitude": 1.297783,
-        "longitude": 103.773401
-    },
-    "E-Learn_E": {
-        "name": "E-Learn_E",
+    }
+,
+    "LT17": {
+        "name": "LT17",
+        "description": "NUS LT17",
+        "latitude": 1.293606,
+        "longitude": 103.774011
+    }
+,
+    "SFAH-FRONTIER": {
+        "name": "SFAH-FRONTIER",
         "description": "none",
         "latitude": "none",
         "longitude": "none"
-    },
-    "E1-06-0809": {
-        "name": "E1-06-0809",
-        "description": "none",
-        "latitude": "none",
-        "longitude": "none"
-    },
-    "LT4": {
-        "name": "LT4",
-        "description": "10 Kent Ridge Crescent, 119260",
-        "latitude": 1.297478,
-        "longitude": 103.773518
-    },
-    "E1-06-02": {
-        "name": "E1-06-02",
-        "description": "9 Engineering Drive 1, Singapore 117575",
-        "latitude": 1.29855,
-        "longitude": 103.771195
-    },
-    "EA-06-02": {
-        "name": "EA-06-02",
-        "description": "9 Engineering Drive 1, Singapore 117575",
-        "latitude": 1.299893,
-        "longitude": 103.770382
-    },
-    "I3-0344": {
-        "name": "I3-0344",
-        "description": "21 Heng Mui Keng Terrace, Icube Building, Singapore 119613",
-        "latitude": 1.292453,
-        "longitude": 103.775568
-    },
-    "LT15": {
-        "name": "LT15",
-        "description": "11 Computing Drive, 117416",
-        "latitude": 1.295523,
-        "longitude": 103.773409
-    },
-    "COM1-VCRM": {
-        "name": "COM1-VCRM",
-        "description": "15 Computing Dr, Singapore 117418",
-        "latitude": 1.294736,
-        "longitude": 103.774009
-    },
-    "E-Learn_A": {
-        "name": "E-Learn_A",
-        "description": "none",
-        "latitude": "none",
-        "longitude": "none"
-    },
+    }
+,
     "LT19": {
         "name": "LT19",
         "description": "13 Computing Dr, Singapore 117417",
         "latitude": 1.29373,
         "longitude": 103.774303
-    },
-    "E1-06-08": {
-        "name": "E1-06-08",
-        "description": "3 Engineering Drive 2, Singapore 117578",
-        "latitude": 1.298996,
-        "longitude": 103.770985
-    },
-    "E1-06-09": {
-        "name": "E1-06-09",
-        "description": "3 Engineering Drive 2, Singapore 117578",
-        "latitude": 1.299028,
-        "longitude": 103.771053
-    },
-    "E1-06-01": {
-        "name": "E1-06-01",
-        "description": "9 Engineering Drive 1, Singapore 117575",
-        "latitude": 1.298478,
-        "longitude": 103.771229
-    },
+    }
+,
+    "BIZ2-0413A": {
+        "name": "BIZ2-0413A",
+        "description": "1 Business Link, Singapore 117592",
+        "latitude": 1.293256,
+        "longitude": 103.775313
+    }
+,
+    "BIZ2-0413C": {
+        "name": "BIZ2-0413C",
+        "description": "1 Business Link, Singapore 117592",
+        "latitude": 1.293226,
+        "longitude": 103.775337
+    }
+,
+    "BIZ1-SR6-1": {
+        "name": "BIZ1-SR6-1",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "COM1-VCRM": {
+        "name": "COM1-VCRM",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294736,
+        "longitude": 103.774009
+    }
+,
+    "LT15": {
+        "name": "LT15",
+        "description": "11 Computing Drive, 117416",
+        "latitude": 1.295523,
+        "longitude": 103.773409
+    }
+,
+    "COM1-0114": {
+        "name": "COM1-0114",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294876,
+        "longitude": 103.773957
+    }
+,
+    "COM1-0113": {
+        "name": "COM1-0113",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294826,
+        "longitude": 103.773999
+    }
+,
+    "COM1-0120": {
+        "name": "COM1-0120",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.29469,
+        "longitude": 103.773937
+    }
+,
+    "COM1-0201": {
+        "name": "COM1-0201",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.295399,
+        "longitude": 103.773649
+    }
+,
+    "COM1-0210": {
+        "name": "COM1-0210",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294727,
+        "longitude": 103.774231
+    }
+,
+    "COM1-0208": {
+        "name": "COM1-0208",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294875,
+        "longitude": 103.774106
+    }
+,
+    "COM1-B112": {
+        "name": "COM1-B112",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294958,
+        "longitude": 103.773849
+    }
+,
+    "COM1-B109": {
+        "name": "COM1-B109",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294842,
+        "longitude": 103.77395
+    }
+,
+    "COM1-B102": {
+        "name": "COM1-B102",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294782,
+        "longitude": 103.774183
+    }
+,
+    "SR_LT19": {
+        "name": "SR_LT19",
+        "description": "Computing Drive, National University Of Singapore, 119077",
+        "latitude": 1.293713,
+        "longitude": 103.774329
+    }
+,
+    "COM1-B113": {
+        "name": "COM1-B113",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.295034,
+        "longitude": 103.773823
+    }
+,
+    "COM1-B108": {
+        "name": "COM1-B108",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.29488,
+        "longitude": 103.773995
+    }
+,
+    "COM1-B111": {
+        "name": "COM1-B111",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294932,
+        "longitude": 103.773907
+    }
+,
+    "COM1-B110": {
+        "name": "COM1-B110",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294806,
+        "longitude": 103.773899
+    }
+,
+    "COM1-B103": {
+        "name": "COM1-B103",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294692,
+        "longitude": 103.774152
+    }
+,
+    "I3-0336": {
+        "name": "I3-0336",
+        "description": "21 Heng Mui Keng Terrace, Icube Building, Singapore 119613",
+        "latitude": 1.292238,
+        "longitude": 103.776007
+    }
+,
+    "I3-0338": {
+        "name": "I3-0338",
+        "description": "21 Heng Mui Keng Terrace, Icube Building, Singapore 119613",
+        "latitude": 1.292286,
+        "longitude": 103.775865
+    }
+,
+    "I3-0339": {
+        "name": "I3-0339",
+        "description": "21 Heng Mui Keng Terrace, Icube Building, Singapore 119613",
+        "latitude": 1.292307,
+        "longitude": 103.775804
+    }
+,
+    "COM1-0212": {
+        "name": "COM1-0212",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294791,
+        "longitude": 103.774008
+    }
+,
+    "COM1-0203": {
+        "name": "COM1-0203",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.295245,
+        "longitude": 103.773778
+    }
+,
+    "COM2-0108": {
+        "name": "COM2-0108",
+        "description": "13 Computing Dr, Singapore 117417",
+        "latitude": 1.293577,
+        "longitude": 103.774159
+    }
+,
+    "COM1-0216": {
+        "name": "COM1-0216",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.294718,
+        "longitude": 103.773973
+    }
+,
+    "RMI-SR1": {
+        "name": "RMI-SR1",
+        "description": "21 Heng Mui Keng Terrace, Icube Building, Singapore 119613",
+        "latitude": 1.292613,
+        "longitude": 103.775482
+    }
+,
+    "AS6-0211": {
+        "name": "AS6-0211",
+        "description": "11 Computing Dr, Singapore 117416",
+        "latitude": 1.295558,
+        "longitude": 103.773175
+    }
+,
+    "COM1-0217": {
+        "name": "COM1-0217",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.29477,
+        "longitude": 103.77393
+    }
+,
+    "AS6-0210": {
+        "name": "AS6-0210",
+        "description": "11 Computing Dr, Singapore 117416",
+        "latitude": 1.295347,
+        "longitude": 103.773337
+    }
+,
+    "AS6-0208": {
+        "name": "AS6-0208",
+        "description": "11 Computing Dr, Singapore 117416",
+        "latitude": 1.295353,
+        "longitude": 103.773311
+    }
+,
+    "I3-0344": {
+        "name": "I3-0344",
+        "description": "21 Heng Mui Keng Terrace, Icube Building, Singapore 119613",
+        "latitude": 1.292453,
+        "longitude": 103.775568
+    }
+,
+    "I3-AUD": {
+        "name": "I3-AUD",
+        "description": "Queenstown",
+        "latitude": 1.292712,
+        "longitude": 103.775308
+    }
+,
+    "COM1-0206": {
+        "name": "COM1-0206",
+        "description": "15 Computing Dr, Singapore 117418",
+        "latitude": 1.295028,
+        "longitude": 103.773932
+    }
+,
+    "AS3-0620": {
+        "name": "AS3-0620",
+        "description": "5 Arts Link, Singapore 117570",
+        "latitude": 1.294868,
+        "longitude": 103.771622
+    }
+,
+    "UTSRC-LT51": {
+        "name": "UTSRC-LT51",
+        "description": "2 College Ave West, Stephen Riady Centre",
+        "latitude": 1.304055,
+        "longitude": 103.772982
+    }
+,
+    "UTSRC-LT50": {
+        "name": "UTSRC-LT50",
+        "description": "2 College Ave West, Stephen Riady Centre",
+        "latitude": 1.304179,
+        "longitude": 103.772781
+    }
+,
+    "UT-AUD3": {
+        "name": "UT-AUD3",
+        "description": "10 College Ave E, CAPT Multipurpose Hall, Singapore 138616",
+        "latitude": 1.307262,
+        "longitude": 103.773047
+    }
+,
     "TP-GLR": {
         "name": "TP-GLR",
         "description": "1 College Ave E, CREATE Tower, Singapore 049374",
         "latitude": 1.303998,
         "longitude": 103.773409
-    },
-    "TP-SR1": {
-        "name": "TP-SR1",
-        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
-        "latitude": 1.303998,
-        "longitude": 103.773409
-    },
-    "TP-SR5": {
-        "name": "TP-SR5",
-        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
-        "latitude": 1.303998,
-        "longitude": 103.773409
-    },
-    "TP-SR7": {
-        "name": "TP-SR7",
-        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
-        "latitude": 1.303998,
-        "longitude": 103.773409
-    },
+    }
+,
+    "UTSRC-GLR": {
+        "name": "UTSRC-GLR",
+        "description": "2 College Ave West, Stephen Riady Centre",
+        "latitude": 1.304262,
+        "longitude": 103.773178
+    }
+,
+    "UTSRC-LT52": {
+        "name": "UTSRC-LT52",
+        "description": "2 College Ave West, Stephen Riady Centre",
+        "latitude": 1.304127,
+        "longitude": 103.773005
+    }
+,
+    "UT-AUD2": {
+        "name": "UT-AUD2",
+        "description": "2 College Ave West, Stephen Riady Centre",
+        "latitude": 1.304383,
+        "longitude": 103.772728
+    }
+,
+    "E-Learn_D": {
+        "name": "E-Learn_D",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "SDE1-SR5-6": {
+        "name": "SDE1-SR5-6",
+        "description": "4 Architecture Dr, School of Design and Enviroment, Singapore 117566",
+        "latitude": 1.297369,
+        "longitude": 103.77064
+    }
+,
+    "SDE2-ER1": {
+        "name": "SDE2-ER1",
+        "description": "4 Architecture Dr, School of Design and Enviroment, Singapore 117566",
+        "latitude": 1.297138,
+        "longitude": 103.771024
+    }
+,
+    "SDE4-EXR1-2": {
+        "name": "SDE4-EXR1-2",
+        "description": "8, #05-03 National University of Singapore, 117356",
+        "latitude": 1.296668,
+        "longitude": 103.770501
+    }
+,
+    "SDE2_ER4-5": {
+        "name": "SDE2_ER4-5",
+        "description": "4 Architecture Dr, School of Design and Enviroment, Singapore 117566",
+        "latitude": 1.297176,
+        "longitude": 103.771029
+    }
+,
+    "SDE-ER5": {
+        "name": "SDE-ER5",
+        "description": "4 Architecture Dr, School of Design and Enviroment, Singapore 117566",
+        "latitude": 1.297129,
+        "longitude": 103.771054
+    }
+,
+    "UTSRC-SR3": {
+        "name": "UTSRC-SR3",
+        "description": "2 College Ave West, Stephen Riady Centre",
+        "latitude": 1.304273,
+        "longitude": 103.772824
+    }
+,
+    "SDE2-MEZZ": {
+        "name": "SDE2-MEZZ",
+        "description": "4 Architecture Dr, School of Design and Enviroment, Singapore 117566",
+        "latitude": 1.297164,
+        "longitude": 103.771132
+    }
+,
+    "SDE-ER4": {
+        "name": "SDE-ER4",
+        "description": "4 Architecture Dr, School of Design and Enviroment, Singapore 117566",
+        "latitude": 1.29729,
+        "longitude": 103.771075
+    }
+,
+    "E-Hybrid_A": {
+        "name": "E-Hybrid_A",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "SDE1-SR4": {
+        "name": "SDE1-SR4",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "SDE1-SR3": {
+        "name": "SDE1-SR3",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "SDE1-SR2": {
+        "name": "SDE1-SR2",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "E-Learn_A": {
+        "name": "E-Learn_A",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "NAK-AUD": {
+        "name": "NAK-AUD",
+        "description": "8 College Ave West, Education Resource Centre, Singapore 138608",
+        "latitude": 1.305495,
+        "longitude": 103.773108
+    }
+,
+    "SDE1-SR1": {
+        "name": "SDE1-SR1",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "SDE4-EXR-1": {
+        "name": "SDE4-EXR-1",
+        "description": "8, #05-03 National University of Singapore, 117356",
+        "latitude": 1.296705,
+        "longitude": 103.770576
+    }
+,
+    "SDE1-CL2": {
+        "name": "SDE1-CL2",
+        "description": "4 Architecture Dr, School of Design and Enviroment, Singapore 117566",
+        "latitude": 1.297439,
+        "longitude": 103.770745
+    }
+,
+    "SDE1-CL3": {
+        "name": "SDE1-CL3",
+        "description": "4 Architecture Dr, School of Design and Enviroment, Singapore 117566",
+        "latitude": 1.297317,
+        "longitude": 103.770638
+    }
+,
+    "SDE2-ES2": {
+        "name": "SDE2-ES2",
+        "description": "4 Architecture Dr, School of Design and Enviroment, Singapore 117566",
+        "latitude": 1.297326,
+        "longitude": 103.771175
+    }
+,
+    "SDE4-GIS1-2": {
+        "name": "SDE4-GIS1-2",
+        "description": "8, #05-03 National University of Singapore, 117356",
+        "latitude": 1.296794,
+        "longitude": 103.770356
+    }
+,
+    "E-Hybrid_D": {
+        "name": "E-Hybrid_D",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "SDE4-EXR-2": {
+        "name": "SDE4-EXR-2",
+        "description": "8, #05-03 National University of Singapore, 117356",
+        "latitude": 1.296882,
+        "longitude": 103.770466
+    }
+,
+    "SDE2-ES1": {
+        "name": "SDE2-ES1",
+        "description": "4 Architecture Dr, School of Design and Enviroment, Singapore 117566",
+        "latitude": 1.297209,
+        "longitude": 103.771132
+    }
+,
+    "WT-Lab": {
+        "name": "WT-Lab",
+        "description": "4 Architecture Dr, School of Design and Enviroment, Singapore 117566",
+        "latitude": 1.297212,
+        "longitude": 103.771118
+    }
+,
+    "ERC-SR9CAM": {
+        "name": "ERC-SR9CAM",
+        "description": "8 College Ave West, Education Resource Centre, Singapore 138608",
+        "latitude": 1.306217,
+        "longitude": 103.772875
+    }
+,
+    "ERC-ALR": {
+        "name": "ERC-ALR",
+        "description": "8 College Ave West, Education Resource Centre, Singapore 138608",
+        "latitude": 1.306338,
+        "longitude": 103.772879
+    }
+,
+    "UTSRC-SR1": {
+        "name": "UTSRC-SR1",
+        "description": "2 College Ave West, Stephen Riady Centre",
+        "latitude": 1.304273,
+        "longitude": 103.772824
+    }
+,
+    "UTSRC-SR9": {
+        "name": "UTSRC-SR9",
+        "description": "Queenstown",
+        "latitude": 1.304319,
+        "longitude": 103.773151
+    }
+,
+    "UTSRC-SR8": {
+        "name": "UTSRC-SR8",
+        "description": "Queenstown",
+        "latitude": 1.304319,
+        "longitude": 103.773151
+    }
+,
+    "LT7": {
+        "name": "LT7",
+        "description": "9 Engineering Drive 1, National University of Singapore, Singapore 117575",
+        "latitude": 1.300082,
+        "longitude": 103.771084
+    }
+,
+    "E5-03-19": {
+        "name": "E5-03-19",
+        "description": "4 Engineering Drive 4, #02-09 Blk E5, Singapore 117585",
+        "latitude": 1.298178,
+        "longitude": 103.772033
+    }
+,
+    "E2A-02-01": {
+        "name": "E2A-02-01",
+        "description": "E1-02-03, 3 Engineering Drive 2, Faculty of Engineering, NUS, 117576",
+        "latitude": 1.298849,
+        "longitude": 103.771479
+    }
+,
+    "E2A-03-01": {
+        "name": "E2A-03-01",
+        "description": "E1-02-03, 3 Engineering Drive 2, Faculty of Engineering, NUS, 117576",
+        "latitude": 1.298849,
+        "longitude": 103.771479
+    }
+,
+    "E2A-03-02": {
+        "name": "E2A-03-02",
+        "description": "Engineering Drive 2, Singapore 117275",
+        "latitude": 1.298727,
+        "longitude": 103.77149
+    }
+,
+    "E2A-04-02": {
+        "name": "E2A-04-02",
+        "description": "E1-02-03, 3 Engineering Drive 2, Faculty of Engineering, NUS, 117576",
+        "latitude": 1.298836,
+        "longitude": 103.771484
+    }
+,
+    "E2A-04-03": {
+        "name": "E2A-04-03",
+        "description": "Engineering Drive 2, Singapore 117275",
+        "latitude": 1.298727,
+        "longitude": 103.77149
+    }
+,
+    "E3-06-01": {
+        "name": "E3-06-01",
+        "description": "Engineering Block 2 1 Engineering Drive 2 #E2-03-02/03, Singapore 117579",
+        "latitude": 1.299324,
+        "longitude": 103.771686
+    }
+,
+    "EA-06-05": {
+        "name": "EA-06-05",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.300129,
+        "longitude": 103.770431
+    }
+,
+    "EA-06-06": {
+        "name": "EA-06-06",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.300196,
+        "longitude": 103.770455
+    }
+,
+    "E3-06-04": {
+        "name": "E3-06-04",
+        "description": "1 Engineering Drive 3, Singapore 117580",
+        "latitude": 1.299526,
+        "longitude": 103.771591
+    }
+,
+    "E1-06-16": {
+        "name": "E1-06-16",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.298516,
+        "longitude": 103.771308
+    }
+,
+    "E3-06-02": {
+        "name": "E3-06-02",
+        "description": "2 Engineering Drive 3, Singapore 117581",
+        "latitude": 1.299399,
+        "longitude": 103.771651
+    }
+,
+    "E3-06-05": {
+        "name": "E3-06-05",
+        "description": "1 Engineering Drive 3, Singapore 117580",
+        "latitude": 1.299589,
+        "longitude": 103.771561
+    }
+,
+    "E5-03-21": {
+        "name": "E5-03-21",
+        "description": "4 Engineering Drive 3, #04-08, Singapore 117583",
+        "latitude": 1.298108,
+        "longitude": 103.772224
+    }
+,
+    "E1-06-02": {
+        "name": "E1-06-02",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.29855,
+        "longitude": 103.771195
+    }
+,
+    "E3-06-06": {
+        "name": "E3-06-06",
+        "description": "Engineering Drive 2, Singapore 117579",
+        "latitude": 1.299652,
+        "longitude": 103.771531
+    }
+,
+    "E1-06-06": {
+        "name": "E1-06-06",
+        "description": "E1",
+        "latitude": 1.29881,
+        "longitude": 103.771073
+    }
+,
+    "E5-03-23": {
+        "name": "E5-03-23",
+        "description": "E5",
+        "latitude": 1.29806,
+        "longitude": 103.772357
+    }
+,
+    "E2-03-02": {
+        "name": "E2-03-02",
+        "description": "9 Engineering Drive 1, National University of Singapore, Singapore 117575",
+        "latitude": 1.299118,
+        "longitude": 103.771241
+    }
+,
+    "ENG-AUD": {
+        "name": "ENG-AUD",
+        "description": "EA-07-26 Engineering Auditorium 9 Engineering Drive 1 NUS Engineering, 117575",
+        "latitude": 1.300612,
+        "longitude": 103.770582
+    }
+,
+    "E4-02-06": {
+        "name": "E4-02-06",
+        "description": "10 Kent Ridge Cres, Singapore 119260",
+        "latitude": 1.298686,
+        "longitude": 103.771783
+    }
+,
+    "SDE1-01DS1": {
+        "name": "SDE1-01DS1",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "EA-06-03": {
+        "name": "EA-06-03",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.299983,
+        "longitude": 103.770377
+    }
+,
+    "E3-06-03": {
+        "name": "E3-06-03",
+        "description": "2 Engineering Drive 3, Singapore 117581",
+        "latitude": 1.299462,
+        "longitude": 103.771621
+    }
+,
+    "E5-02-32": {
+        "name": "E5-02-32",
+        "description": "5 Engineering Drive 1, Singapore 117608",
+        "latitude": 1.297812,
+        "longitude": 103.77287
+    }
+,
+    "E1-06-09": {
+        "name": "E1-06-09",
+        "description": "3 Engineering Drive 2, Singapore 117578",
+        "latitude": 1.299028,
+        "longitude": 103.771053
+    }
+,
+    "E1-06-08": {
+        "name": "E1-06-08",
+        "description": "3 Engineering Drive 2, Singapore 117578",
+        "latitude": 1.298996,
+        "longitude": 103.770985
+    }
+,
+    "EW2-04-02": {
+        "name": "EW2-04-02",
+        "description": "5 Engineering Drive 1, Singapore 117608",
+        "latitude": 1.299099,
+        "longitude": 103.772601
+    }
+,
+    "E5-03-20": {
+        "name": "E5-03-20",
+        "description": "4 Engineering Drive 4, #02-09 Blk E5, Singapore 117585",
+        "latitude": 1.298137,
+        "longitude": 103.772146
+    }
+,
+    "E1-06-01": {
+        "name": "E1-06-01",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.298478,
+        "longitude": 103.771229
+    }
+,
+    "LT3": {
+        "name": "LT3",
+        "description": "12 Kent Ridge Cres, Singapore 119275",
+        "latitude": 1.297783,
+        "longitude": 103.773401
+    }
+,
+    "EA-06-04": {
+        "name": "EA-06-04",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.300061,
+        "longitude": 103.770407
+    }
+,
+    "E5-03-22": {
+        "name": "E5-03-22",
+        "description": "E5",
+        "latitude": 1.298084,
+        "longitude": 103.772292
+    }
+,
+    "LT6": {
+        "name": "LT6",
+        "description": "10 Kent Ridge Cres, Singapore 119260",
+        "latitude": 1.298759,
+        "longitude": 103.771963
+    }
+,
+    "LT7A": {
+        "name": "LT7A",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.300481,
+        "longitude": 103.770948
+    }
+,
+    "LT2": {
+        "name": "LT2",
+        "description": "Engineering Block 2 1 Engineering Drive 2 #E2-03-02/03, Singapore 117579",
+        "latitude": 1.299312,
+        "longitude": 103.771405
+    }
+,
+    "LT4": {
+        "name": "LT4",
+        "description": "10 Kent Ridge Crescent, 119260",
+        "latitude": 1.297478,
+        "longitude": 103.773518
+    }
+,
+    "E4A-06-03": {
+        "name": "E4A-06-03",
+        "description": "4 Engineering Drive 3",
+        "latitude": 1.298618,
+        "longitude": 103.772623
+    }
+,
+    "LT1": {
+        "name": "LT1",
+        "description": "5 Engineering Drive 2, Singapore 117579",
+        "latitude": 1.299513,
+        "longitude": 103.771293
+    }
+,
+    "E4-03-07": {
+        "name": "E4-03-07",
+        "description": "4 Engineering Drive 4, Singapore 117585",
+        "latitude": 1.298332,
+        "longitude": 103.772525
+    }
+,
+    "E4-02-01": {
+        "name": "E4-02-01",
+        "description": "4 Engineering Drive 3, Singapore 117583",
+        "latitude": 1.29844,
+        "longitude": 103.772228
+    }
+,
+    "E3-0608-09": {
+        "name": "E3-0608-09",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "E-Learn_E": {
+        "name": "E-Learn_E",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "E3-05-21": {
+        "name": "E3-05-21",
+        "description": "2 Engineering Drive 3, #05-28 Faculty of Engineering, Singapore 117581",
+        "latitude": 1.299377,
+        "longitude": 103.771792
+    }
+,
+    "EA-06-02": {
+        "name": "EA-06-02",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.299893,
+        "longitude": 103.770382
+    }
+,
+    "E1A-05-19": {
+        "name": "E1A-05-19",
+        "description": "3 Engineering Drive 2, Singapore 117578",
+        "latitude": 1.29886,
+        "longitude": 103.771136
+    }
+,
+    "E3-06-09": {
+        "name": "E3-06-09",
+        "description": "Engineering Drive 2, Singapore 117579",
+        "latitude": 1.299865,
+        "longitude": 103.771513
+    }
+,
+    "E1-06-05": {
+        "name": "E1-06-05",
+        "description": "E1",
+        "latitude": 1.298745,
+        "longitude": 103.771103
+    }
+,
+    "EA-02-11": {
+        "name": "EA-02-11",
+        "description": "9 Engineering Drive 1, #07-08 Block EA, Singapore 117575",
+        "latitude": 1.300282,
+        "longitude": 103.770485
+    }
+,
+    "E1-06-04": {
+        "name": "E1-06-04",
+        "description": "E1",
+        "latitude": 1.29868,
+        "longitude": 103.771134
+    }
+,
+    "E1-06-03": {
+        "name": "E1-06-03",
+        "description": "E1",
+        "latitude": 1.298615,
+        "longitude": 103.771165
+    }
+,
+    "E1-06-0102": {
+        "name": "E1-06-0102",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.298486,
+        "longitude": 103.771185
+    }
+,
+    "E3A-05-07": {
+        "name": "E3A-05-07",
+        "description": "7 Engineering Drive 1, Singapore 117574",
+        "latitude": 1.300377,
+        "longitude": 103.771456
+    }
+,
+    "E3A-05-04": {
+        "name": "E3A-05-04",
+        "description": "7 Engineering Drive 1, Singapore 117574",
+        "latitude": 1.300436,
+        "longitude": 103.771215
+    }
+,
+    "E3A-05-03": {
+        "name": "E3A-05-03",
+        "description": "7 Engineering Drive 1, Singapore 117574",
+        "latitude": 1.300305,
+        "longitude": 103.771207
+    }
+,
+    "EA-04-04": {
+        "name": "EA-04-04",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.299907,
+        "longitude": 103.770381
+    }
+,
+    "EA-04-21": {
+        "name": "EA-04-21",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.300142,
+        "longitude": 103.770525
+    }
+,
+    "E2-0307PC4": {
+        "name": "E2-0307PC4",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "E2-0308PC5": {
+        "name": "E2-0308PC5",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "E2-0309PC6": {
+        "name": "E2-0309PC6",
+        "description": "E2",
+        "latitude": 1.299379,
+        "longitude": 103.771166
+    }
+,
+    "E1-0409PC1": {
+        "name": "E1-0409PC1",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "E1-0410PC2": {
+        "name": "E1-0410PC2",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "E1-02-03": {
+        "name": "E1-02-03",
+        "description": "E1",
+        "latitude": 1.298702,
+        "longitude": 103.77103
+    }
+,
+    "EA-06-20": {
+        "name": "EA-06-20",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "E3-06-12": {
+        "name": "E3-06-12",
+        "description": "1 Engineering Drive 3, Singapore 117580",
+        "latitude": 1.299628,
+        "longitude": 103.771643
+    }
+,
+    "E3-06-13": {
+        "name": "E3-06-13",
+        "description": "1 Engineering Drive 3, Singapore 117580",
+        "latitude": 1.299564,
+        "longitude": 103.771673
+    }
+,
+    "E3-06-14": {
+        "name": "E3-06-14",
+        "description": "2 Engineering Drive 3, National University of Singapore, Singapore 117581",
+        "latitude": 1.299501,
+        "longitude": 103.771702
+    }
+,
+    "E3-06-08": {
+        "name": "E3-06-08",
+        "description": "Engineering Drive 2, Singapore 117579",
+        "latitude": 1.299832,
+        "longitude": 103.771445
+    }
+,
+    "E3-06-07": {
+        "name": "E3-06-07",
+        "description": "Engineering Drive 2, Singapore 117579",
+        "latitude": 1.299727,
+        "longitude": 103.771496
+    }
+,
+    "E3-06-11": {
+        "name": "E3-06-11",
+        "description": "Engineering Drive 2, Singapore 117579",
+        "latitude": 1.299691,
+        "longitude": 103.771613
+    }
+,
+    "E1-06-14": {
+        "name": "E1-06-14",
+        "description": "E1",
+        "latitude": 1.298653,
+        "longitude": 103.771244
+    }
+,
+    "E1-06-10": {
+        "name": "E1-06-10",
+        "description": "3 Engineering Drive 2, Singapore 117578",
+        "latitude": 1.298913,
+        "longitude": 103.771121
+    }
+,
+    "E1-06-12": {
+        "name": "E1-06-12",
+        "description": "E1",
+        "latitude": 1.298783,
+        "longitude": 103.771182
+    }
+,
+    "E1-06-11": {
+        "name": "E1-06-11",
+        "description": "E1",
+        "latitude": 1.298848,
+        "longitude": 103.771152
+    }
+,
+    "E1-06-13": {
+        "name": "E1-06-13",
+        "description": "E1",
+        "latitude": 1.298718,
+        "longitude": 103.771213
+    }
+,
+    "E1-06-15": {
+        "name": "E1-06-15",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.298588,
+        "longitude": 103.771274
+    }
+,
+    "E4-04-02": {
+        "name": "E4-04-02",
+        "description": "10 Kent Ridge Cres, Singapore 119260",
+        "latitude": 1.298714,
+        "longitude": 103.771816
+    }
+,
+    "E-Hybrid_B": {
+        "name": "E-Hybrid_B",
+        "description": "2 Engineering Drive 4, Singapore 117584",
+        "latitude": 1.297434,
+        "longitude": 103.772773
+    }
+,
+    "E1-06-07": {
+        "name": "E1-06-07",
+        "description": "3 Engineering Drive 2, Singapore 117578",
+        "latitude": 1.298887,
+        "longitude": 103.771036
+    }
+,
+    "E4-04-03": {
+        "name": "E4-04-03",
+        "description": "5 Engineering Drive 1, Singapore 117608",
+        "latitude": 1.298852,
+        "longitude": 103.771701
+    }
+,
+    "EW1-03-02": {
+        "name": "EW1-03-02",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.298559,
+        "longitude": 103.770852
+    }
+,
+    "EW2-03-14": {
+        "name": "EW2-03-14",
+        "description": "1 Engineering Drive 3, Singapore 117580",
+        "latitude": 1.299379,
+        "longitude": 103.772437
+    }
+,
+    "EW1-04-02": {
+        "name": "EW1-04-02",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "EW1-02-03": {
+        "name": "EW1-02-03",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.298644,
+        "longitude": 103.770705
+    }
+,
+    "EW1-01-01": {
+        "name": "EW1-01-01",
+        "description": "9 Engineering Drive 1, Singapore 117575",
+        "latitude": 1.298827,
+        "longitude": 103.7706
+    }
+,
+    "EW1-1M-03": {
+        "name": "EW1-1M-03",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "EW1-1M-02": {
+        "name": "EW1-1M-02",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "ETS-01-02": {
+        "name": "ETS-01-02",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_SR5-2": {
+        "name": "LAW_SR5-2",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_SR4-1": {
+        "name": "LAW_SR4-1",
+        "description": "B",
+        "latitude": 1.31869,
+        "longitude": 103.816662
+    }
+,
+    "LAW_SR5-1": {
+        "name": "LAW_SR5-1",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_SR4-2": {
+        "name": "LAW_SR4-2",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_SR5-4": {
+        "name": "LAW_SR5-4",
+        "description": "B",
+        "latitude": 1.318684,
+        "longitude": 103.816578
+    }
+,
+    "LAW_CR2-1": {
+        "name": "LAW_CR2-1",
+        "description": "B",
+        "latitude": 1.318705,
+        "longitude": 103.816679
+    }
+,
+    "LAW_SR5-3": {
+        "name": "LAW_SR5-3",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_CR3-4": {
+        "name": "LAW_CR3-4",
+        "description": "B",
+        "latitude": 1.319115,
+        "longitude": 103.817075
+    }
+,
+    "LAW_CR5": {
+        "name": "LAW_CR5",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_CR2-2": {
+        "name": "LAW_CR2-2",
+        "description": "B",
+        "latitude": 1.318751,
+        "longitude": 103.816717
+    }
+,
+    "LAW_CR3-5": {
+        "name": "LAW_CR3-5",
+        "description": "B",
+        "latitude": 1.318964,
+        "longitude": 103.817
+    }
+,
+    "LAW_ESR": {
+        "name": "LAW_ESR",
+        "description": "B",
+        "latitude": 1.319112,
+        "longitude": 103.817032
+    }
+,
+    "LAW_CR3-3": {
+        "name": "LAW_CR3-3",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_SR4-3": {
+        "name": "LAW_SR4-3",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_SR3": {
+        "name": "LAW_SR3",
+        "description": "B",
+        "latitude": 1.319202,
+        "longitude": 103.817133
+    }
+,
+    "LAW_CR4-1": {
+        "name": "LAW_CR4-1",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_LT": {
+        "name": "LAW_LT",
+        "description": "B",
+        "latitude": 1.319267,
+        "longitude": 103.816957
+    }
+,
+    "LAW_SR5-5": {
+        "name": "LAW_SR5-5",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_CR4-2": {
+        "name": "LAW_CR4-2",
+        "description": "B",
+        "latitude": 1.318769,
+        "longitude": 103.816705
+    }
+,
+    "LAW_SR4-4": {
+        "name": "LAW_SR4-4",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_CR3-6": {
+        "name": "LAW_CR3-6",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LAW_CR3-7": {
+        "name": "LAW_CR3-7",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "E-Learn_B": {
+        "name": "E-Learn_B",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD7-02-03": {
+        "name": "MD7-02-03",
+        "description": "8 Medical Dr, Singapore 117596",
+        "latitude": 1.296154,
+        "longitude": 103.781017
+    }
+,
+    "MD7_LAB8": {
+        "name": "MD7_LAB8",
+        "description": "2 Medical Dr, Singapore 117593",
+        "latitude": 1.296064,
+        "longitude": 103.781174
+    }
+,
+    "MD4_LAB9": {
+        "name": "MD4_LAB9",
+        "description": "5 Science Drive 2, Singapore 117545",
+        "latitude": 1.295745,
+        "longitude": 103.780871
+    }
+,
+    "LT28": {
+        "name": "LT28",
+        "description": "Yong Loo Lin School of Medicine",
+        "latitude": 1.2972,
+        "longitude": 103.78115
+    }
+,
+    "LT28-01-01": {
+        "name": "LT28-01-01",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "CELS-04-01": {
+        "name": "CELS-04-01",
+        "description": "12 Kent Ridge Cres, Singapore 119275",
+        "latitude": 1.296346,
+        "longitude": 103.772876
+    }
+,
+    "MD6-01-02": {
+        "name": "MD6-01-02",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD3-03-01B": {
+        "name": "MD3-03-01B",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD3-03-01A": {
+        "name": "MD3-03-01A",
+        "description": "16 Medical Dr, Singapore 117597",
+        "latitude": 1.295354,
+        "longitude": 103.781166
+    }
+,
+    "MD3-03-01H": {
+        "name": "MD3-03-01H",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD10-01-02": {
+        "name": "MD10-01-02",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD6-04-01R": {
+        "name": "MD6-04-01R",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD3-03-01D": {
+        "name": "MD3-03-01D",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD3-03-01C": {
+        "name": "MD3-03-01C",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD6-03-01B": {
+        "name": "MD6-03-01B",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD6-03-01F": {
+        "name": "MD6-03-01F",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD6-03-01C": {
+        "name": "MD6-03-01C",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD6-03-01E": {
+        "name": "MD6-03-01E",
+        "description": "Blk MD6, Centre, 14 Medical Dr, #05-01 for Translational Medicine, 117599",
+        "latitude": 1.295345,
+        "longitude": 103.781819
+    }
+,
+    "MD6-03-01G": {
+        "name": "MD6-03-01G",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD6-03-01K": {
+        "name": "MD6-03-01K",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD6-03-01H": {
+        "name": "MD6-03-01H",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD6-03-01L": {
+        "name": "MD6-03-01L",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LT37-03-07A": {
+        "name": "LT37-03-07A",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-HALL": {
+        "name": "YSTCM-HALL",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-OH": {
+        "name": "YSTCM-OH",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-SR1": {
+        "name": "YSTCM-SR1",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-SR9": {
+        "name": "YSTCM-SR9",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-ER2": {
+        "name": "YSTCM-ER2",
+        "description": "Singapore",
+        "latitude": 1.302483,
+        "longitude": 103.772476
+    }
+,
+    "YSTCM-RS": {
+        "name": "YSTCM-RS",
+        "description": "3 Conservatory Dr, Level 1, Lounge 117376",
+        "latitude": 1.302177,
+        "longitude": 103.772945
+    }
+,
+    "YSTCM-SR3": {
+        "name": "YSTCM-SR3",
+        "description": "Singapore",
+        "latitude": 1.302571,
+        "longitude": 103.772563
+    }
+,
+    "YSTCM-SR8": {
+        "name": "YSTCM-SR8",
+        "description": "3 Conservatory Drive, 117376",
+        "latitude": 1.302343,
+        "longitude": 103.772139
+    }
+,
+    "YSTCM-SR6": {
+        "name": "YSTCM-SR6",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-ER6": {
+        "name": "YSTCM-ER6",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-ER4": {
+        "name": "YSTCM-ER4",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-WS": {
+        "name": "YSTCM-WS",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-SR4": {
+        "name": "YSTCM-SR4",
+        "description": "3 Conservatory Dr, Level 1, Lounge 117376",
+        "latitude": 1.302261,
+        "longitude": 103.772942
+    }
+,
+    "YSTCM-ER3": {
+        "name": "YSTCM-ER3",
+        "description": "3 Conservatory Drive, 117376",
+        "latitude": 1.302329,
+        "longitude": 103.772152
+    }
+,
+    "YSTCM-RECS": {
+        "name": "YSTCM-RECS",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-SR7": {
+        "name": "YSTCM-SR7",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-SR2": {
+        "name": "YSTCM-SR2",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-RECL": {
+        "name": "YSTCM-RECL",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-SR5": {
+        "name": "YSTCM-SR5",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "YSTCM-MLAB": {
+        "name": "YSTCM-MLAB",
+        "description": "3 Estate Office Dr, Singapore 117485",
+        "latitude": 1.302365,
+        "longitude": 103.772729
+    }
+,
+    "Y-GLRm2": {
+        "name": "Y-GLRm2",
+        "description": "20 College Avenue East, #01-220, Cinnamon South Learn Lobe, 138594",
+        "latitude": 1.307264,
+        "longitude": 103.7724
+    }
+,
+    "S16-0309": {
+        "name": "S16-0309",
+        "description": "Faculty of Science National University of Singapore, 6 Science Drive 2, Level 2 Block S16, 117546",
+        "latitude": 1.296878,
+        "longitude": 103.780146
+    }
+,
+    "S16-0598": {
+        "name": "S16-0598",
+        "description": "S16, Faculty of Science, Lower Kent Ridge Rd",
+        "latitude": 1.296698,
+        "longitude": 103.780539
+    }
+,
+    "S16-03-0506": {
+        "name": "S16-03-0506",
+        "description": "Block S16, Level 7, 6 Science Drive 2, Faculty Of Science, National University of Singapore, 117546",
+        "latitude": 1.296709,
+        "longitude": 103.780357
+    }
+,
+    "S16-0436": {
+        "name": "S16-0436",
+        "description": "S16, Faculty of Science, Lower Kent Ridge Rd",
+        "latitude": 1.296718,
+        "longitude": 103.780574
+    }
+,
+    "S14-0620": {
+        "name": "S14-0620",
+        "description": "Lower Kent Ridge Rd",
+        "latitude": 1.296735,
+        "longitude": 103.779592
+    }
+,
+    "SPSWETLAB": {
+        "name": "SPSWETLAB",
+        "description": "Faculty of Science National University of Singapore, 6 Science Drive 2, Level 2 Block S16, 117546",
+        "latitude": 1.296855,
+        "longitude": 103.780302
+    }
+,
+    "LT26": {
+        "name": "LT26",
+        "description": "13 Medical Dr, Singapore 117510",
+        "latitude": 1.296444,
+        "longitude": 103.781104
+    }
+,
+    "S2-0414": {
+        "name": "S2-0414",
+        "description": "Science Drive 4, 117548",
+        "latitude": 1.295498,
+        "longitude": 103.778052
+    }
+,
+    "S13-M-09": {
+        "name": "S13-M-09",
+        "description": "4 Science Drive 3, Singapore 117553",
+        "latitude": 1.296773,
+        "longitude": 103.779088
+    }
+,
+    "S2-0415": {
+        "name": "S2-0415",
+        "description": "Science Drive 4, 117548",
+        "latitude": 1.29552,
+        "longitude": 103.777993
+    }
+,
+    "S1A-0217": {
+        "name": "S1A-0217",
+        "description": "3 Science Drive 2, Lee Wee Kheng Building (STA), Singapore 117543",
+        "latitude": 1.295921,
+        "longitude": 103.778166
+    }
+,
+    "S2-04LAB5": {
+        "name": "S2-04LAB5",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LT32": {
+        "name": "LT32",
+        "description": "3 Science Drive 2, Lee Wee Kheng Building (STA), Singapore 117543",
+        "latitude": 1.29614,
+        "longitude": 103.778302
+    }
+,
+    "S1A-04LAB4": {
+        "name": "S1A-04LAB4",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "S16-0307": {
+        "name": "S16-0307",
+        "description": "Faculty of Science National University of Singapore, 6 Science Drive 2, Level 2 Block S16, 117546",
+        "latitude": 1.296811,
+        "longitude": 103.780205
+    }
+,
+    "S2-03LAB7": {
+        "name": "S2-03LAB7",
+        "description": "8 Science Drive 2, Singapore 117547",
+        "latitude": 1.295625,
+        "longitude": 103.778138
+    }
+,
+    "LT21": {
+        "name": "LT21",
+        "description": "8 Science Drive 2, Singapore 117547",
+        "latitude": 1.295357,
+        "longitude": 103.779467
+    }
+,
+    "S14-0619": {
+        "name": "S14-0619",
+        "description": "Lower Kent Ridge Rd",
+        "latitude": 1.296786,
+        "longitude": 103.779702
+    }
+,
+    "LT27": {
+        "name": "LT27",
+        "description": "Yong Loo Lin School of Medicine",
+        "latitude": 1.296993,
+        "longitude": 103.780901
+    }
+,
+    "S1A-04LAB3": {
+        "name": "S1A-04LAB3",
+        "description": "3 Science Drive 2, Lee Wee Kheng Building (STA), Singapore 117543",
+        "latitude": 1.295936,
+        "longitude": 103.778319
+    }
+,
+    "S1A-03LAB1": {
+        "name": "S1A-03LAB1",
+        "description": "3 Science Drive 2, Lee Wee Kheng Building (STA), Singapore 117543",
+        "latitude": 1.295964,
+        "longitude": 103.778283
+    }
+,
+    "LT29": {
+        "name": "LT29",
+        "description": "Yong Loo Lin School of Medicine",
+        "latitude": 1.297031,
+        "longitude": 103.781219
+    }
+,
+    "LT34": {
+        "name": "LT34",
+        "description": "10 Lower Kent Ridge Rd, Singapore 119076",
+        "latitude": 1.29773,
+        "longitude": 103.780839
+    }
+,
+    "S1A-03LAB2": {
+        "name": "S1A-03LAB2",
+        "description": "3 Science Drive 2, Lee Wee Kheng Building (STA), Singapore 117543",
+        "latitude": 1.295932,
+        "longitude": 103.778454
+    }
+,
+    "LT33": {
+        "name": "LT33",
+        "description": "10 Lower Kent Ridge Rd, Singapore 119076",
+        "latitude": 1.297744,
+        "longitude": 103.780909
+    }
+,
+    "S5-01GEN": {
+        "name": "S5-01GEN",
+        "description": "18 Science Drive 4, Singapore 117559",
+        "latitude": 1.295533,
+        "longitude": 103.779862
+    }
+,
+    "S8-0314": {
+        "name": "S8-0314",
+        "description": "Level 4, Blk S4, Department of Pharmacy Faculty of Science, National University of Singapore, 18 Science Drive 4, Queenstown, 117543",
+        "latitude": 1.296107,
+        "longitude": 103.779246
+    }
+,
+    "S5-0224": {
+        "name": "S5-0224",
+        "description": "18 Science Drive 4, Singapore 117559",
+        "latitude": 1.29563,
+        "longitude": 103.779637
+    }
+,
+    "S5-0410": {
+        "name": "S5-0410",
+        "description": "18 Science Drive 4, Singapore 117559",
+        "latitude": 1.295504,
+        "longitude": 103.779715
+    }
+,
+    "S8-0402": {
+        "name": "S8-0402",
+        "description": "Level 4, Blk S4, Department of Pharmacy Faculty of Science, National University of Singapore, 18 Science Drive 4, Queenstown, 117543",
+        "latitude": 1.296072,
+        "longitude": 103.779374
+    }
+,
+    "S7-0401": {
+        "name": "S7-0401",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "S17-0512": {
+        "name": "S17-0512",
+        "description": "10 Lower Kent Ridge Rd, Singapore 119076",
+        "latitude": 1.297713,
+        "longitude": 103.780834
+    }
+,
+    "S17-0511": {
+        "name": "S17-0511",
+        "description": "10 Lower Kent Ridge Rd, Singapore 119076",
+        "latitude": 1.297787,
+        "longitude": 103.780839
+    }
+,
+    "S16-0430": {
+        "name": "S16-0430",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LT20": {
+        "name": "LT20",
+        "description": "18 Science Drive 4, Singapore 117559",
+        "latitude": 1.295844,
+        "longitude": 103.778821
+    }
+,
+    "S17-0406": {
+        "name": "S17-0406",
+        "description": "2 Science Drive 2, Singapore 117542",
+        "latitude": 1.297651,
+        "longitude": 103.780548
+    }
+,
+    "MD1-06-03M": {
+        "name": "MD1-06-03M",
+        "description": "Queenstown",
+        "latitude": 1.29528,
+        "longitude": 103.78048
+    }
+,
+    "S4-02LAB": {
+        "name": "S4-02LAB",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD1-06-01A": {
+        "name": "MD1-06-01A",
+        "description": "Queenstown",
+        "latitude": 1.295472,
+        "longitude": 103.780585
+    }
+,
+    "S4-04LAB": {
+        "name": "S4-04LAB",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "MD1-05-01A": {
+        "name": "MD1-05-01A",
+        "description": "Queenstown",
+        "latitude": 1.29547,
+        "longitude": 103.780586
+    }
+,
+    "S16-0431": {
+        "name": "S16-0431",
+        "description": "S16, Faculty of Science, Lower Kent Ridge Rd",
+        "latitude": 1.296761,
+        "longitude": 103.78047
+    }
+,
+    "LT31": {
+        "name": "LT31",
+        "description": "S16, Faculty of Science, Lower Kent Ridge Rd",
+        "latitude": 1.296863,
+        "longitude": 103.780394
+    }
+,
+    "CQT/SR0315": {
+        "name": "CQT/SR0315",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "S11-0302": {
+        "name": "S11-0302",
+        "description": "6 Science Drive 3, Singapore 117554",
+        "latitude": 1.296656,
+        "longitude": 103.778767
+    }
+,
+    "E4-07-08": {
+        "name": "E4-07-08",
+        "description": "Block Engineering 4, #05-49, 4 Engineering Drive 3, Singapore 117583",
+        "latitude": 1.298645,
+        "longitude": 103.771798
+    }
+,
+    "S12-0403": {
+        "name": "S12-0403",
+        "description": "Lower Kent Ridge Rd",
+        "latitude": 1.296958,
+        "longitude": 103.77883
+    }
+,
+    "S11-0401": {
+        "name": "S11-0401",
+        "description": "6 Science Drive 3, Singapore 117554",
+        "latitude": 1.296661,
+        "longitude": 103.778774
+    }
+,
+    "E3-0601-02": {
+        "name": "E3-0601-02",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "S14-0503": {
+        "name": "S14-0503",
+        "description": "6 Science Drive 2, Singapore 117546",
+        "latitude": 1.296841,
+        "longitude": 103.779724
+    }
+,
+    "LKY_SR3-5": {
+        "name": "LKY_SR3-5",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LKY_SR3-1": {
+        "name": "LKY_SR3-1",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LKY_TB10SR": {
+        "name": "LKY_TB10SR",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LKY_SR2-1": {
+        "name": "LKY_SR2-1",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LKY_SR2-2": {
+        "name": "LKY_SR2-2",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LKY_SR3-3": {
+        "name": "LKY_SR3-3",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "LKY_SR2-3": {
+        "name": "LKY_SR2-3",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "E-Hybrid_E": {
+        "name": "E-Hybrid_E",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "DUKE05-11A": {
+        "name": "DUKE05-11A",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "USP-SR1": {
+        "name": "USP-SR1",
+        "description": "Cinnamon South Learn Lobe",
+        "latitude": 1.306496,
+        "longitude": 103.773133
+    }
+,
+    "UTSRC-LT53": {
+        "name": "UTSRC-LT53",
+        "description": "2 College Ave West, Stephen Riady Centre",
+        "latitude": 1.30415,
+        "longitude": 103.772972
+    }
+,
+    "USP-SR2": {
+        "name": "USP-SR2",
+        "description": "18 College Ave E, Cinnamon West Learn Lobe, Singapore 139101",
+        "latitude": 1.306742,
+        "longitude": 103.773039
+    }
+,
+    "USP-TR1": {
+        "name": "USP-TR1",
+        "description": "Cinnamon South Learn Lobe",
+        "latitude": 1.306576,
+        "longitude": 103.773148
+    }
+,
+    "TC-SR3": {
+        "name": "TC-SR3",
+        "description": "Tembusu West Learn Lobe",
+        "latitude": 1.305865,
+        "longitude": 103.773506
+    }
+,
+    "TC-SR6": {
+        "name": "TC-SR6",
+        "description": "Tembusu West Learn Lobe",
+        "latitude": 1.305872,
+        "longitude": 103.773491
+    }
+,
+    "TC-SR5": {
+        "name": "TC-SR5",
+        "description": "Tembusu West Learn Lobe",
+        "latitude": 1.305846,
+        "longitude": 103.773406
+    }
+,
+    "CAPT-SR3": {
+        "name": "CAPT-SR3",
+        "description": "8 College Ave E, Singapore 138677",
+        "latitude": 1.307736,
+        "longitude": 103.773447
+    }
+,
+    "CAPT-SR1-2": {
+        "name": "CAPT-SR1-2",
+        "description": "10 College Ave E, CAPT Multipurpose Hall, Singapore 138616",
+        "latitude": 1.307319,
+        "longitude": 103.772904
+    }
+,
+    "CAPT-SR4": {
+        "name": "CAPT-SR4",
+        "description": "8 College Ave E, Singapore 138677",
+        "latitude": 1.307735,
+        "longitude": 103.773466
+    }
+,
+    "CAPT-SR6": {
+        "name": "CAPT-SR6",
+        "description": "8 College Ave E, Singapore 138677",
+        "latitude": 1.308004,
+        "longitude": 103.773425
+    }
+,
+    "CAPT-SR5": {
+        "name": "CAPT-SR5",
+        "description": "8 College Ave E, Singapore 138677",
+        "latitude": 1.307827,
+        "longitude": 103.773189
+    }
+,
+    "RC4-SR1-2": {
+        "name": "RC4-SR1-2",
+        "description": "2 College Ave E, Singapore 138612",
+        "latitude": 1.308243,
+        "longitude": 103.772883
+    }
+,
+    "RC4-SR3": {
+        "name": "RC4-SR3",
+        "description": "2 College Ave E, Singapore 138612",
+        "latitude": 1.308231,
+        "longitude": 103.772842
+    }
+,
+    "RC4-SR4": {
+        "name": "RC4-SR4",
+        "description": "2 College Ave E, Singapore 138612",
+        "latitude": 1.308231,
+        "longitude": 103.77295
+    }
+,
+    "RVR-SRM02": {
+        "name": "RVR-SRM02",
+        "description": "Singapore",
+        "latitude": 1.297392,
+        "longitude": 103.776774
+    }
+,
+    "RVR-MPR02": {
+        "name": "RVR-MPR02",
+        "description": "Singapore",
+        "latitude": 1.297431,
+        "longitude": 103.77674
+    }
+,
+    "RVR-SRM03": {
+        "name": "RVR-SRM03",
+        "description": "Singapore",
+        "latitude": 1.29746,
+        "longitude": 103.776781
+    }
+,
+    "RVR-MPR01": {
+        "name": "RVR-MPR01",
+        "description": "Singapore",
+        "latitude": 1.297348,
+        "longitude": 103.776877
+    }
+,
+    "MD1-0801AB": {
+        "name": "MD1-0801AB",
+        "description": "Queenstown",
+        "latitude": 1.295534,
+        "longitude": 103.780423
+    }
+,
+    "MD1-0903EF": {
+        "name": "MD1-0903EF",
+        "description": "Queenstown",
+        "latitude": 1.295181,
+        "longitude": 103.780641
+    }
+,
+    "MD1-08-03E": {
+        "name": "MD1-08-03E",
+        "description": "Queenstown",
+        "latitude": 1.295165,
+        "longitude": 103.78067
+    }
+,
+    "MD1-08-01E": {
+        "name": "MD1-08-01E",
+        "description": "Queenstown",
+        "latitude": 1.29542,
+        "longitude": 103.780718
+    }
+,
+    "MD1-09-01B": {
+        "name": "MD1-09-01B",
+        "description": "Queenstown",
+        "latitude": 1.295404,
+        "longitude": 103.780672
+    }
+,
+    "Y-PerfHall": {
+        "name": "Y-PerfHall",
+        "description": "College Ave West, Singapore 119077",
+        "latitude": 1.307022,
+        "longitude": 103.771946
+    }
+,
+    "Y-CR1": {
+        "name": "Y-CR1",
+        "description": "10 College Ave West",
+        "latitude": 1.30581,
+        "longitude": 103.771751
+    }
+,
+    "Y-CR15": {
+        "name": "Y-CR15",
+        "description": "Singapore",
+        "latitude": 1.306832,
+        "longitude": 103.772354
+    }
+,
+    "Y-CR3": {
+        "name": "Y-CR3",
+        "description": "10 College Ave West, #01-101, Singapore 138609",
+        "latitude": 1.305789,
+        "longitude": 103.772287
+    }
+,
+    "Y-CR17": {
+        "name": "Y-CR17",
+        "description": "Singapore",
+        "latitude": 1.308105,
+        "longitude": 103.77251
+    }
+,
+    "Y-CompLab": {
+        "name": "Y-CompLab",
+        "description": "20 College Ave E, Singapore 138529",
+        "latitude": 1.307215,
+        "longitude": 103.77247
+    }
+,
+    "Y-GLRm1": {
+        "name": "Y-GLRm1",
+        "description": "20 College Avenue East, #01-220, Cinnamon South Learn Lobe, 138594",
+        "latitude": 1.307273,
+        "longitude": 103.772377
+    }
+,
+    "Y-LT1": {
+        "name": "Y-LT1",
+        "description": "10 College Ave West",
+        "latitude": 1.305898,
+        "longitude": 103.771923
+    }
+,
+    "Y-BlackBox": {
+        "name": "Y-BlackBox",
+        "description": "18 College Ave West, Singapore 138528",
+        "latitude": 1.307489,
+        "longitude": 103.772028
+    }
+,
+    "Y-TCTLT": {
+        "name": "Y-TCTLT",
+        "description": "College Ave West, Singapore 119077",
+        "latitude": 1.306668,
+        "longitude": 103.771996
+    }
+,
+    "Y-CR4": {
+        "name": "Y-CR4",
+        "description": "The Shiok Shack",
+        "latitude": 1.305548,
+        "longitude": 103.77198
+    }
+,
+    "Y-ELMCL": {
+        "name": "Y-ELMCL",
+        "description": "Singapore",
+        "latitude": 1.306538,
+        "longitude": 103.772037
+    }
+,
+    "Y-KChanrai": {
+        "name": "Y-KChanrai",
+        "description": "12 College Ave West",
+        "latitude": 1.306442,
+        "longitude": 103.772298
+    }
+,
+    "Y-CR18": {
+        "name": "Y-CR18",
+        "description": "23 Folkestone Rd, Singapore 139599",
+        "latitude": 1.30815,
+        "longitude": 103.772098
+    }
+,
+    "Y-PgRm2": {
+        "name": "Y-PgRm2",
+        "description": "20 College Ave E, Singapore 138529",
+        "latitude": 1.306997,
+        "longitude": 103.772389
+    }
+,
+    "ERC-SR10": {
+        "name": "ERC-SR10",
+        "description": "8 College Ave West, Education Resource Centre, Singapore 138608",
+        "latitude": 1.305771,
+        "longitude": 103.772733
+    }
+,
+    "Y-PgRm1": {
+        "name": "Y-PgRm1",
+        "description": "20 College Ave E, Singapore 138529",
+        "latitude": 1.306963,
+        "longitude": 103.772379
+    }
+,
+    "Y-CR2": {
+        "name": "Y-CR2",
+        "description": "10 College Ave West",
+        "latitude": 1.3059,
+        "longitude": 103.772153
+    }
+,
+    "Y-CR16": {
+        "name": "Y-CR16",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Y-ArtsStud": {
+        "name": "Y-ArtsStud",
+        "description": "138533, 28 College Ave West",
+        "latitude": 1.307877,
+        "longitude": 103.772099
+    }
+,
+    "Y-ChemLab": {
+        "name": "Y-ChemLab",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Y-PhysLab": {
+        "name": "Y-PhysLab",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Y-CR14": {
+        "name": "Y-CR14",
+        "description": "College Ave West, Singapore 119077",
+        "latitude": 1.306696,
+        "longitude": 103.772151
+    }
+,
+    "E3-0605-06": {
+        "name": "E3-0605-06",
+        "description": "1 Engineering Drive 3, Singapore 117580",
+        "latitude": 1.299598,
+        "longitude": 103.771561
+    }
+,
+    "COM1-0204": {
+        "name": "COM1-0204",
+        "description": "Faculty of Arts & Social Sciences, National University of Singapore, Blk AS6, #03-41, 11 Computing Drive, 117416",
+        "latitude": 1.295072,
+        "longitude": 103.77363
+    }
+,
+    "E4A-04-08": {
+        "name": "E4A-04-08",
+        "description": "4 Engineering Drive 3",
+        "latitude": 1.298604,
+        "longitude": 103.772585
+    }
+,
+    "BIZ2-0117": {
+        "name": "BIZ2-0117",
+        "description": "1 Business Link, Singapore 117592",
+        "latitude": 1.293346,
+        "longitude": 103.775098
+    }
+,
+    "BIZ2-0118": {
+        "name": "BIZ2-0118",
+        "description": "1 Business Link, Singapore 117592",
+        "latitude": 1.293376,
+        "longitude": 103.775015
+    }
+,
+    "RVR-SRM04": {
+        "name": "RVR-SRM04",
+        "description": "Singapore",
+        "latitude": 1.297492,
+        "longitude": 103.77672
+    }
+,
+    "RVR-SRM01": {
+        "name": "RVR-SRM01",
+        "description": "Singapore",
+        "latitude": 1.297365,
+        "longitude": 103.776824
+    }
+,
+    "C & L": {
+        "name": "C & L",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Integration": {
+        "name": "Integration",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Frontier": {
+        "name": "Frontier",
+        "description": "12 Science Drive 2 Kent Ridge, Singapore Phase One, National University of Singapore, 117549",
+        "latitude": 1.296365,
+        "longitude": 103.78004
+    }
+,
+    "Launchpad": {
+        "name": "Launchpad",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Influence": {
+        "name": "Influence",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Integrity": {
+        "name": "Integrity",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Interaction": {
+        "name": "Interaction",
+        "description": "Queenstown",
+        "latitude": 1.291364,
+        "longitude": 103.777612
+    }
+,
+    "ISS/AUD": {
+        "name": "ISS/AUD",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Pinnacle": {
+        "name": "Pinnacle",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Innovation_I": {
+        "name": "Innovation_I",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Horizon": {
+        "name": "Horizon",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Momemtum": {
+        "name": "Momemtum",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "East_Bay": {
+        "name": "East_Bay",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Ambition_I": {
+        "name": "Ambition_I",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Beacon": {
+        "name": "Beacon",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "Blue_Ocean": {
+        "name": "Blue_Ocean",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "SH-SR1": {
+        "name": "SH-SR1",
+        "description": "20 Heng Mui Keng Terrace, Singapore 119618",
+        "latitude": 1.291391,
+        "longitude": 103.775428
+    }
+,
+    "EH-SR1": {
+        "name": "EH-SR1",
+        "description": "10 Heng Mui Keng Terrace, Singapore 119617",
+        "latitude": 1.291735,
+        "longitude": 103.774613
+    }
+,
+    "KRH-READRM": {
+        "name": "KRH-READRM",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "PGPH-FR4": {
+        "name": "PGPH-FR4",
+        "description": "35 Prince George's Park, Singapore 118429",
+        "latitude": 1.290896,
+        "longitude": 103.780552
+    }
+,
+    "RH-CONF-RM": {
+        "name": "RH-CONF-RM",
+        "description": "Kent Ridge Cres, Raffles Hall, Singapore 119278",
+        "latitude": 1.29975,
+        "longitude": 103.773918
+    }
+,
+    "TH-SR1": {
+        "name": "TH-SR1",
+        "description": "12 Kent Ridge Dr, Temasek Hall Office, Singapore 119243",
+        "latitude": 1.292717,
+        "longitude": 103.771294
+    }
+,
+    "KEVII-MR2": {
+        "name": "KEVII-MR2",
+        "description": "Queenstown",
+        "latitude": 1.292206,
+        "longitude": 103.780847
+    }
+,
     "TP-SR3": {
         "name": "TP-SR3",
         "description": "1 College Ave E, CREATE Tower, Singapore 049374",
         "latitude": 1.303998,
         "longitude": 103.773409
+    }
+,
+    "TP-SR1": {
+        "name": "TP-SR1",
+        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
+        "latitude": 1.303998,
+        "longitude": 103.773409
+    }
+,
+    "TP-SR7": {
+        "name": "TP-SR7",
+        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
+        "latitude": 1.303998,
+        "longitude": 103.773409
+    }
+,
+    "PGPR-MPSH": {
+        "name": "PGPR-MPSH",
+        "description": "none",
+        "latitude": "none",
+        "longitude": "none"
+    }
+,
+    "TP-SR5": {
+        "name": "TP-SR5",
+        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
+        "latitude": 1.303998,
+        "longitude": 103.773409
+    }
+,
+    "UT-AUD1": {
+        "name": "UT-AUD1",
+        "description": "1 College Ave E, CREATE Tower, Singapore 049374",
+        "latitude": 1.30401,
+        "longitude": 103.773353
     }
 }

@@ -1,10 +1,13 @@
 import 'package:around_nus/models/location.dart';
 import 'package:around_nus/models/place.dart';
-import 'package:around_nus/models/place_info.dart';
 import 'package:around_nus/models/place_search.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert' as convert;
+import 'dart:async' show Future;
+import 'package:flutter/services.dart' show rootBundle;
+import 'dart:convert';
+import 'package:flutter/services.dart';
 
 class PlacesService {
   final key = "AIzaSyCU-GY0MAZ-gFm38pWsaV0CRYpoo8eQ1-M";
@@ -21,12 +24,15 @@ class PlacesService {
   }
 
   Future<List> getNUSAutoComplete(String search) async {
-    var url = "https://api.nusmods.com/v2/2020-2021/semesters/3/venues.json";
+    var jsonText = await rootBundle.loadString('assets/nusvenues.json');
+    var nusVenues = json.decode(jsonText);
+    var url = "https://api.nusmods.com/v2/2021-2022/semesters/1/venues.json";
     var results = [];
     var response = await http.get(Uri.parse(url));
     var venues = convert.jsonDecode(response.body) as List;
     for (int i = 0; i < venues.length; i++) {
-      if (venues[i].toLowerCase().startsWith(search.toLowerCase())) {
+      if (venues[i].toLowerCase().startsWith(search.toLowerCase()) &&
+          nusVenues[venues[i]]["latitude"] != "none") {
         results.add(venues[i]);
         // print(venues[i]["description"]);
       }
