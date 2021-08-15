@@ -5,7 +5,6 @@ import 'package:around_nus/directions_widgets/routeslist.dart';
 import 'package:around_nus/models/place.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:provider/provider.dart';
@@ -41,7 +40,6 @@ class MapView extends StatefulWidget {
 class _MapViewState extends State<MapView> {
   CameraPosition _initialLocation =
       CameraPosition(target: LatLng(1.2966, 103.7764), zoom: 15);
-  // GoogleMapController? mapController;
   Completer<GoogleMapController> mapController = Completer();
   late GoogleMapController newMapController;
   late StreamSubscription locationSubscription;
@@ -88,7 +86,6 @@ class _MapViewState extends State<MapView> {
   // switch between Map based on button pressed
   Map<PolylineId, Polyline> walkingPathPolylines = {};
   Map<PolylineId, Polyline> drivingPathPolylines = {};
-  //Map<PolylineId, Polyline> hybridPathPolylines = {};
   List<Map<PolylineId, Polyline>> allBusPathPolylines = [];
   Map<PolylineId, Polyline> polylines = {};
 
@@ -119,10 +116,7 @@ class _MapViewState extends State<MapView> {
   final _scaffoldKey = GlobalKey<ScaffoldState>();
 
   void _updateMapofBusStop() async {
-    // print("fetching");
     _nusBusStops = await busService.fetchBusStopInfo();
-    // print("fetching done");
-    // print(_nusBusStops);
     for (var busStop in _nusBusStops) {
       String busStopName = busStop.name;
       Position busStopPos = Position(
@@ -138,49 +132,6 @@ class _MapViewState extends State<MapView> {
       _busStopsToPosition[busStopName] = busStopPos;
     }
   }
-
-  // Method for retrieving the current location
-  // _getCurrentLocation() async {
-  //   await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high)
-  //       .then((Position position) async {
-  //     setState(() {
-  //       _currentPosition = position;
-  //       print('CURRENT POS: $_currentPosition');
-  //       newMapController.animateCamera(
-  //         CameraUpdate.newCameraPosition(
-  //           CameraPosition(
-  //             target: LatLng(position.latitude, position.longitude),
-  //             zoom: 15.0,
-  //           ),
-  //         ),
-  //       );
-  //     });
-  //     await _getAddress();
-  //   }).catchError((e) {
-  //     print(e);
-  //   });
-  // }
-
-  // // current version waits for input in search bars of from and to
-  // _getAddress() async {
-  //   try {
-  //     List<Placemark> p = await placemarkFromCoordinates(
-  //         _currentPosition!.latitude, _currentPosition!.longitude);
-
-  //     Placemark place = p[0];
-
-  //     setState(() {
-  //       _currentAddress =
-  //           "${place.name}, ${place.locality}, ${place.postalCode}, ${place.country}";
-  //       startAddressController.text = _currentAddress!;
-  //       _startAddress = _currentAddress!;
-  //       // _setMarkers(
-  //       //     LatLng(_currentPosition!.latitude, _currentPosition!.longitude));
-  //     });
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 
   Future<void> _setStartingMarker(LatLng point) async {
     print("starting point is $point");
@@ -223,90 +174,6 @@ class _MapViewState extends State<MapView> {
           accuracy: 0.0);
     });
   }
-
-  /*
-  // Google Maps SetMarkers; not applicable in OSMview
-  // Future<void> _setMarkers(LatLng point) async {
-  //   //set starting marker
-  //   markers.clear();
-  //   bool isBusStop = false;
-  //   if (_startAddress.length != 0) {
-  //     print("start address: ");
-  //     print(_startAddress);
-  //     for (int i = 0; i < _nusBusStops.length; i++) {
-  //       if (_startAddress == _nusBusStops[i].longName) {
-  //         isBusStop = true;
-  //       }
-  //     }
-
-  //     List<Location> startPlacemark = await locationFromAddress(_startAddress);
-  //     print("start placemark: ");
-  //     print(startPlacemark[0]);
-  //     Position startCoordinates = Position(
-  //         latitude: startPlacemark[0].latitude,
-  //         longitude: startPlacemark[0].longitude,
-  //         speed: 0.0,
-  //         speedAccuracy: 0.0,
-  //         heading: 0.0,
-  //         altitude: 0.0,
-  //         timestamp: DateTime.now(),
-  //         accuracy: 0.0);
-
-  //     startingCoordinates = startCoordinates;
-  //     print("starting coord");
-  //     print(startingCoordinates);
-  //     Marker startMarker = Marker(
-  //       markerId: MarkerId('$startCoordinates'),
-  //       position: LatLng(
-  //         startCoordinates.latitude,
-  //         startCoordinates.longitude,
-  //       ),
-  //       infoWindow: InfoWindow(
-  //         title: 'Start',
-  //         snippet: _startAddress,
-  //       ),
-  //       icon: BitmapDescriptor.defaultMarkerWithHue(BitmapDescriptor.hueBlue),
-  //     );
-  //     setState(() {
-  //       markers.add(startMarker);
-  //     });
-  //   }
-
-  //   if (_destinationAddress.length != 0) {
-  //     print("destination address: ");
-  //     print(_destinationAddress);
-  //     List<Location> endPlacemark =
-  //         await locationFromAddress(_destinationAddress);
-  //     print("destination placemark: ");
-  //     print(endPlacemark[0]);
-  //     Position endCoordinates = Position(
-  //         latitude: endPlacemark[0].latitude,
-  //         longitude: endPlacemark[0].longitude,
-  //         speed: 0.0,
-  //         speedAccuracy: 0.0,
-  //         heading: 0.0,
-  //         altitude: 0.0,
-  //         timestamp: DateTime.now(),
-  //         accuracy: 0.0);
-  //     endingCoordinates = endCoordinates;
-  //     Marker endMarker = Marker(
-  //       markerId: MarkerId('$endCoordinates'),
-  //       position: LatLng(
-  //         endCoordinates.latitude,
-  //         endCoordinates.longitude,
-  //       ),
-  //       infoWindow: InfoWindow(
-  //         title: 'Destination',
-  //         snippet: _destinationAddress,
-  //       ),
-  //       icon: BitmapDescriptor.defaultMarker,
-  //     );
-  //     setState(() {
-  //       markers.add(endMarker);
-  //     });
-  //   }
-  // }
-  */
 
   showAlertDialog(BuildContext context) {
     AlertDialog alert = AlertDialog(
@@ -403,6 +270,12 @@ class _MapViewState extends State<MapView> {
       try {
         showAlertDialog(context);
         */
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+              'Calculating Distance! Please wait until "Distance Calulated Successfully" message is shown'),
+        ),
+      );
 
       await _getWalkingAndBusPath(startingCoordinates, endingCoordinates);
 
