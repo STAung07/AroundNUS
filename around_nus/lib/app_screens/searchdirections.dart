@@ -175,24 +175,6 @@ class _MapViewState extends State<MapView> {
     });
   }
 
-  showAlertDialog(BuildContext context) {
-    AlertDialog alert = AlertDialog(
-      content: new Row(
-        children: [
-          CircularProgressIndicator(),
-          Container(margin: EdgeInsets.only(left: 5), child: Text("Loading")),
-        ],
-      ),
-    );
-    showDialog(
-      barrierDismissible: false,
-      context: context,
-      builder: (BuildContext context) {
-        return alert;
-      },
-    );
-  }
-
   // Method for calculating the distance between two places
   Future<bool> _calculateDistance() async {
     try {
@@ -253,23 +235,6 @@ class _MapViewState extends State<MapView> {
         ),
       );
 
-      // Calculating the distance between the start and the end positions
-      // with a straight path, without considering any route
-      // double distanceInMeters = await Geolocator().bearingBetween(
-      //   startCoordinates.latitude,
-      //   startCoordinates.longitude,
-      //   destinationCoordinates.latitude,
-      //   destinationCoordinates.longitude,
-      // );
-
-      // switch between diff map of polylines based on button pressed to
-      // display diff routes; walking, driving, hybrid
-
-      // get walking + bus route; colour coded yellow and blue
-      /*
-      try {
-        showAlertDialog(context);
-        */
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
@@ -300,27 +265,8 @@ class _MapViewState extends State<MapView> {
         PolylineId('driving'),
         drivingPathPolylines,
       );
-      /*
-        Navigator.pop(context);
-      } catch (e) {
-        print(e);
-      }
-      */
 
       double totalDistance = 0.0;
-
-      /*
-        // Calculating the total distance by adding the distance
-        // between small segments
-        for (int i = 0; i < polylineCoordinates.length - 1; i++) {
-          totalDistance += _coordinatedistance(
-            polylineCoordinates[i].latitude,
-            polylineCoordinates[i].longitude,
-            polylineCoordinates[i + 1].latitude,
-            polylineCoordinates[i + 1].longitude,
-          );
-        }
-        */
 
       setState(() {
         _placeDistance = totalDistance.toStringAsFixed(2);
@@ -332,17 +278,6 @@ class _MapViewState extends State<MapView> {
       print(e);
     }
     return false;
-  }
-
-  // Formula for calculating distance between two coordinates
-  // https://stackoverflow.com/a/54138876/11910277
-  double _coordinatedistance(lat1, lon1, lat2, lon2) {
-    var p = 0.017453292519943295;
-    var c = cos;
-    var a = 0.5 -
-        c((lat2 - lat1) * p) / 2 +
-        c(lat1 * p) * c(lat2 * p) * (1 - c((lon2 - lon1) * p)) / 2;
-    return 12742 * asin(sqrt(a));
   }
 
   // Check pickUpName of pickUpPoint with bus stop name of nearest bus stop
@@ -569,15 +504,6 @@ class _MapViewState extends State<MapView> {
 
   @override
   void initState() {
-    // final applicationBloc =
-    //     Provider.of<ApplicationBloc>(context, listen: false);
-    // locationSubscription =
-    //     applicationBloc.selectedLocation.stream.listen((place) {
-    //   // if (place != null) {
-    //   //   _goToPlace(place, "nothing");
-    //   // }
-    // });
-    // _getCurrentLocation();
     _updateMapofBusStop();
     allBusPathPolylines = [];
     polylines = walkingPathPolylines;
@@ -900,10 +826,6 @@ class _MapViewState extends State<MapView> {
                                         if (markers.isNotEmpty) markers.clear();
                                         if (polylines.isNotEmpty)
                                           polylines.clear();
-                                        /*
-                                        if (polylineCoordinates.isNotEmpty)
-                                          polylineCoordinates.clear();
-                                        */
                                         _placeDistance = null;
                                         // reset list of bus polylines
                                         _selections[0] = false;
@@ -1372,42 +1294,6 @@ class _MapViewState extends State<MapView> {
                               },
                             );
                         })),
-
-              // Show current location button
-              // SafeArea(
-              //   child: Align(
-              //     alignment: Alignment.bottomRight,
-              //     child: Padding(
-              //       padding: const EdgeInsets.only(right: 10.0, bottom: 10.0),
-              //       child: ClipOval(
-              //         child: Material(
-              //           color: Colors.blueGrey[100], // button color
-              //           child: InkWell(
-              //             splashColor: Colors.blue, // inkwell color
-              //             child: SizedBox(
-              //               width: 56,
-              //               height: 56,
-              //               child: Icon(Icons.my_location),
-              //             ),
-              //             onTap: () {
-              //               newMapController.animateCamera(
-              //                 CameraUpdate.newCameraPosition(
-              //                   CameraPosition(
-              //                     target: LatLng(
-              //                       _currentPosition!.latitude,
-              //                       _currentPosition!.longitude,
-              //                     ),
-              //                     zoom: 15.0,
-              //                   ),
-              //                 ),
-              //               );
-              //             },
-              //           ),
-              //         ),
-              //       ),
-              //     ),
-              //   ),
-              // ),
             ],
           ),
         ),

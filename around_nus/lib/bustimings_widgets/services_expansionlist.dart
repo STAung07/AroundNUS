@@ -4,8 +4,15 @@ import '../services/nusnextbus_service.dart';
 
 class BusServicesAtStop extends StatefulWidget {
   final String busStopName;
+  final String displayName;
+  /*
   const BusServicesAtStop({Key? key, required this.busStopName})
       : super(key: key);
+      */
+  const BusServicesAtStop({
+    required this.busStopName,
+    required this.displayName,
+  });
 
   @override
   _BusServicesAtStopState createState() => _BusServicesAtStopState();
@@ -35,7 +42,7 @@ class _BusServicesAtStopState extends State<BusServicesAtStop> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blueGrey,
-        title: Text(widget.busStopName),
+        title: Text(widget.displayName),
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.white),
           onPressed: () => Navigator.of(context).pop(),
